@@ -1,0 +1,8 @@
+nombre_dns_público -> Public DNS (IPv4): ec2-18-207-248-234.compute-1.amazonaws.com
+nombre_de_usuario -> user: ec2-user
+
+Conexión a la instancia mediante SSH:
+$ ssh -i /path/my-key-pair.pem nombre_de_usuario@nombre_dns_público
+
+Transferencia de archivos a instancias de Linux desde Linux mediante SCP:
+$ scp -i /path/my-key-pair.pem /path/SampleFile.txt nombre_de_usuario@nombre_dns_público:~
