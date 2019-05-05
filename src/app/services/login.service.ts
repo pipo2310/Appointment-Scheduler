@@ -32,7 +32,7 @@ export class LoginService {
           nombre : res['nombre'],
           primerApellido : res['primerApellido'],
           segundoApellido : res['segundoApellido']
-       };
+        };
        user = profesor;
       }
       else {
@@ -46,7 +46,6 @@ export class LoginService {
         };
         user = estudiante;
       }
-      console.log(user);
       localStorage.setItem('usuarioActual', JSON.stringify(user));
       return res;
     }));

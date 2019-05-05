@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
-import { Profesor } from '../modelo/profesor';
-import { Estudiante } from '../modelo/estudiante';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +9,12 @@ import { Estudiante } from '../modelo/estudiante';
 })
 
 export class LoginComponent implements OnInit {
-    constructor(private loginService: LoginService) { }
+    //returnUrl: string;
+
+    constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router) { }
   
     ngOnInit() {
+      //this.returnUrl = this.route.snapshot.queryParams['returnUrl' || '/'];
     }
   
     logIn(username: string, password: string, event: Event) {
@@ -30,21 +32,29 @@ export class LoginComponent implements OnInit {
       // Llamada al servicio del api
       this.loginService.login(username, password).subscribe(
         res => {
-          console.log(res);
           let rol = res['rol'];
           if (rol == 1) { // Profesor
            console.log("Ruta a profesor!");
+           this.navegarAProfesor();
           } else { // Estudiante
             console.log("Ruta a estudiante!");
+            this.navegarAEstudiante();
           }
         },
         error => {
           window.alert("Login inválido.");
           console.error(error);
         },
-        // navegación
       );
       }
     }
+  }
+
+  navegarAProfesor() {
+    this.router.navigate(['homeProfesor']);
+  }
+
+  navegarAEstudiante() {
+    this.router.navigate(['homeEstudiante']);
   }
 }

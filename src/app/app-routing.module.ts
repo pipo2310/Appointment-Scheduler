@@ -9,7 +9,9 @@ import { HomeProfesorPruebaComponent } from './profesor/home-profesor-prueba/hom
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'homeEstudiante', component: HomeEstudiantePruebaComponent },
-  { path: 'homeProfesor', component: HomeProfesorPruebaComponent }
+  { path: 'homeProfesor', component: HomeProfesorPruebaComponent },
+
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

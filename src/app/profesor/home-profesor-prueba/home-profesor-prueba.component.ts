@@ -12,10 +12,19 @@ export class HomeProfesorPruebaComponent implements OnInit {
 
   constructor(private servicio: ProfesorService) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-    console.log(parsed);
+    
+    this.usuarioActual = {
+      cedula : parsed['cedula'],
+      email : parsed['email'],
+      nombre : parsed['nombre'],
+      primerApellido : parsed['primerApellido'],
+      segundoApellido : parsed['segundoApellido']
+    };
   }
 
   ngOnInit() {
+    console.log("Hola " + this.usuarioActual.nombre + "!");
+    console.log(this.usuarioActual);
   }
 
 }
