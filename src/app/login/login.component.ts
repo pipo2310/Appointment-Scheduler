@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class LoginComponent implements OnInit {
-    //returnUrl: string;
 
-    constructor(private loginService: LoginService, private route: ActivatedRoute, private router: Router) { }
+    constructor(private loginService: LoginService, private router: Router) { }
   
     ngOnInit() {
-      //this.returnUrl = this.route.snapshot.queryParams['returnUrl' || '/'];
     }
   
     logIn(username: string, password: string, event: Event) {
@@ -32,12 +30,11 @@ export class LoginComponent implements OnInit {
       // Llamada al servicio del api
       this.loginService.login(username, password).subscribe(
         res => {
+          // Obtiene el rol que aparece en la respuesta
           let rol = res['rol'];
           if (rol == 1) { // Profesor
-           console.log("Ruta a profesor!");
            this.navegarAProfesor();
           } else { // Estudiante
-            console.log("Ruta a estudiante!");
             this.navegarAEstudiante();
           }
         },

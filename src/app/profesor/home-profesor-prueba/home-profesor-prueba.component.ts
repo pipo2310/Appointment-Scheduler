@@ -11,8 +11,9 @@ export class HomeProfesorPruebaComponent implements OnInit {
   usuarioActual: Profesor;
 
   constructor(private servicio: ProfesorService) {
+    // Extrae la información del usuario guardada en el almacenamiento local por el login service
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-    
+    // Interpreta al usuario como un profesor
     this.usuarioActual = {
       cedula : parsed['cedula'],
       email : parsed['email'],

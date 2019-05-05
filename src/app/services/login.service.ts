@@ -23,9 +23,12 @@ export class LoginService {
       pass: password
     }, httpOptions)
     .pipe(tap(res => {
+      // Obtiene el rol que aparece en la respuesta
       let rol = res['rol'];
+
+      // Crea un usuario genérico para asignarlo a Profesor o Estudiante según corresponda
       var user: Usuario;
-      if (rol == 1) {
+      if (rol == 1) { // Profesor
         let profesor: Profesor = {
           cedula : res['cedula'],
           email : res['email'],
@@ -35,7 +38,7 @@ export class LoginService {
         };
        user = profesor;
       }
-      else {
+      else { // Estudiante
         let estudiante: Estudiante = {
           cedula : res['cedula'],
           email : res['email'],
@@ -46,7 +49,10 @@ export class LoginService {
         };
         user = estudiante;
       }
+
+      // Guarda la información del usuario en el almacenamiento local
       localStorage.setItem('usuarioActual', JSON.stringify(user));
+
       return res;
     }));
   }

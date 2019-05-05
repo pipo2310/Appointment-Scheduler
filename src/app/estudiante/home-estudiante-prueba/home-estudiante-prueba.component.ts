@@ -10,8 +10,10 @@ import { Estudiante } from 'src/app/modelo/estudiante';
 export class HomeEstudiantePruebaComponent implements OnInit {
   usuarioActual: Estudiante;
 
-  constructor(private servicio: EstudianteService) { 
+  constructor(private servicio: EstudianteService) {
+    // Extrae la información del usuario guardada en el almacenamiento local por el login service
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+    // Interpreta al usuario como un estudiante
     this.usuarioActual = {
       cedula : parsed['cedula'],
       email : parsed['email'],
