@@ -27,31 +27,14 @@ export class LoginComponent implements OnInit {
     {
       if(username!=""|| password!=""){
 
-      // Calls service to login user to the api rest
+      // Llamada al servicio del api
       this.loginService.login(username, password).subscribe(
         res => {
           console.log(res);
           let rol = res['rol'];
           if (rol == 1) { // Profesor
-            let profesor: Profesor = {
-              cedula : res['cedula'],
-              email : res['email'],
-              nombre : res['nombre'],
-              primerApellido : res['primerApellido'],
-              segundoApellido : res['segundoApellido']
-           };
-           console.log(profesor);
            console.log("Ruta a profesor!");
           } else { // Estudiante
-            let estudiante: Estudiante = {
-              cedula : res['cedula'],
-              email : res['email'],
-              nombre : res['nombre'],
-              primerApellido : res['primerApellido'],
-              segundoApellido : res['segundoApellido'],
-              carne : res['carne']
-            };
-            console.log(estudiante);
             console.log("Ruta a estudiante!");
           }
         },
