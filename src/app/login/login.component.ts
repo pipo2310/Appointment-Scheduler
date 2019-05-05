@@ -1,7 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../modelo/usuario';
 import { LoginService } from '../services/login.service';
+import { map, first } from 'rxjs/operators';
+import {Router} from '@angular/router';
+import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
+import{RouterModule} from '@angular/router';
+import { DefaultRouteReuseStrategy } from '@angular/router/src/route_reuse_strategy';
 
+/*@Component({
+  selector: 'loginForm',
+  template: `
+    <div (click)="redirect(my-page)">Redirect</div>
+  `,
+  providers: [ROUTER_PROVIDERS]
+})*/
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,6 +22,7 @@ import { LoginService } from '../services/login.service';
 
 export class LoginComponent implements OnInit {
   usuario:Usuario=new Usuario;
+  usuarioRecuperado=new Usuario;
   resultado:Boolean =new Boolean;
     constructor(private loginService: LoginService) { }
   
@@ -29,26 +42,26 @@ export class LoginComponent implements OnInit {
       this.usuario.username=username;
       this.usuario.pass=pass;
       // Calls service to login user to the api rest
-     this.loginService.login(this.usuario).subscribe((res)=>{
-      if(res){
-        window.alert("Login valido");
+      this.loginService.login(this.usuario).pipe(first()).subscribe(users => { 
+        if(users){
+          window.alert("Login valido");
+         //this.redirect("nombre de pagina a la que quiero ir");
           this.resultado=true;
-
-      }else{
-        this.resultado=false;
-        window.alert("Login invalido");
-
-      }
-
-     }
-
-     );
+        }else{
+          this.resultado=false;
+          window.alert("Login invalido");
+  
+        }
+     } );
+     
+    }
     }
 
-  }
- 
-  
+
+
     }
   
-   
+  /*  redirect(pagename: string) {
+      this.router.navigate(['/'+pagename]);
+    }*/
   }
