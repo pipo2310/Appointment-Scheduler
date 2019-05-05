@@ -1,6 +1,6 @@
 <?php
 /**
- * Returns the valid login request.
+ * Consulta si la información de login es válida y devuelve la información del usuario
  */
 require 'database.php';
 
@@ -34,7 +34,18 @@ if(isset($postdata) && !empty($postdata))
 
     // Lectura del campo 'resultado'
     if ($fetchedResult['resultado']) {
-      echo json_encode($fetchedResult);
+      // Consulta de informacion del usuario
+      $sql = "SELECT P.cedula, P.email, P.nombre, P.primerApellido, P.segundoApellido, (SELECT carne FROM ESTUDIANTE E WHERE E.cedula = P.cedula) AS 'carne', getRol(P.cedula) AS 'rol' FROM USUARIO U JOIN PERSONA P ON U.cedulaPersona = P.cedula WHERE U.nombreUsuario = '{$us}'";
+      $result = mysqli_query($con,$sql);
+      
+      if ($result) {
+        // Extracción del resultado
+        $fetchedResult = mysqli_fetch_assoc($result);
+        echo json_encode($fetchedResult);
+      }
+      else {
+        return http_response_code(400);
+      }
     }
     else
     {

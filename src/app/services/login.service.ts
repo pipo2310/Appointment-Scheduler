@@ -19,11 +19,4 @@ export class LoginService {
       pass: password
     }, httpOptions);
   }
-
-  public getProfesor(username : string) {
-
-  }
-
-  public getEstudiante(username : string) {
-  }
 }

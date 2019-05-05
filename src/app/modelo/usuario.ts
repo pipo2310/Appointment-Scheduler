@@ -1,4 +1,7 @@
 export class Usuario {
-    username : string;
-    pass : string;
+    cedula : string;
+    email : string;
+    nombre : string;
+    primerApellido : string;
+    segundoApellido : string
 }

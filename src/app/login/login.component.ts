@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../modelo/usuario';
 import { LoginService } from '../services/login.service';
-import { map, first } from 'rxjs/operators';
-import {Router} from '@angular/router';
-import { ROUTER_PROVIDERS } from '@angular/router/src/router_module';
-import{RouterModule} from '@angular/router';
-import { DefaultRouteReuseStrategy } from '@angular/router/src/route_reuse_strategy';
+import { Profesor } from '../modelo/profesor';
+import { Estudiante } from '../modelo/estudiante';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +31,29 @@ export class LoginComponent implements OnInit {
       this.loginService.login(username, password).subscribe(
         res => {
           console.log(res);
+          let rol = res['rol'];
+          if (rol == 1) { // Profesor
+            let profesor: Profesor = {
+              cedula : res['cedula'],
+              email : res['email'],
+              nombre : res['nombre'],
+              primerApellido : res['primerApellido'],
+              segundoApellido : res['segundoApellido']
+           };
+           console.log(profesor);
+           console.log("Ruta a profesor!");
+          } else { // Estudiante
+            let estudiante: Estudiante = {
+              cedula : res['cedula'],
+              email : res['email'],
+              nombre : res['nombre'],
+              primerApellido : res['primerApellido'],
+              segundoApellido : res['segundoApellido'],
+              carne : res['carne']
+            };
+            console.log(estudiante);
+            console.log("Ruta a estudiante!");
+          }
         },
         error => {
           window.alert("Login inválido.");

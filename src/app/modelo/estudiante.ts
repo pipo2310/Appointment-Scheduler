@@ -1,5 +1,5 @@
-import { Persona } from "./persona";
+import { Usuario } from './usuario';
 
-export class Estudiante extends Persona {
+export class Estudiante extends Usuario {
     carne : string;
 }
