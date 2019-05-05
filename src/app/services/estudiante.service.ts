@@ -8,6 +8,6 @@ import { Observable } from  'rxjs';
   providedIn: 'root'
 })
 export class EstudianteService {
-  PHP_API_SERVER = "http://127.0.0.1:8080";
+  PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
   constructor(private httpClient : HttpClient) { }
 }
