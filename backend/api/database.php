@@ -16,7 +16,7 @@ function connect()
     die("Failed to connect:" . mysqli_connect_error());
   }
 
-  mysqli_set_charset($connect, "utf8");
+  mysqli_set_charset($connect, "UTF8");
 
   return $connect;
 }
