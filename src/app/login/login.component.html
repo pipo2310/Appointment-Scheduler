@@ -1,13 +1,34 @@
+<body>
+  
 
-  <h1 class="titulo">Gestor de consultas</h1>
-  <form >
+
+         <h1>Generador de consultas</h1>
+
+         <hr>
+     
+  <form class="opacity" src="http://1.bp.blogspot.com/-NxleHiAeoQo/TkWSkfq3bTI/AAAAAAAAA48/4mO09BcfJ4c/s1600/transparente.png">
+
+      <img  src="https://employeebenefits.com/images/login_icon.png"   alt="">
+
       <div class="container">
+          
         <label><b>Username</b></label>
-        <input type="text" #username name="username" placeholder="Enter Username"  required id="lbl">
+
+      
+        
+            <input type="text" #username name="username" placeholder="Enter Username"  required id="lbl">
+        
+        
     
-        <label ><b>Password</b></label>
-        <input type="password" #password name="password" placeholder="Enter Password"  required id="lb">
+        <label  ><b>Password</b></label>
+        
+      
+            <input  type="password"    #password name="password" placeholder="Enter Password"  required id="lb">
+
+        
     
+    
+            <span id="msg"></span>
         <button type="submit" (click)="logIn(username.value, password.value, $event)">Login</button>
         <label>
           <input type="checkbox" checked="checked" > Remember me
@@ -19,3 +40,7 @@
       
      
     </form>
+ 
+
+   
+ </body>

@@ -1,63 +1,10 @@
-
 body{
-height: 100%;
-width: 100%
-
-}
-.titulo{
-text-align: center
-
-}
-form {
-  border: 3px solid #f1f1f1;
-  width:600px;
-  height:300px;
-  display:block;
-  position: absolute;
-  top:20%;
-  left: 30%;
-border: darkred
+margin: 0;
 }
 
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
 
-button {
-  background-color:blue;
-  color: white;
-  height:25px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  left: 50%;
-}
 
-button:hover {
-  background:gray
-}
 
-.container {
-position: center
-}
 
-span.contaseña {
-  float: right;
-  padding-top: 16px;
 
-  
 
-}
-@media screen and (max-width: 300px) {
-  span.psw {
-    display: block;
-    float: none;
-  }
- 
-}

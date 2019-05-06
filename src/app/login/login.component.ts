@@ -39,7 +39,11 @@ export class LoginComponent implements OnInit {
           }
         },
         error => {
-          window.alert("Login inválido.");
+          let elem2: HTMLElement = document.getElementById('msg');
+          elem2.setAttribute("style", "color:#C80202");
+        elem2.append("! Datos erróneos. Por favor, inténtelo otra vez.")
+
+         
           console.error(error);
         },
       );
