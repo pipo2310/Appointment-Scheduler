@@ -1,15 +1,61 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
+import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+    constructor(private loginService: LoginService, private router: Router) { }
+  
+    ngOnInit() {
+    }
+  
+    logIn(username: string, password: string, event: Event) {
+      event.preventDefault(); // Avoid default action for the submit button of the login formt
+    if(username==""|| password==""){
+    let elem: HTMLElement = document.getElementById('lbl');
+    elem.setAttribute("style", " border: 1px solid red;");
+    let elem2: HTMLElement = document.getElementById('lb');
+    elem2.setAttribute("style", " border: 1px solid red;");
+    }
+    else
+    {
+      if(username!=""|| password!=""){
 
-  ngOnInit() {
+      // Llamada al servicio del api
+      this.loginService.login(username, password).subscribe(
+        res => {
+          // Obtiene el rol que aparece en la respuesta
+          let rol = res['rol'];
+          if (rol == 1) { // Profesor
+           this.navegarAProfesor();
+          } else { // Estudiante
+            this.navegarAEstudiante();
+          }
+        },
+        error => {
+          let elem2: HTMLElement = document.getElementById('msg');
+         
+          elem2.setAttribute("style", "color:#C80202");
+          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+
+        },
+      );
+      }
+    }
   }
 
+  navegarAProfesor() {
+    this.router.navigate(['homeProfesor']);
+  }
+
+  navegarAEstudiante() {
+    this.router.navigate(['homeEstudiante']);
+  }
 }

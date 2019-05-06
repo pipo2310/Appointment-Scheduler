@@ -1,3 +1,37 @@
-<p>
-  login works!
-</p>
+<body>
+         <h1>Generador de consultas</h1>
+
+         <hr>
+     
+  <form class="opacity" src="http://1.bp.blogspot.com/-NxleHiAeoQo/TkWSkfq3bTI/AAAAAAAAA48/4mO09BcfJ4c/s1600/transparente.png">
+
+      <img  src="https://employeebenefits.com/images/login_icon.png"   alt="">
+
+      <div class="container">
+          
+        <label><b>Nombre</b></label>
+
+      
+        
+            <input type="text" #username name="username" placeholder="Ingrese el nombre"  required id="lbl">
+        
+        
+    
+        <label  ><b>Contraseña</b></label>
+            <input  type="password"    #password name="password" placeholder="Ingrese la contraseña"  required id="lb">
+            <span id="msg"></span>
+        <button type="submit" (click)="logIn(username.value, password.value, $event)">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" > Remember me
+        </label>
+       
+          
+      </div>
+   
+      
+     
+    </form>
+ 
+
+   
+ </body>

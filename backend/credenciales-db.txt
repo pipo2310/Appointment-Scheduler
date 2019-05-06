@@ -1,0 +1,4 @@
+Endpoint (host): consultasdb-instance.cqyg0zdcdpb3.us-east-1.rds.amazonaws.com
+Port: 3306
+Username: user-consultas
+Password: Inge1Proyecto
