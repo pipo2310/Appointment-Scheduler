@@ -1,7 +1,4 @@
 <body>
-  
-
-
          <h1>Generador de consultas</h1>
 
          <hr>
@@ -12,26 +9,20 @@
 
       <div class="container">
           
-        <label><b>Username</b></label>
+        <label><b>Nombre</b></label>
 
       
         
-            <input type="text" #username name="username" placeholder="Enter Username"  required id="lbl">
+            <input type="text" #username name="username" placeholder="Ingrese el nombre"  required id="lbl">
         
         
     
-        <label  ><b>Password</b></label>
-        
-      
-            <input  type="password"    #password name="password" placeholder="Enter Password"  required id="lb">
-
-        
-    
-    
+        <label  ><b>Contraseña</b></label>
+            <input  type="password"    #password name="password" placeholder="Ingrese la contraseña"  required id="lb">
             <span id="msg"></span>
         <button type="submit" (click)="logIn(username.value, password.value, $event)">Login</button>
         <label>
-          <input type="checkbox" checked="checked" > Remember me
+          <input type="checkbox" checked="checked" > Recordar
         </label>
        
           
