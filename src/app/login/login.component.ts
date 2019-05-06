@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
+import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
 
 @Component({
   selector: 'app-login',
@@ -40,11 +41,10 @@ export class LoginComponent implements OnInit {
         },
         error => {
           let elem2: HTMLElement = document.getElementById('msg');
-          elem2.setAttribute("style", "color:#C80202");
-        elem2.append("! Datos erróneos. Por favor, inténtelo otra vez.")
-
          
-          console.error(error);
+          elem2.setAttribute("style", "color:#C80202");
+          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+
         },
       );
       }

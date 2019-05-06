@@ -24,7 +24,7 @@ export class HomeProfesorPruebaComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Hola " + this.usuarioActual.nombre + "!");
+    window.alert("Hola " + this.usuarioActual.nombre + "!");
     console.log(this.usuarioActual);
   }
 
