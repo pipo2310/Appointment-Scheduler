@@ -1,0 +1,8 @@
+<h2>Mis cursos</h2>
+
+<ul class="cursos">
+  <li *ngFor="let curso of cursos"
+  (click)="onSelect(curso)">
+    <span class="badge"> {{curso.sigla}} </span> {{curso.nombre}} 
+  </li>
+</ul>
