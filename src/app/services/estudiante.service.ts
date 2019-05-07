@@ -34,4 +34,14 @@ export class EstudianteService {
       return this.httpClient.get<Curso[]>(`${this.PHP_API_SERVER}/homeStudent.php`);*/
       
   }
+
+  public getProfesores(curso : Curso) {
+    return this.httpClient.post<any>(`${this.PHP_API_SERVER}/profCurso.php`, {
+      sigla: curso.sigla }, httpOptions)
+    .pipe(tap(res => {
+      console.log(res);
+
+      return res;
+    }));
+  }
 }
