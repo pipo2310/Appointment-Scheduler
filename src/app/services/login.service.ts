@@ -56,4 +56,9 @@ export class LoginService {
       return res;
     }));
   }
+  
+  public conmutarLogueado(cedula: string) {
+    return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
+    {cedula: cedula}, httpOptions);
+  }
 }
