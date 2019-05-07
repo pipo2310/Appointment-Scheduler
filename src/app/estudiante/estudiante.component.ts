@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
 import { Estudiante } from '../modelo/estudiante';
+import { Profesor } from '../modelo/profesor';
 
 @Component({
   selector: 'app-home-estudiante',
@@ -13,6 +14,7 @@ export class EstudianteComponent implements OnInit {
   cursos: Curso[]
   selectedCourse:Curso;
   usuarioActual: Estudiante;
+  profes: Profesor[];
 
   constructor(
     private studentService: EstudianteService
@@ -33,7 +35,12 @@ export class EstudianteComponent implements OnInit {
 
   onSelect(curso:Curso){
     this.selectedCourse = curso;
-    alert('desplegar lista de profes');
+    //alert('desplegar lista de profes');
+    this.studentService.getProfesores(curso)
+    .subscribe(data => {this.profes = data; console.log(this.profes);});
+    
+    
+
   }
 
   ngOnInit() {
