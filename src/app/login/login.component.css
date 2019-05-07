@@ -21,9 +21,13 @@ background-repeat: no-repeat;
    
 
 }
+.titulo{
+background: rgba(221, 221, 221, .76)
+
+}
 h1{
     font-weight: normal;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: helvetica;
     text-align: left;
     padding-top: none;
     margin: none;

@@ -29,14 +29,22 @@ export class LoginComponent implements OnInit {
       if(username!=""|| password!=""){
 
       // Llamada al servicio del api
-      this.loginService.login(username, password).subscribe(
-        res => {
-          // Obtiene el rol que aparece en la respuesta
-          let rol = res['rol'];
-          if (rol == 1) { // Profesor
-           this.navegarAProfesor();
-          } else { // Estudiante
-            this.navegarAEstudiante();
+      let promesa = this.loginService.login(username, password).toPromise();
+      promesa.then(res => {
+          // Obtiene el status de login que aparece en la respuesta
+          let logueado = res['logueado'];
+          if (logueado == 0) { // Se puede continuar con el login
+            this.loginService.conmutarLogueado(res['cedula']).subscribe();
+            // Obtiene el rol que aparece en la respuesta
+            let rol = res['rol'];
+            if (rol == 1) { // Profesor
+              this.navegarAProfesor();
+            } else { // Estudiante
+              this.navegarAEstudiante();
+            }
+          }
+          else { // No se debe continuar con el login
+            window.alert("Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez.");
           }
         },
         error => {
@@ -45,12 +53,11 @@ export class LoginComponent implements OnInit {
           elem2.setAttribute("style", "color:#C80202");
           elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
 
-        },
+        }
       );
       }
     }
   }
-
   navegarAProfesor() {
     this.router.navigate(['homeProfesor']);
   }

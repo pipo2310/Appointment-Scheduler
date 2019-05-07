@@ -53,4 +53,7 @@ export class EstudianteComponent implements OnInit {
     this.studentService.getCursos(estudiante)
       .subscribe(data => this.cursos = data);
   }
+  logout() {
+    this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+  }
 }
