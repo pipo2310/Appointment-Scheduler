@@ -37,4 +37,8 @@ export class EstudianteService {
       profesores = res["profesores"];
     }));
   }
+  public conmutarLogueado(estudiante:Estudiante) {
+    return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
+    {cedula: estudiante.cedula}, httpOptions);
+  }
 }
