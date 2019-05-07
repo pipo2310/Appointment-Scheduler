@@ -3,7 +3,7 @@ import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
 import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home-estudiante',
   templateUrl: './estudiante.component.html',
@@ -17,7 +17,7 @@ export class EstudianteComponent implements OnInit {
   profes: Profesor[];
 
   constructor(
-    private studentService: EstudianteService
+    private studentService: EstudianteService,private router: Router
     ) {
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -54,5 +54,6 @@ export class EstudianteComponent implements OnInit {
   }
   logout() {
     this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.router.navigate(['login']);
   }
 }

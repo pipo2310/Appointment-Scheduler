@@ -5,11 +5,53 @@ ul.cursos * {
   border: 0;
 }
 
+.buton:hover{
+  display: block;
+  
+  }
+  div .buton li {
+    position: absolute;
+    text-align: left;
+    top: 9.6%;
+    margin-right: 80%;
+    z-index: 90;
+    display: none;
+  }
+  div  .buton:hover>li{
+    display: block;
+    background: rgba(9,115,187,.95);
+    font-weight: normal;
+    font-size: 150%;
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    height: 4%;
+    width: 4.2%
+  }
+  .opciones:hover{
+  background: #666;
+  }
 div {
   top: 0%;
   margin-block-start: -1.5%;
   margin-inline-start: 0px;
   background-color:rgba(221, 221, 221, 0.76);
+}
+div .buton li {
+  position: absolute;
+  text-align: left;
+  top: 9.6%;
+  margin-right: 80%;
+  z-index: 90;
+  display: none;
+}
+div .buton{
+  
+  background:url("https://img.icons8.com/material-rounded/48/000000/gender-neutral-user.png");
+  margin-left: 25%;
+  margin-right: 5%;
+  height: 43px;
+  float: right;
+  width: 3.5%;   
 }
 div h1 {
   margin-inline-start: 15px;
