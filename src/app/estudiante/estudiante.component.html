@@ -1,8 +1,22 @@
-<h2>Mis cursos</h2>
+<div>
+  <h1>
+    U-Meeter
+  </h1>
+  <hr>
+</div>
 
+
+<h2>Mis cursos</h2>
 <ul class="cursos">
   <li *ngFor="let curso of cursos"
+  id= {{curso.sigla}}
   (click)="onSelect(curso)">
-    <span class="badge"> {{curso.sigla}} </span> {{curso.nombre}} 
+    <a href="homeEstudiante#{{curso.sigla}}"><span class="badge"> {{curso.sigla}} </span> {{curso.nombre}}</a>
+     <ul class="profesores">
+        <li *ngFor="let profe of profes"
+        id=profe.nombre>
+          <a href="homeEstudiante"><span class="badge"></span> {{profe.nombre}} {{profe.primerApellido}} </a>
+        </li>
+     </ul>
   </li>
 </ul>

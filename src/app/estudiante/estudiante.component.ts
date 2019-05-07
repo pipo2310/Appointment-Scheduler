@@ -11,7 +11,7 @@ import { Profesor } from '../modelo/profesor';
 })
 export class EstudianteComponent implements OnInit {
 
-  cursos: Curso[]
+  cursos: Curso[];
   selectedCourse:Curso;
   usuarioActual: Estudiante;
   profes: Profesor[];
@@ -36,11 +36,7 @@ export class EstudianteComponent implements OnInit {
   onSelect(curso:Curso){
     this.selectedCourse = curso;
     //alert('desplegar lista de profes');
-    this.studentService.getProfesores(curso)
-    .subscribe(data => {this.profes = data; console.log(this.profes);});
-    
-    
-
+    this.getProfes(this.selectedCourse);
   }
 
   ngOnInit() {
@@ -48,9 +44,12 @@ export class EstudianteComponent implements OnInit {
   }
 
   getCursos(estudiante:Estudiante){
-    /*this.cursoService.getCursos()
-    .subscribe(cursos => this.cursos = cursos);*/
     this.studentService.getCursos(estudiante)
-      .subscribe(data => this.cursos = data);
+      .subscribe(data => {this.cursos = data});
+  }
+
+  getProfes(curso:Curso){
+    this.studentService.getProfesores(curso)
+    .subscribe(data => {this.profes = data});
   }
 }
