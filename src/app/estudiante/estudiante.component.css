@@ -1,48 +1,83 @@
-.selected {
-    background-color: #CFD8DC !important;
-    color: white;
-  }
-  .cursos {
-    margin: 0 0 2em 0;
-    list-style-type: none;
-    padding: 0;
-    width: 50em;
-    border: black;
-  }
-  .cursos li {
-    cursor: pointer;
-    position: relative;
-    left: 0;
-    background-color: #EEE;
-    margin: .5em;
-    padding: .3em 0;
-    height: 1.6em;
-    border-radius: 4px;
-  }
-  .cursos li.selected:hover {
-    background-color: #BBD8DC !important;
-    color: white;
-  }
-  .cursos li:hover {
-    color: #607D8B;
-    background-color: #DDD;
-    left: .1em;
-  }
-  .cursos .text {
-    position: relative;
-    top: -3px;
-  }
-  .cursos .badge {
-    display: inline-block;
-    font-size: small;
-    color: white;
-    padding: 0.8em 0.7em 0 0.7em;
-    background-color: royalblue;
-    line-height: 1em;
-    position: relative;
-    left: -1px;
-    top: -4px;
-    height: 1.8em;
-    margin-right: .8em;
-    border-radius: 4px 0 0 4px;
-  }
+ul.cursos, 
+ul.cursos * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+div {
+  top: 0%;
+  margin-block-start: -1.5%;
+  margin-inline-start: 0px;
+  background-color:rgba(221, 221, 221, 0.76);
+}
+div h1 {
+  margin-inline-start: 15px;
+  color:rgba(9,115,187,.95);
+  size: 50mm;
+}
+
+div hr{
+  margin-top: 0;
+  height:35px;
+  background-color:rgba(9,115,187,.95);
+}
+
+
+h2{
+  margin-inline-start: 20px;
+  color:rgba(9,115,187,.95);
+}
+
+
+ul.cursos { 
+  margin: 10px auto;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  font-size: 18px;
+}
+ul.cursos li {
+  list-style: none;
+}
+
+ul.cursos li a {
+  display: block;
+  padding: 10px 10px 10px 20px;
+  background: rgba(9, 115, 187, .95);
+  color: #eee;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #666;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+ul.cursos li ul {
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  transition: .3s all ease-in;
+}
+
+ul.cursos li li a {
+  padding: 10px 10px 10px 40px;
+  background: rgb(228, 224, 224);
+  color: #000;
+  font-size: 16px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+}
+ul.cursos li li:last-child a {
+  border-bottom: 0;
+}
+ul.cursos li:target ul {
+  max-height: 300px;
+  transition: .3s all ease-in;
+}
+ul.cursos li a:hover{
+  background: rgb(207, 200, 200);
+  color: #fff;
+}
