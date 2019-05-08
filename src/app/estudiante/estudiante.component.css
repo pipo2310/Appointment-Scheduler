@@ -39,10 +39,10 @@ div {
 div .buton li {
   position: absolute;
   text-align: left;
-  top: 9.6%;
+  top: 50px;
   font-family: Arial;
-  margin-right: 80%;
-  z-index: 90;
+  margin-right: 80px;
+  z-index: 90px;
   display: none;
 }
 div .buton{
