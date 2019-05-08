@@ -85,8 +85,10 @@ position: center;
 padding-top: 4%;
 margin-left: 15%;
 width: 70%;
+}
 
-
+div hr {
+  margin-inline-start: 0%;
 }
 h1{
     float: left;
