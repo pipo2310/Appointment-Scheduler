@@ -6,6 +6,7 @@ background-repeat: no-repeat;
 
 
 }
+
 .opacity{
     background-color:rgba(9,115,187,.95);
     opacity:0.5;
@@ -22,9 +23,15 @@ background-repeat: no-repeat;
 
 }
 .titulo{
-background: rgba(221, 221, 221, .76)
-
+    top: 0%;
+    height: 100%;
+    margin-block-start: -1.5%;
+    margin-inline-start: 0px;
+    color:rgba(9,115,187,.95);
+    background: rgba(221, 221, 221, .76);
+   
 }
+
 h1{
     font-weight: normal;
     font-family: helvetica;
@@ -34,8 +41,8 @@ h1{
 }
 
 hr{
-    margin-top: none;
-    height:35px;
+    margin-top: 0%;
+    height:37px;
     background-color:rgba(9,115,187,.95);   
 }
 form {

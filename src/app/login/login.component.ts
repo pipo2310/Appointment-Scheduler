@@ -15,8 +15,11 @@ export class LoginComponent implements OnInit {
   
     ngOnInit() {
     }
+   
   
     logIn(username: string, password: string, event: Event) {
+      let elem: HTMLElement = document.getElementById('msgSesionIniciada');
+      let elem2: HTMLElement = document.getElementById('msg');
       event.preventDefault(); // Avoid default action for the submit button of the login formt
     if(username==""|| password==""){
     let elem: HTMLElement = document.getElementById('lbl');
@@ -30,6 +33,7 @@ export class LoginComponent implements OnInit {
 
       // Llamada al servicio del api
       let promesa = this.loginService.login(username, password).toPromise();
+   
       promesa.then(res => {
           // Obtiene el status de login que aparece en la respuesta
           let logueado = res['logueado'];
@@ -44,14 +48,16 @@ export class LoginComponent implements OnInit {
             }
           }
           else { // No se debe continuar con el login
-            window.alert("Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez.");
+            elem2.textContent="";
+            elem.setAttribute("style", "color:#C80202");
+            elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
+          
           }
         },
         error => {
-          let elem2: HTMLElement = document.getElementById('msg');
-         
           elem2.setAttribute("style", "color:#C80202");
           elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+          elem.textContent=""; 
 
         }
       );

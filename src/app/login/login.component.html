@@ -1,9 +1,10 @@
 <body>
   <div class="titulo">
       <h1>U-Meeter</h1>
-      <hr>
+     
   </div>
-        
+  
+  <hr>   
 
        
      
@@ -24,6 +25,7 @@
         <label  ><b>Contraseña</b></label>
             <input  type="password"    #password name="password" placeholder="Ingrese la contraseña"  required id="lb">
             <span id="msg"></span>
+            <span id="msgSesionIniciada"></span>
         <button type="submit" (click)="logIn(username.value, password.value, $event)">Login</button>
         <label>
           <input type="checkbox" checked="checked" > Recordar
