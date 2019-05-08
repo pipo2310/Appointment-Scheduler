@@ -1,5 +1,6 @@
 ul {list-style-type: none;}
-body {font-family: Verdana, sans-serif;}
+body {font-family: Arial;
+}
 
 /* Month header */
 .month {
@@ -19,7 +20,12 @@ display: block;
   margin: 0;
   padding: 0;
 }
+ .titulo h1{
+  
+  color: rgba(9,115,187,.95);
 
+
+}
 .month ul li {
   color: white;
   font-size: 20px;
@@ -93,7 +99,7 @@ div hr {
 h1{
     float: left;
     font-weight: normal;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Arial;
     text-align: left;
     padding-top: none;
     margin: none;
@@ -112,18 +118,20 @@ h1{
     margin-left: 25%;
     margin-right: 5%;
     height: 43px;
+    margin-top: 1.8%;
     float: right;
     width: 3.5%;   
 }
+
 div  .buton:hover>li{
   display: block;
   background: rgba(9,115,187,.95);
   font-weight: normal;
   font-size: 150%;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: Arial;
   color: white;
   height: 4%;
-  width: 4.2%
+  width: 4.5%
 }
 .opciones:hover{
 background: #666;
