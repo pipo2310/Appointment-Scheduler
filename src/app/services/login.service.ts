@@ -1,3 +1,14 @@
+/**
+ * Creado por:
+ * Acuña Díaz Jimmy
+ * Badilla Mora Dilian
+ * Hernández Benavides Katherine
+ * Morataya Sandoval Keylor
+ * Quirós Montero Jose Fernando
+ * Rodriguez Buján Christian
+ * Soto Li Jose Alberto
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from  'rxjs';
@@ -57,6 +68,10 @@ export class LoginService {
     }));
   }
   
+  /**
+   * cierra la sesión del usuario identificado por su cedula.
+   * @param cedula 
+   */
   public conmutarLogueado(cedula: string) {
     return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
     {cedula: cedula}, httpOptions);

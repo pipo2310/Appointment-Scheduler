@@ -1,3 +1,14 @@
+/**
+ * Creado por:
+ * Acuña Díaz Jimmy
+ * Badilla Mora Dilian
+ * Hernández Benavides Katherine
+ * Morataya Sandoval Keylor
+ * Quirós Montero Jose Fernando
+ * Rodriguez Buján Christian
+ * Soto Li Jose Alberto
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
@@ -64,10 +75,17 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+
+  /**
+   * redirige a la pantalla para profesor.
+   */
   navegarAProfesor() {
     this.router.navigate(['homeProfesor']);
   }
 
+  /**
+   * redirige a la pantalla para estudiante.
+   */
   navegarAEstudiante() {
     this.router.navigate(['homeEstudiante']);
   }

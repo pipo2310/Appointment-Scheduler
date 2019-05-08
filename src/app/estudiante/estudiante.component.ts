@@ -1,3 +1,14 @@
+/**
+ * Creado por:
+ * Acuña Díaz Jimmy
+ * Badilla Mora Dilian
+ * Hernández Benavides Katherine
+ * Morataya Sandoval Keylor
+ * Quirós Montero Jose Fernando
+ * Rodriguez Buján Christian
+ * Soto Li Jose Alberto
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
@@ -33,25 +44,42 @@ export class EstudianteComponent implements OnInit {
 
   }
 
+  /**
+   * busca la lista de profesores que imparten el curso seleccionado.
+   * @param curso 
+   */
+
   onSelect(curso:Curso){
     this.selectedCourse = curso;
-    //alert('desplegar lista de profes');
     this.getProfes(this.selectedCourse);
   }
 
+  
   ngOnInit() {
     this.getCursos(this.usuarioActual);
   }
 
+  /**
+   * devuelve los cursos en los que está matriculado el estudiante.
+   * @param estudiante 
+   */
   getCursos(estudiante:Estudiante){
     this.studentService.getCursos(estudiante)
       .subscribe(data => {this.cursos = data});
   }
 
+  /**
+   * devuelve la lista de profesores que dan el curso.
+   * @param curso 
+   */
   getProfes(curso:Curso){
     this.studentService.getProfesores(curso)
     .subscribe(data => {this.profes = data});
   }
+
+  /**
+   * cierra la sesión del usuario. 
+   */
   logout() {
     this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);

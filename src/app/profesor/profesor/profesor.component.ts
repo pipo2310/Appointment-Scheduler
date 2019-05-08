@@ -1,3 +1,14 @@
+/**
+ * Creado por:
+ * Acuña Díaz Jimmy
+ * Badilla Mora Dilian
+ * Hernández Benavides Katherine
+ * Morataya Sandoval Keylor
+ * Quirós Montero Jose Fernando
+ * Rodriguez Buján Christian
+ * Soto Li Jose Alberto
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { Profesor } from 'src/app/modelo/profesor';
 import { ProfesorService } from 'src/app/services/profesor.service';
@@ -26,6 +37,10 @@ export class ProfesorComponent implements OnInit {
     ngOnInit() {
       
     }
+
+    /**
+     * cierra la sesión del usuario.
+     */
     logout() {
       this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
      this.router.navigate(['login']);
