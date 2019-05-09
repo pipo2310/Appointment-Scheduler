@@ -35,7 +35,7 @@ if(isset($postdata) && !empty($postdata))
     // Lectura del campo 'resultado'
     if ($fetchedResult['resultado']) {
       // Consulta de informacion del usuario
-      $sql = "SELECT P.cedula, P.email, P.nombre, P.primerApellido, P.segundoApellido, (SELECT carne FROM ESTUDIANTE E WHERE E.cedula = P.cedula) AS 'carne', getRol(P.cedula) AS 'rol' FROM USUARIO U JOIN PERSONA P ON U.cedulaPersona = P.cedula WHERE U.nombreUsuario = '{$us}'";
+      $sql = "SELECT P.cedula, P.email, P.nombre, P.primerApellido, P.segundoApellido, (SELECT carne FROM ESTUDIANTE E WHERE E.cedula = P.cedula) AS 'carne', U.logueado, getRol(P.cedula) AS 'rol' FROM USUARIO U JOIN PERSONA P ON U.cedulaPersona = P.cedula WHERE U.nombreUsuario = '{$us}'";
       $result = mysqli_query($con,$sql);
       
       if ($result) {
