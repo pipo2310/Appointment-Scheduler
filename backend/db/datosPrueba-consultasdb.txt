@@ -1,0 +1,96 @@
+1. Datos de prueba corresponden a las siguientes personas con respectivos nombre de usuario y contraseña para el sistema:
+
+Nombre, PrimerApellido, SegundoApellido, Nombre de usuario, Contraseña
+'KEYLOR ALBERTO','MORATAYA','SANDOVAL','keylor.morataya', 123
+'LORENA','SALAZAR','SOLORZANO','lorena.salazar', Mate2019
+'RODRIGO ALEJANDRO','BARTELS','GONZALEZ','rodrigo.bartels', 123
+'CRISTIAN ULISES','QUESADA','LOPEZ','cristian.quesada', 123
+'JOSE FERNANDO','QUIROS','MONTERO','jose.quiros', 123
+'LEONARDO','MARRANGHELLO','MUSMANNI','leonardo.marranghello', Mate2019
+'EDGAR','CASASOLA','MURILLO','edgar.casasola', 123
+'ELZBIETA','MALINOWSKI','GAJDA','elzbieta.manilowski',321
+'JUAN','RODRIGUEZ','PEREZ','juan.rodriguez',Segundo2019
+'JOSE ALBERTO','SOTO','LI','jose.soto',123
+'ALEJANDRA MARIA','LOPEZ','MONTERO','alejandra.lopez',Segundo2019
+'MARCELO','JENKINS','CORONAS','marcelo.jenkins',123456
+'JIMMY JESUS','ACUNA','DIAZ','jimmy.acuna', 123
+'ALEXANDRA MARIA','MARTINEZ','PORRAS','alexandra.martinez',12345
+'DILIAN','BADILLA','MORA','dilian.badilla',123
+'CHRISTIAN ROBERTO','RODRIGUEZ','BUJAN','christian.rodriguez',123
+'KATHERINE VANESSA','HERNANDEZ','BENAVIDES','katherine.hernandez',123
+'JAVIER','VASQUEZ','MORERA','javier.vasquez',123
+
+2. Resultados para la consulta de profesores y los grupos en los que participan (algunos grupos tienen más de un profesor):
+
+Nombre, PrimerApellido, SegundoApellido, Sigla, Curso, Grupo
+'EDGAR','CASASOLA','MURILLO','CI-0113','Programación II','1'
+'EDGAR','CASASOLA','MURILLO','CI-0113','Programación II','2'
+'JAVIER','VASQUEZ','MORERA','CI-0113','Programación II','3'
+'JAVIER','VASQUEZ','MORERA','CI-0113','Programación II','5'
+'RODRIGO ALEJANDRO','BARTELS','GONZALEZ','CI-0114','Fundamentos de Arquitectura de Computadoras','1'
+'CRISTIAN ULISES','QUESADA','LOPEZ','CI-0126','Ingeniería de Software','1'
+'ALEXANDRA MARIA','MARTINEZ','PORRAS','CI-0127','Bases de Datos','1'
+'CRISTIAN ULISES','QUESADA','LOPEZ','CI-0128','Proyecto Integrador de Ingeniería de Software y Bases de Datos','1'
+'ALEXANDRA MARIA','MARTINEZ','PORRAS','CI-0128','Proyecto Integrador de Ingeniería de Software y Bases de Datos','1'
+'MARCELO','JENKINS','CORONAS','CI-0128','Proyecto Integrador de Ingeniería de Software y Bases de Datos','1'
+'ELZBIETA','MALINOWSKI','GAJDA','CI-1314','Bases de Datos II','1'
+'RODRIGO ALEJANDRO','BARTELS','GONZALEZ','CI-1322','Autómatas y Compiladores','1'
+'JAVIER','VASQUEZ','MORERA','CI-1330','Ingeniería de Software I','1'
+'JAVIER','VASQUEZ','MORERA','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'LEONARDO','MARRANGHELLO','MUSMANNI','MA-0294','Cálculo para Computación II','1'
+'LORENA','SALAZAR','SOLORZANO','MA-0294','Cálculo para Computación II','2'
+
+3. Resultados para la consulta de estudiantes y los grupos en los que están matriculados:
+
+Nombre, PrimerApellido, SegundoApellido, Sigla, Curso, Grupo
+'JOSE FERNANDO','QUIROS','MONTERO','CI-1314','Bases de Datos II','1'
+'JOSE FERNANDO','QUIROS','MONTERO','CI-1322','Autómatas y Compiladores','1'
+'JOSE FERNANDO','QUIROS','MONTERO','CI-1330','Ingeniería de Software I','1'
+'JOSE FERNANDO','QUIROS','MONTERO','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'JOSE ALBERTO','SOTO','LI','CI-1314','Bases de Datos II','1'
+'JOSE ALBERTO','SOTO','LI','CI-1322','Autómatas y Compiladores','1'
+'JOSE ALBERTO','SOTO','LI','CI-1330','Ingeniería de Software I','1'
+'JOSE ALBERTO','SOTO','LI','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'JIMMY JESUS','ACUNA','DIAZ','CI-1314','Bases de Datos II','1'
+'JIMMY JESUS','ACUNA','DIAZ','CI-1330','Ingeniería de Software I','1'
+'JIMMY JESUS','ACUNA','DIAZ','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'DILIAN','BADILLA','MORA','CI-1314','Bases de Datos II','1'
+'DILIAN','BADILLA','MORA','CI-1322','Autómatas y Compiladores','1'
+'DILIAN','BADILLA','MORA','CI-1330','Ingeniería de Software I','1'
+'DILIAN','BADILLA','MORA','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'KEYLOR ALBERTO','MORATAYA','SANDOVAL','CI-1314','Bases de Datos II','1'
+'KEYLOR ALBERTO','MORATAYA','SANDOVAL','CI-1322','Autómatas y Compiladores','1'
+'KEYLOR ALBERTO','MORATAYA','SANDOVAL','CI-1330','Ingeniería de Software I','1'
+'KEYLOR ALBERTO','MORATAYA','SANDOVAL','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'KATHERINE VANESSA','HERNANDEZ','BENAVIDES','CI-1314','Bases de Datos II','1'
+'KATHERINE VANESSA','HERNANDEZ','BENAVIDES','CI-1330','Ingeniería de Software I','1'
+'KATHERINE VANESSA','HERNANDEZ','BENAVIDES','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'CHRISTIAN ROBERTO','RODRIGUEZ','BUJAN','CI-1314','Bases de Datos II','1'
+'CHRISTIAN ROBERTO','RODRIGUEZ','BUJAN','CI-1330','Ingeniería de Software I','1'
+'CHRISTIAN ROBERTO','RODRIGUEZ','BUJAN','CI-1331','Laboratorio de Ingeniería de Software I','1'
+'ALEJANDRA MARIA','LOPEZ','MONTERO','CI-0113','Programación II','3'
+'ALEJANDRA MARIA','LOPEZ','MONTERO','CI-0114','Fundamentos de Arquitectura de Computadoras','1'
+'ALEJANDRA MARIA','LOPEZ','MONTERO','MA-0294','Cálculo para Computación II','2'
+'JUAN','RODRIGUEZ','PEREZ','CI-0113','Programación II','1'
+'JUAN','RODRIGUEZ','PEREZ','CI-0114','Fundamentos de Arquitectura de Computadoras','1'
+'JUAN','RODRIGUEZ','PEREZ','MA-0294','Cálculo para Computación II','1'
+
+4. Prueba validación con nombre de usuario y contraseña correctos:
+Código:	select loginUsuario('lorena.salazar','Mate2019');
+Resultados:	1
+
+5. Prueba validación con nombre de usuario incorrecto:
+Código:	select loginUsuario('lorenasalazar','Mate2019');
+Resultados:	0
+
+6. Prueba validación con contraseña incorrecta:
+Código:	select loginUsuario('lorena.salazar','Mate2018');
+Resultados:	0
+
+7. Prueba contraseña case-sensitive:
+Código:	select loginUsuario('lorena.salazar','MATE2019');
+Resultados:	0
+
+8. Prueba nombre de usuario no case-sensitive:
+Código:	select loginUsuario('LORENA.SALAZAR','Mate2019');
+Resultados:	1
