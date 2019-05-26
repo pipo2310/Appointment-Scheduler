@@ -4,7 +4,9 @@ ul.cursos * {
   padding: 0;
   border: 0;
 }
-
+.container-fluid{
+  background-color: #fff
+}
 .buton:hover{
   display: block;
   
@@ -32,7 +34,7 @@ ul.cursos * {
   }
 div {
   top: 0%;
-  margin-block-start: -1.5%;
+  margin-block-start: 0%;
   margin-inline-start: 0px;
   background-color:rgba(221, 221, 221, 0.76);
 }
@@ -63,7 +65,7 @@ div h1 {
 
 div hr{
   height:45px;
-  width: 1350px;
+  width: 1920px;
   background-color:rgba(9,115,187,.95);
 }
 
@@ -89,7 +91,7 @@ ul.cursos li a {
   display: block;
   padding: 10px 10px 10px 20px;
   background: rgba(9, 115, 187, .95);
-  margin-right: 450px;
+  margin-right: 0px;
   color: #eee;
   border-bottom: 1px solid #000;
   border-top: 1px solid #666;

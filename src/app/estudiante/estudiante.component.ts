@@ -9,7 +9,7 @@
  * Soto Li Jose Alberto
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
 import { Estudiante } from '../modelo/estudiante';
@@ -17,6 +17,7 @@ import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-home-estudiante',
+  host:{'window:beforeunload':'this.logout'},
   templateUrl: './estudiante.component.html',
   styleUrls: ['./estudiante.component.css']
 })
@@ -27,9 +28,12 @@ export class EstudianteComponent implements OnInit {
   usuarioActual: Estudiante;
   profes: Profesor[];
 
+
   constructor(
     private studentService: EstudianteService,private router: Router
     ) {
+      
+   
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un estudiante
@@ -54,7 +58,6 @@ export class EstudianteComponent implements OnInit {
     this.getProfes(this.selectedCourse);
   }
 
-  
   ngOnInit() {
     this.getCursos(this.usuarioActual);
   }
