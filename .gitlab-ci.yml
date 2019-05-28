@@ -1,0 +1,40 @@
+build:
+
+ stage: build
+
+ image: trion/ng-cli
+
+ before_script:
+
+  - npm ci
+
+ script:
+
+  - ng build --prod
+
+ artifacts:
+
+  expire_in: 1 day
+
+  paths:
+
+   - dist/
+
+ tags:
+
+  - docker
+    
+deploy: 
+  stage: 'deploy'
+  script: 
+    - apt update
+    - apt install -y software-properties-common
+    - apt install -y python-dev  
+    - apt install -y python-pip
+    - pip install awscli
+    - aws configure set aws_access_key_id AKIAUCE7JJ35DFLQJO5Y
+    - aws configure set aws_secret_access_key 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
+    - aws configure set region us-east-1
+    - aws deploy push --application-name u-meeter --s3-location e-wmyrn8ppru --ignore-hidden-files --source dist
+  only: 
+    - master
