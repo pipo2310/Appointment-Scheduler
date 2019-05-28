@@ -45,6 +45,14 @@ export class ProfesorComponent implements OnInit {
       this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
      this.router.navigate(['login']);
     }
+    
+    vistaCalend(){
+      console.log('vista calendario')
+    }
+
+    vistaList() {
+      console.log('vista lista')
+    }
   
   }
 
