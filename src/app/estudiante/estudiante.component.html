@@ -21,41 +21,41 @@
 <header>
     <div>
         <h1 class="title">
-          U-Meeter
+            U-Meeter
         </h1>
         <h2 id=logout>
         </h2>
-        <button class="buton" >
+        <button class="buton">
           <li class="opciones" (click)="logout()" >
             <a> Cerrar Sesión
             </a>
           </li>       
         </button>
         <hr>
-      </div>
+    </div>
 </header>
 
-  
-  <body>
-      <div class="container-fluid">
-          <h2>Mis cursos</h2>
-          <ul class="cursos">
+
+<body>
+    <div class="container-fluid">
+        <h2>Mis cursos</h2>
+        <ul class="cursos">
             <li *ngFor="let curso of cursos" id={{curso.sigla}} (click)="onSelect(curso)">
-              <a href="homeEstudiante#{{curso.sigla}}"><span class="badge"> {{curso.sigla}} </span>
+                <a href="homeEstudiante#{{curso.sigla}}"><span class="badge"> {{curso.sigla}} </span>
                 {{curso.nombre}}</a>
-              <ul class="profesores">
-                <li *ngFor="let profe of profes" id=profe.nombre>
-                  <a href="homeEstudiante"><span class="badge"></span> {{profe.nombre}} {{profe.primerApellido}} </a>
-                </li>
-              </ul>
+                <ul class="profesores">
+                    <li *ngFor="let profe of profes" id=profe.nombre>
+                        <a href="homeEstudiante"><span class="badge"></span> {{profe.nombre}} {{profe.primerApellido}} </a>
+                    </li>
+                </ul>
             </li>
-          </ul>
-        </div>
-        
-        <button (click)="logout()">
+        </ul>
+    </div>
+
+    <button (click)="logout()">
         
           <a> Cerrar Sesión
           </a>
         
         </button>
-  </body>
+</body>

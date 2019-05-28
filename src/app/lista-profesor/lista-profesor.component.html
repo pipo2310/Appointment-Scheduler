@@ -1,0 +1,19 @@
+<header>
+
+</header>
+
+<body>
+    <div class="container-fluid">
+        <ngb-accordion [closeOthers]="true" activeIds="">
+            <li *ngFor="let semana of semanas">
+                <ngb-panel id={{semana.diaInicio}} title={{semana.diaInicio}}-{{semana.diaFinal}}>
+                    <ng-template ngbPanelContent>
+                        <li *ngFor="let cita of citas">
+                            <span class="badge"></span> {{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} - {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                        </li>
+                    </ng-template>
+                </ngb-panel>
+            </li>
+        </ngb-accordion>
+    </div>
+</body>

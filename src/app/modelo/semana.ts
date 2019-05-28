@@ -9,10 +9,10 @@
  * Soto Li Jose Alberto
  */
 
-export class Usuario {
-    cedula: string;
-    email: string;
-    nombre: string;
-    primerApellido: string;
-    segundoApellido: string;
+ import {Cita} from "./citasPrueba";
+
+ export class Semana {
+    diaInicio: string;
+    diaFinal: string;
+    listaCitas: Cita[]
 }
