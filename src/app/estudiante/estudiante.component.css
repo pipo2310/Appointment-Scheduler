@@ -57,6 +57,7 @@ div .buton{
   font-family: Arial;
   width: 50px;   
 }
+
 div h1 {
   margin-inline-start: 15px;
   color:rgba(9,115,187,.95);
@@ -65,7 +66,7 @@ div h1 {
 
 div hr{
   height:45px;
-  width: 1920px;
+  
   background-color:rgba(9,115,187,.95);
 }
 

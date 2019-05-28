@@ -1,0 +1,141 @@
+ul.cursos, 
+ul.cursos * {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.titulo2{
+    font-family: 'Arial';
+    font-size: 2002px;
+}
+.ngb-panel{
+    font-family: 'Arial';
+    font-size: 2002px;
+}
+
+.container-fluid{
+  background-color: #fff
+}
+.buton:hover{
+  display: block;
+  
+  }
+  div .buton li {
+    position: left;
+    text-align: left;
+    margin-top: 1px;
+    margin-right: 90px;
+    z-index: 10px;
+    display: none;
+  }
+  div  .buton:hover>li{
+    display: block;
+    background: rgba(9,115,187,.95);
+    font-weight: normal;
+    font-size: 20px;
+    font-family: 'Arial';
+    color: white;
+    height: 4px;
+    width: 4.2px;
+  }
+  .opciones:hover{
+  background: #666;
+  }
+div {
+  top: 0%;
+  margin-block-start: 0%;
+  margin-inline-start: 0px;
+  background-color:rgba(221, 221, 221, 0.76);
+}
+div .buton li {
+  position: absolute;
+  text-align: left;
+  top: 50px;
+  font-family: Arial;
+  margin-right: 80px;
+  z-index: 90px;
+  display: none;
+}
+div .buton{
+  background:url("https://img.icons8.com/material-rounded/48/000000/gender-neutral-user.png");
+  margin-left: 10px;
+  margin-right: 90px;
+  margin-top: -50px;
+  height: 43px;
+  float: right;
+  font-family: Arial;
+  width: 50px;   
+}
+div h1 {
+  margin-inline-start: 15px;
+  color:rgba(9,115,187,.95);
+  size: 50px;
+}
+
+div hr{
+  height:45px;
+  
+  background-color:rgba(9,115,187,.95);
+}
+
+
+h2{ 
+  margin-inline-start: 20px;
+  color:rgba(9,115,187,.95);
+}
+
+ul.cursos { 
+  margin: 10px auto;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  font-size: 18px;
+  font-family: Arial;
+}
+ul.cursos li {
+  list-style: none;
+}
+
+ul.cursos li a {
+  display: block;
+  padding: 10px 10px 10px 20px;
+  background: rgba(9, 115, 187, .95);
+  margin-right: 0px;
+  color: #eee;
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #666;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+ul.cursos li ul {
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  transition: .3s all ease-in;
+}
+
+ul.cursos li li a {
+  padding: 10px 10px 10px 40px;
+  background: rgb(228, 224, 224);
+  color: #000;
+  font-size: 16px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+ul.cursos li li:last-child a {
+  border-bottom: 0;
+}
+ul.cursos li:target ul {
+  max-height: 300px;
+  transition: .3s all ease-in;
+}
+ul.cursos li a:hover{
+  background: rgb(207, 200, 200);
+  color: #fff;
+}
