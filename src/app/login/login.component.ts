@@ -59,14 +59,14 @@ export class LoginComponent implements OnInit {
             }
           }
           else { // No se debe continuar con el login
-            elem2.textContent="";
-            elem.setAttribute("style", "color:#C80202");
+            elem2.textContent="";           
+            elem.setAttribute("style", "color:#E50E21");         
             elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
           
           }
         },
         error => {
-          elem2.setAttribute("style", "color:#C80202");
+          elem2.setAttribute("style", "color:#A20412");
           elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
           elem.textContent=""; 
 

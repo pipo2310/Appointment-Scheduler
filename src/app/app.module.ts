@@ -17,18 +17,21 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
-
+import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     EstudianteComponent,
-    ProfesorComponent
+    ProfesorComponent,
+    ListaProfesorComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

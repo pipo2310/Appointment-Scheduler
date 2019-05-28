@@ -4,6 +4,15 @@ ul.cursos * {
   padding: 0;
   border: 0;
 }
+.titulo2{
+    font-family: 'Arial';
+    font-size: 2002px;
+}
+.ngb-panel{
+    font-family: 'Arial';
+    font-size: 2002px;
+}
+
 .container-fluid{
   background-color: #fff
 }
@@ -57,7 +66,6 @@ div .buton{
   font-family: Arial;
   width: 50px;   
 }
-
 div h1 {
   margin-inline-start: 15px;
   color:rgba(9,115,187,.95);

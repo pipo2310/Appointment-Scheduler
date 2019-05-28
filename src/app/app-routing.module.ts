@@ -9,19 +9,21 @@
  * Soto Li Jose Alberto
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { EstudianteComponent } from './estudiante/estudiante.component';
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
+import {ListaProfesorComponent} from './lista-profesor/lista-profesor.component'
 
 //lista de rutas de cada una de las "pantallas".
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'homeEstudiante', component: EstudianteComponent },
   { path: 'homeProfesor', component: ProfesorComponent },
+  { path: 'vistaLista', component: ListaProfesorComponent},
   
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];

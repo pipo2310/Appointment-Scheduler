@@ -33,6 +33,7 @@ export class ProfesorComponent implements OnInit {
         segundoApellido : parsed['segundoApellido']
       };
     }
+
   
     ngOnInit() {
       
@@ -54,5 +55,8 @@ export class ProfesorComponent implements OnInit {
       console.log('vista lista')
     }
   
+    vistaList(){
+      this.router.navigate(['vistaLista'])
+    }
   }
 
