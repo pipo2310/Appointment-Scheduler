@@ -46,8 +46,8 @@
                 <a href="homeEstudiante#{{curso.sigla}}"><span class="badge"> {{curso.sigla}} </span>
                 {{curso.nombre}}</a>
                 <ul class="profesores">
-                    <li *ngFor="let profe of profes" id=profe.nombre>
-                        <a href="homeEstudiante"><span class="badge"></span> {{profe.nombre}} {{profe.primerApellido}} </a>
+                    <li *ngFor="let profe of profes" id=profe.nombre  (click)="Prof()">
+                        <a><span class="badge"></span> {{profe.nombre}} {{profe.primerApellido}} </a>
                     </li>
                 </ul>
             </li>

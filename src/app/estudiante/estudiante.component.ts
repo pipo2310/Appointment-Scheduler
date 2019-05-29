@@ -56,6 +56,7 @@ export class EstudianteComponent implements OnInit {
   onSelect(curso:Curso){
     this.selectedCourse = curso;
     this.getProfes(this.selectedCourse);
+   
   }
 
   ngOnInit() {
@@ -86,5 +87,8 @@ export class EstudianteComponent implements OnInit {
   logout() {
     this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
+  }
+  Prof( nombre:String):void{
+    this.router.navigate(['CalendarioEstudiante'])
   }
 }
