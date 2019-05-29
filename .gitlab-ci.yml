@@ -9,7 +9,7 @@ build:
   - npm ci
 
  script:
-
+  npm install --save-dev @angular-devkit/build-angular
   - ng build --prod
 
  artifacts:
