@@ -19,6 +19,7 @@ import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
+
 @NgModule({
   declarations: [
     AppComponent,
