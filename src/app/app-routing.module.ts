@@ -17,6 +17,8 @@ import { LoginComponent } from './login/login.component';
 import { EstudianteComponent } from './estudiante/estudiante.component';
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import {ListaProfesorComponent} from './lista-profesor/lista-profesor.component'
+import { CitaComponent } from './cita/cita.component';
+
 
 //lista de rutas de cada una de las "pantallas".
 const routes: Routes = [
@@ -24,7 +26,7 @@ const routes: Routes = [
   { path: 'homeEstudiante', component: EstudianteComponent },
   { path: 'homeProfesor', component: ProfesorComponent },
   { path: 'vistaLista', component: ListaProfesorComponent},
-  
+  { path: 'detalleCita', component: CitaComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

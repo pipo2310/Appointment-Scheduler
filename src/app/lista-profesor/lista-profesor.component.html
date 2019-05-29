@@ -36,15 +36,14 @@
                         </ng-template>
 
                         <ng-template ngbPanelContent>
-                <li *ngFor="let cita of citas">
-                    <a href="">
-                        <span class="badge"></span> {{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
-                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
-                    </a>
+                            <li *ngFor="let cita of citas">
+                                <a href="detalleCita">
+                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} - {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                                </a>
 
-                </li>
-                </ng-template>
-                </ngb-panel>
+                            </li>
+                        </ng-template>
+                    </ngb-panel>
 
                 </li>
             </ngb-accordion>

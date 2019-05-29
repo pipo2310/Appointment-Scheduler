@@ -51,8 +51,6 @@ export class ProfesorComponent implements OnInit {
       console.log('vista calendario')
     }
 
-
-  
     vistaList(){
       this.router.navigate(['vistaLista'])
     }
