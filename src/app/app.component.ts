@@ -18,4 +18,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'U-Meeter';
+  user;
+  
+ // getUser(){
+  //  return localStorage.getItem('usuarioActual');
+  //}
 }
