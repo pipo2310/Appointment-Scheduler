@@ -16,7 +16,7 @@
         <form class="nav-item dropdown" ngbDropdown>
             <a class="nav-link dropdown-toggle" id="dropdown04" ngbDropdownToggle>Dropdown</a>
             <div class="dropdown-menu" aria-labelledby="dropdown04" ngbDropdownMenu>
-                <a class="dropdown-item" href="logout()">Logout</a>
+                <button ngbDropdownItem (click)="logout()">Logout</button>
             </div>
         </form>
     </div>

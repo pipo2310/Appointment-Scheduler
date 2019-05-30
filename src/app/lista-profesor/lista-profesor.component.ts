@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CITAS } from '../modelo/datosCitas';
 import { SEMANAS } from '../modelo/datosPrueba';
+import { ProfesorService } from '../services/profesor.service';
+import { Router } from '@angular/router';
+import { Profesor } from '../modelo/profesor';
 
 @Component({
   selector: 'app-lista-profesor',
@@ -10,9 +13,26 @@ import { SEMANAS } from '../modelo/datosPrueba';
 export class ListaProfesorComponent implements OnInit {
   semanas = SEMANAS;
   citas = CITAS;
-  constructor() {}
+  usuarioActual: Profesor;
+  constructor(private profesorService: ProfesorService,private router: Router) {
+    let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+    // Interpreta al usuario como un profesor
+    this.usuarioActual = {
+      cedula : parsed['cedula'],
+      email : parsed['email'],
+      nombre : parsed['nombre'],
+      primerApellido : parsed['primerApellido'],
+      segundoApellido : parsed['segundoApellido']
+    };
+  }
 
   ngOnInit() {
   }
+
+  logout() {
+    this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
+   this.router.navigate(['login']);
+  }
+  
 
 }
