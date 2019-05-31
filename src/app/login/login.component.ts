@@ -49,8 +49,9 @@ export class LoginComponent implements OnInit {
           // Obtiene el status de login que aparece en la respuesta
           let logueado = res['logueado'];
           if (logueado == 0) { // Se puede continuar con el login
-            this.loginService.conmutarLogueado(res['cedula']).subscribe();
+           // this.loginService.conmutarLogueado(res['cedula']).subscribe();
             // Obtiene el rol que aparece en la respuesta
+            this.loginService.conmutarLogueado(res['cedula']).subscribe();
             let rol = res['rol'];
             if (rol == 1) { // Profesor
               this.navegarAProfesor();

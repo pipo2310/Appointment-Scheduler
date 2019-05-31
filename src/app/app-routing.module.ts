@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
+import{CalendarioEstudianteComponent}from './estudiante/calendario-estudiante/calendario-estudiante.component'
 import { EstudianteComponent } from './estudiante/estudiante.component';
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import {ListaProfesorComponent} from './lista-profesor/lista-profesor.component'

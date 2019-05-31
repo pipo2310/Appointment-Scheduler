@@ -19,8 +19,13 @@ import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
-import { CitaComponent } from './cita/cita.component';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +36,14 @@ import { CitaComponent } from './cita/cita.component';
     CitaComponent
   ],
   imports: [
+    CommonModule,
+    FormsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    }),
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
