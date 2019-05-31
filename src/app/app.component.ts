@@ -106,4 +106,23 @@ export class AppComponent {
   }
 }
   title = 'U-Meeter';
-}
+  userCed : string;
+
+  constructor(private loginService: LoginService, private router: Router) {
+   }
+  
+ // getUser(){
+  //  return localStorage.getItem('usuarioActual');
+  //}
+
+  logout() {
+    // Extrae la información del usuario guardada en el almacenamiento local por el login service
+    let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+    this.userCed = parsed['cedula'];
+    this.loginService.conmutarLogueado(this.userCed).subscribe();
+    this.router.navigate(['login']);
+  }
+    
+ 
+  }
+

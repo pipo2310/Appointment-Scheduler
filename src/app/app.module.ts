@@ -33,7 +33,7 @@ import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiant
     EstudianteComponent,
     ProfesorComponent,
     ListaProfesorComponent,
-    CalendarioEstudianteComponent
+    CitaComponent
   ],
   imports: [
     CommonModule,

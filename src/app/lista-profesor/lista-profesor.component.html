@@ -1,25 +1,3 @@
-<header>
-    <div>
-        <h1 class="title">
-            U-Meeter
-        </h1>
-        <h2 id=logout>
-        </h2>
-        <button class="buton" >
-                <li class="opciones" (click)="logout()" >
-                    <a>
-                        Logout
-                    </a>
-                  </li>
-                 
-              </button>
-              <div class="container-fluid">
-                    <hr>
-                  </div>
-             
-    </div>
-</header>
-
 <body>
     <div class="container-fluid">
         <h2>
@@ -28,22 +6,31 @@
         <ul class="cursos">
             <ngb-accordion [closeOthers]="true" activeIds="">
                 <li *ngFor="let semana of semanas">
-                    
-                    <ngb-panel id={{semana.diaInicio}} title={{semana.diaInicio}}-{{semana.diaFinal}}>
-                        
-                        <ng-template ngbPanelContent>
-                <li *ngFor="let cita of citas">
-                    <a href="">
-                        <span class="badge"></span> {{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
-                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
-                    </a>
 
-                </li>
-                </ng-template>
-                </ngb-panel>
-           
+                    <ngb-panel>
+                        <ng-template ngbPanelTitle>
+                            <span class="titulo2"> {{semana.diaInicio}}-{{semana.diaFinal}} </span>
+
+                        </ng-template>
+
+                        <ng-template ngbPanelContent>
+                            <li *ngFor="let cita of citas">
+                                <a href="detalleCita">
+                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} - {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                                </a>
+
+                            </li>
+                        </ng-template>
+                    </ngb-panel>
+
                 </li>
             </ngb-accordion>
         </ul>
     </div>
+    <button (click)="logout()">
+        
+            <a> Cerrar Sesión
+            </a>
+          
+          </button>
 </body>
