@@ -12,6 +12,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
+import{ CalendarioService} from '../services/calendario-service.service';
 import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
@@ -88,7 +89,12 @@ export class EstudianteComponent implements OnInit {
     this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
   }
-  Prof( nombre:String):void{
+  Prof(profeActualCita:Profesor):void{
+
+    
+
+    window.alert(profeActualCita.cedula+profeActualCita.nombre)
+    localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
     this.router.navigate(['CalendarioEstudiante'])
   }
 }
