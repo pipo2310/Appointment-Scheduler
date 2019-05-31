@@ -15,6 +15,7 @@ import {ProfesorService}  from '../app/services/profesor.service';
 import {Estudiante} from '../app/modelo/estudiante'
 import { Router } from '@angular/router';
 import { Profesor } from './modelo/profesor';
+import {LoginService} from '../app/services/login.service';
 
 @Component({
   selector: 'app-root',
@@ -26,15 +27,8 @@ export class AppComponent {
 
   usuarioActualEst:Estudiante;
   usuarioActualProf:Profesor;
-
-  constructor(private studentService: EstudianteService,private profesorService:ProfesorService,private router: Router){
-    try {
-      this.beforeUnloadHander(event);
-      this.unloadHandler(event);
-    } catch(Exception){}
-    
-
-  }
+  studentService:EstudianteService;
+  profesorService:ProfesorService;
 
 @HostListener('window:unload', [ '$event' ])
   unloadHandler(event) {
