@@ -9,7 +9,7 @@
  * Soto Li Jose Alberto
  */
 
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
 import { Estudiante } from '../modelo/estudiante';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './estudiante.component.html',
   styleUrls: ['./estudiante.component.css']
 })
-export class EstudianteComponent implements OnInit {
+export class EstudianteComponent implements OnInit, OnDestroy {
 
   cursos: Curso[];
   selectedCourse:Curso;
@@ -29,6 +29,9 @@ export class EstudianteComponent implements OnInit {
   profes: Profesor[];
 
 
+  ngOnDestroy(): void{
+    this.logout();
+  }
   constructor(
     private studentService: EstudianteService,private router: Router
     ) {
@@ -54,6 +57,7 @@ export class EstudianteComponent implements OnInit {
    */
 
   onSelect(curso:Curso){
+    this.profes = []
     this.selectedCourse = curso;
     this.getProfes(this.selectedCourse);
   }

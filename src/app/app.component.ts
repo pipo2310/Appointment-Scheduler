@@ -28,6 +28,12 @@ export class AppComponent {
   usuarioActualProf:Profesor;
 
   constructor(private studentService: EstudianteService,private profesorService:ProfesorService,private router: Router){
+    try {
+      this.beforeUnloadHander(event);
+      this.unloadHandler(event);
+    } catch(Exception){}
+    
+
   }
 
 @HostListener('window:unload', [ '$event' ])
@@ -59,6 +65,7 @@ export class AppComponent {
     }
     //console.log(this.usuarioActualProf)
     this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+    localStorage.removeItem('usuarioActual');
     this.router.navigate(['login']);
     }
   }
@@ -93,6 +100,7 @@ export class AppComponent {
     }
     //console.log(this.usuarioActualProf)
     this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+    localStorage.removeItem('usuarioActual');
     this.router.navigate(['login']);
     }
   }

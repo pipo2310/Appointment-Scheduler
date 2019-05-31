@@ -9,7 +9,7 @@
  * Soto Li Jose Alberto
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Profesor } from 'src/app/modelo/profesor';
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
   templateUrl: './profesor.component.html',
   styleUrls: ['./profesor.component.css']
 })
-export class ProfesorComponent implements OnInit {
+export class ProfesorComponent implements OnInit, OnDestroy {
     usuarioActual: Profesor;
   
     constructor(private profesorService: ProfesorService,private router: Router) {
@@ -36,7 +36,10 @@ export class ProfesorComponent implements OnInit {
 
   
     ngOnInit() {
-      
+    }
+
+    ngOnDestroy(): void{
+      this.logout();
     }
 
     /**
@@ -44,7 +47,7 @@ export class ProfesorComponent implements OnInit {
      */
     logout() {
       this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
-     this.router.navigate(['login']);
+      this.router.navigate(['login']);
     }
     
     vistaCalend(){
