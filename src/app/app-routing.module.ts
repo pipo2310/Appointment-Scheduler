@@ -29,7 +29,11 @@ const routes: Routes = [
   { path: 'homeProfesor', component: ProfesorComponent },
   { path: 'vistaLista', component: ListaProfesorComponent},
   { path: 'detalleCita', component: CitaComponent},
+
+ 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+
+ 
 ];
 
 @NgModule({

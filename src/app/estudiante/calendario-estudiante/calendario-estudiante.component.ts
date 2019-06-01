@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef
 } from '@angular/core';
+import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   startOfDay,
   endOfDay,
@@ -15,7 +16,7 @@ import {
   addHours
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
@@ -28,6 +29,8 @@ import { Estudiante } from '../../modelo/estudiante';
 //import {MatDialogModule} from '@angular/material/dialog';
 import{CalendarioService} from '../../services/calendario-service.service';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
+
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -48,7 +51,11 @@ const colors: any = {
   styleUrls: ['./calendario-estudiante.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   
+  
 })
+
+
+
 export class CalendarioEstudianteComponent implements OnInit {
   ProfeCita:Profesor;
   EstudianteCita: Estudiante;
@@ -56,7 +63,7 @@ export class CalendarioEstudianteComponent implements OnInit {
   listaProfes: Array<Date> = new Array<Date>();
   listaEstudiantes: Array<Date> = new Array<Date>();
       
-  constructor( private calendarService: CalendarioService ) { 
+  constructor( private calendarService: CalendarioService,private modalService: NgbModal) { 
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
@@ -144,16 +151,42 @@ da:Date;
   
    }
    val:Boolean=false;
-   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }){
-  //  let dialogRef = dialog.open(UserProfileComponent, { height: '400px',width: '600px', });
 
- 
+   closeResult: string;
+
+   private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
+  }
+   
+   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content){
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+
+
   for(var i=0;i<this.dat.length;i++){
     if(date==this.dat[i]){
       this.val=true;
      return this.val;
     }}
 return this.val;
+
+
+
+
+
+
+
+
+
      /*if (isSameMonth(date, this.viewDate)) {
        this.viewDate = date;
        if (

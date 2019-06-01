@@ -19,6 +19,7 @@ import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
