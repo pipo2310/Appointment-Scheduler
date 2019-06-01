@@ -23,6 +23,7 @@ import { CitaComponent } from './cita/cita.component';
 
 //lista de rutas de cada una de las "pantallas".
 const routes: Routes = [
+  {path:'CalendarioEst',component:CalendarioEstudianteComponent},
   { path: 'login', component: LoginComponent },
   { path: 'homeEstudiante', component: EstudianteComponent },
   { path: 'homeProfesor', component: ProfesorComponent },
