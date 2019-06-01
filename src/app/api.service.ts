@@ -58,7 +58,7 @@ export class ApiService {
   public conmutarLogueado(usuario: Usuario) { }
 
   public getFechasDisponiblesProfesor(profesor: Profesor, fechaInicial: Date, fechaFinal: Date): Array<Date> {
-    var setFechas: Set<Date> = new Set();
+    var mapaFechas: Map<string, Date> = new Map();
     //
     var fechaSlotProfesor: Date;
     var slotDisponible: boolean;
@@ -77,12 +77,13 @@ export class ApiService {
             }
           }
           if (slotDisponible) {
-            setFechas.add(fechaSlotProfesor);
+            mapaFechas.set( fechaSlotProfesor.getFullYear().toString() + fechaSlotProfesor.getMonth().toString() + fechaSlotProfesor.getDate().toString(),
+              fechaSlotProfesor );
           }
         }
       }
     }
-    return Array.from(setFechas.values());
+    return Array.from(mapaFechas.values());
   }
 
   public getSlotsDisponiblesDiaProfesor(profesor: Profesor, fecha: Date): Array<Slot> {

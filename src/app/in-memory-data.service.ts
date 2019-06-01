@@ -78,13 +78,149 @@ export class InMemoryDataService {
 
   public slotsProfesores: Slot[] = [
     {
-      fecha: {"año": "2019", "mes": "07", "dia": "17"},
+      fecha: {"año": "2019", "mes": "05", "dia": "06"},
       hora: "9:00",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "06"},
+      hora: "9:15",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "06"},
+      hora: "9:30",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "06"},
+      hora: "9:45",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "20"},
+      hora: "9:00",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "20"},
+      hora: "9:15",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "20"},
+      hora: "9:30",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "05", "dia": "20"},
+      hora: "9:45",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "03"},
+      hora: "9:00",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "10"},
+      hora: "9:00",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "10"},
+      hora: "9:15",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "10"},
+      hora: "9:30",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "10"},
+      hora: "9:45",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "17"},
+      hora: "9:00",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "17"},
+      hora: "9:15",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "17"},
+      hora: "9:30",
+      profesor: this.profesor,
+      lugar: "232 ECCI",
+    },
+    {
+      fecha: {"año": "2019", "mes": "06", "dia": "17"},
+      hora: "9:45",
       profesor: this.profesor,
       lugar: "232 ECCI",
     }
   ]
   
 
-  public citasEstudiantes: Cita[] = new Array<Cita>();
+  public citasEstudiantes: Cita[] = [
+    {fecha: {"año": "2019", "mes": "05", "dia": "06"},
+    hora: "9:30",
+    profesor: this.profesor,
+    estudiante: this.estudiante,
+    estado: "aprobada",
+    publica: false,
+    contador: 0},
+
+    {fecha: {"año": "2019", "mes": "05", "dia": "06"},
+    hora: "9:45",
+    profesor: this.profesor,
+    estudiante: this.estudiante,
+    estado: "rechazada",
+    publica: false,
+    contador: 0},
+
+    {fecha: {"año": "2019", "mes": "05", "dia": "20"},
+    hora: "9:30",
+    profesor: this.profesor,
+    estudiante: this.estudiante,
+    estado: "pendiente",
+    publica: false,
+    contador: 0},
+
+    {fecha: {"año": "2019", "mes": "06", "dia": "03"},
+    hora: "9:00",
+    profesor: this.profesor,
+    estudiante: this.estudiante,
+    estado: "pendiente",
+    publica: false,
+    contador: 0},
+
+    {fecha: {"año": "2019", "mes": "06", "dia": "17"},
+    hora: "9:00",
+    profesor: this.profesor,
+    estudiante: this.estudiante,
+    estado: "pendiente",
+    publica: false,
+    contador: 0}
+  ]
 }

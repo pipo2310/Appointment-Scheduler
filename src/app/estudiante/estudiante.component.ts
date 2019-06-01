@@ -48,21 +48,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
       segundoApellido: parsed['segundoApellido'],
       carne: parsed['carne']
     };
-
-    // TODO: PRUEBA
-    let profesor: Profesor = {
-      cedula : '123456789',
-      email : 'cristian.quesada@example.com',
-      nombre : 'CRISTIAN ULISES',
-      primerApellido : 'QUESADA',
-      segundoApellido : 'LOPEZ',
-    };
-    let fechaInicial = new Date (2019,5,1);
-    let fechaFinal = new Date (2019,6,15);
-    let fechasDisponibles = this.apiService.getFechasDisponiblesProfesor(profesor, fechaInicial, fechaFinal);
-    let slotsDisponiblesDia = this.apiService.getSlotsDisponiblesDiaProfesor(profesor, new Date (2019,6,17));
-    console.log(fechasDisponibles);
-    console.log(slotsDisponiblesDia);
   }
 
   /**
