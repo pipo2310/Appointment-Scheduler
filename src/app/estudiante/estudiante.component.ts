@@ -12,7 +12,7 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Curso } from '../modelo/curso';
 import { EstudianteService } from '../services/estudiante.service';
-import{ CalendarioService} from '../services/calendario-service.service';
+import { ApiService } from '../api.service';
 import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
@@ -34,8 +34,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     this.logout();
   }
   constructor(
-    private studentService: EstudianteService,private router: Router
-    ) {
+    private studentService: EstudianteService, private apiService: ApiService, private router: Router) {
       
    
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
@@ -50,6 +49,20 @@ export class EstudianteComponent implements OnInit, OnDestroy {
       carne: parsed['carne']
     };
 
+    // TODO: PRUEBA
+    let profesor: Profesor = {
+      cedula : '123456789',
+      email : 'cristian.quesada@example.com',
+      nombre : 'CRISTIAN ULISES',
+      primerApellido : 'QUESADA',
+      segundoApellido : 'LOPEZ',
+    };
+    let fechaInicial = new Date (2019,5,1);
+    let fechaFinal = new Date (2019,6,15);
+    let fechasDisponibles = this.apiService.getFechasDisponiblesProfesor(profesor, fechaInicial, fechaFinal);
+    let slotsDisponiblesDia = this.apiService.getSlotsDisponiblesDiaProfesor(profesor, new Date (2019,6,17));
+    console.log(fechasDisponibles);
+    console.log(slotsDisponiblesDia);
   }
 
   /**
@@ -73,8 +86,9 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * @param estudiante 
    */
   getCursos(estudiante:Estudiante){
-    this.studentService.getCursos(estudiante)
-      .subscribe(data => {this.cursos = data});
+    this.cursos = this.apiService.getCursos(estudiante);
+    // this.studentService.getCursos(estudiante)
+    //   .subscribe(data => {this.cursos = data});
   }
 
   /**
@@ -82,15 +96,17 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * @param curso 
    */
   getProfes(curso:Curso){
-    this.studentService.getProfesores(curso)
-    .subscribe(data => {this.profes = data});
+    this.profes = this.apiService.getProfesores(curso);
+    // this.studentService.getProfesores(curso)
+    // .subscribe(data => {this.profes = data});
   }
 
   /**
    * cierra la sesión del usuario. 
    */
   logout() {
-    this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.apiService.conmutarLogueado(this.usuarioActual);
+    //this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
   }
   Prof(profeActualCita:Profesor):void{
