@@ -4,10 +4,20 @@ ul.cursos * {
     padding: 0;
     border: 0;
 }
+.example-margin {
+    margin: 0 10px;
+  }
+
+.titulo3 {
+    font-family: 'Arial';
+    font-size: 20px;
+    color: rgb(255, 255, 255)
+}
 
 .titulo2 {
     font-family: 'Arial';
-    font-size: 20px;
+    font-size: 18px;
+    color: rgba(212, 212, 212, 0.849)
 }
 
 .container-fluid {
@@ -102,9 +112,9 @@ ul.cursos li {
 ul.cursos li a {
     display: block;
     padding: 10px 10px 10px 20px;
-    background: rgba(9, 115, 187, .95);
+    background: rgba(221, 221, 221, 0.76);
     margin-right: 0px;
-    color: #eee;
+    color: rgb(10, 10, 10);
     border-bottom: 1px solid #000;
     border-top: 1px solid #666;
     text-decoration: none;
@@ -142,6 +152,6 @@ ul.cursos li:target ul {
 }
 
 ul.cursos li a:hover {
-    background: rgb(207, 200, 200);
+    background: rgb(9, 115, 187, .95);
     color: #fff;
 }
