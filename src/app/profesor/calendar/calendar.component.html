@@ -1,0 +1,123 @@
+<br />
+<br />
+<div class="row text-center" id="monthBottoms">
+
+  <!--Son los tres botones que cambian entre el mes siguinete, el actual y al anterior.-->
+  <div class="col-md-4"> <!--Esto representa la disposición de los botónes, van a ser 3 y del mismo tamaño-->
+    <div class="btn-group">
+
+      <!--El btn-primary es la propiedad que hace que el botón se vea azul; por otro lado btn-outline-secondary es la propiedad
+          que hace que el botón se vea gris claro-->
+
+      <!--mwlCalendarPreviousView   es una función que representa el mes anterior al que se está actualmente-->
+      <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+        Mes Previo
+      </div>
+
+      <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate" >
+        Mes Actual
+      </div>
+
+      <div class="btn btn-primary" mwlCalendarNextView  [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+        Mes siguiente
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--Es el mes que se muestra, con el año, se recupera dla librería calendarío.-->
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+
+  <div class="col-md-4">
+    <div class="btn-group">
+
+      <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+        Mensual
+      </div>
+
+      <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+        Semanal
+      </div>
+
+      <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+        Diario
+      </div>
+
+    </div>
+  </div>
+
+</div>  <!--Aquí se termina la parte de las tres opciones de: adelantar o atrasar meses, mostar el mes y visualizar las citas por día, mes o semana-->
+
+
+<br />
+<div [ngSwitch]="view">
+
+  <!--Caso si la vista del calendario se va hacer por MES-->
+
+  <mwl-calendar-month-view
+    *ngSwitchCase="CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-month-view>
+
+  <!--Caso si la vista del calendario se va hacer por SEMANA-->
+
+  <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-week-view>
+
+  <!--Caso si la vista del calendario se va hacer por DIA-->
+
+  <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-day-view>
+</div>
+
+<!-- Abajo está el modal, que se va a tratar como otro componente, por lo que se va a tener que pasar.-->
+
+<br /><br /><br />
+
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event action occurred</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Action:
+      <pre>{{ modalData?.action }}</pre>
+    </div>
+    <div>
+      Event:
+      <pre>{{ modalData?.event | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
