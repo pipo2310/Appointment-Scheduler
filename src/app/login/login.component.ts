@@ -11,6 +11,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
+import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
 
@@ -22,7 +23,7 @@ import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
 
 export class LoginComponent implements OnInit {
 
-    constructor(private loginService: LoginService, private router: Router) { }
+    constructor(private loginService: LoginService, private apiService: ApiService, private router: Router) { }
   
     ngOnInit() {
     }
@@ -41,38 +42,52 @@ export class LoginComponent implements OnInit {
     else
     {
       if(username!=""|| password!=""){
-
-      // Llamada al servicio del api
-      let promesa = this.loginService.login(username, password).toPromise();
-   
-      promesa.then(res => {
-          // Obtiene el status de login que aparece en la respuesta
-          let logueado = res['logueado'];
-          if (logueado == 0) { // Se puede continuar con el login
-           // this.loginService.conmutarLogueado(res['cedula']).subscribe();
-            // Obtiene el rol que aparece en la respuesta
-            this.loginService.conmutarLogueado(res['cedula']).subscribe();
-            let rol = res['rol'];
-            if (rol == 1) { // Profesor
-              this.navegarAProfesor();
-            } else { // Estudiante
-              this.navegarAEstudiante();
-            }
-          }
-          else { // No se debe continuar con el login
-            elem2.textContent="";           
-            elem.setAttribute("style", "color:#E50E21");         
-            elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
-          
-          }
-        },
-        error => {
-          elem2.setAttribute("style", "color:#A20412");
-          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
-          elem.textContent=""; 
-
+        //Llamada al servicio del api
+      let cedula = this.apiService.login(username, password);
+      
+      if (cedula != null) {
+        let usuario = this.apiService.getUsuario(cedula);
+        if (cedula == '123456789') {
+          this.navegarAProfesor();
+        } else if (cedula == '000000000') {
+          this.navegarAEstudiante();
         }
-      );
+      } else {
+        elem2.setAttribute("style", "color:#A20412");
+        elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+        elem.textContent="";
+      }
+      // // Llamada al servicio del api
+      // let promesa = this.loginService.login(username, password).toPromise();
+   
+      // promesa.then(res => {
+      //     // Obtiene el status de login que aparece en la respuesta
+      //     let logueado = res['logueado'];
+      //     if (logueado == 0) { // Se puede continuar con el login
+      //      // this.loginService.conmutarLogueado(res['cedula']).subscribe();
+      //       // Obtiene el rol que aparece en la respuesta
+      //       this.loginService.conmutarLogueado(res['cedula']).subscribe();
+      //       let rol = res['rol'];
+      //       if (rol == 1) { // Profesor
+      //         this.navegarAProfesor();
+      //       } else { // Estudiante
+      //         this.navegarAEstudiante();
+      //       }
+      //     }
+      //     else { // No se debe continuar con el login
+      //       elem2.textContent="";           
+      //       elem.setAttribute("style", "color:#E50E21");         
+      //       elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
+          
+      //     }
+      //   },
+      //   error => {
+      //     elem2.setAttribute("style", "color:#A20412");
+      //     elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+      //     elem.textContent=""; 
+
+      //   }
+      // );
       }
     }
   }
