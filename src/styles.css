@@ -1,9 +1,11 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
-
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 body{
 margin: 0;
 }
-
+.primary{
+    background-color: chartreuse
+}
 
 
 

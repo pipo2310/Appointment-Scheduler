@@ -93,6 +93,8 @@ div hr {
     background-color: rgba(9, 115, 187, .95);
 }
 
+
+/*ver*/
 h2 {
     margin-inline-start: 20px;
     color: rgba(9, 115, 187, .95);
@@ -156,4 +158,20 @@ ul.cursos li:target ul {
 ul.cursos li a:hover {
     background: rgb(9, 115, 187, .95);
     color: #fff;
+}
+
+.container-fluid #btn1{
+    float: left;
+}
+
+.container-fluid #btn2{
+    float: left;
+}
+
+.container-fluid #btn3{
+    float: right;
+}
+
+.container-fluid .cursos .acordeon .panel{
+    background: rgba(9, 115, 187, .95);
 }

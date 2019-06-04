@@ -1,46 +1,48 @@
 <body>
+    <br>
     <div class="container-fluid">
+        
         <h2>
-            Citas
-            <button class="btn btn-secondary mr-2">Aceptar</button>
-            <button class="btn btn-danger">Cancelar</button>
+            Listado de citas
         </h2>
-        <ul class="cursos">
-            <ngb-accordion [closeOthers]="true" activeIds="">
-                <li *ngFor="let semana of semanas; let i = index">
+        
+        <br>
 
+        <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
+        <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
+        <button class="btn btn-outline-primary mr-2"(click)="rangos()" id="btn3">Definir Rangos</button>
+        
+        <br>
+        <br>
+        
+        <ul class="cursos">
+            <ngb-accordion class="acordeon" [closeOthers]="true" activeIds="">
+                <li *ngFor="let semana of semanas; let i = index">
                     <ngb-panel type="primary">
+                        
                         <ng-template ngbPanelTitle>
                             <span class="titulo2">Semana {{i+1}}: </span>
                             <span class="titulo3"> {{semana.diaInicio}} - {{semana.diaFinal}} </span>
-
-
                         </ng-template>
-
-
+                        
                         <ng-template ngbPanelContent>
-                <li *ngFor="let cita of citas">
-                    <a href="detalleCita">
-                        <label>
-                            <input type="checkbox" checked="">
-                        </label>
-                        <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
-                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
-
-
-
-                    </a>
-
-                </li>
-                </ng-template>
-                </ngb-panel>
-
+                            <li *ngFor="let cita of citas">
+                                <a href="detalleCita">
+                                    <label>
+                                        <input type="checkbox" checked="">
+                                    </label>
+                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
+                                    {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ngb-panel>
                 </li>
             </ngb-accordion>
         </ul>
     </div>
 
-
+<!---
     <button (click)="logout()">
 
         <a> Cerrar Sesión
@@ -54,4 +56,5 @@
         </a>
 
     </button>
+    -->
 </body>

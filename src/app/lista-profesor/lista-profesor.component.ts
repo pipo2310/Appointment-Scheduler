@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Profesor } from '../modelo/profesor';
 
 
+
 @Component({
   selector: 'app-lista-profesor',
   templateUrl: './lista-profesor.component.html',

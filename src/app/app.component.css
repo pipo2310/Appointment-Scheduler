@@ -1,0 +1,23 @@
+.bg-custom {
+    background: rgba(9, 115, 187, .95);
+  }
+  
+  .bg-custom .navbar-brand {
+    text-align: center;
+    padding-left: 20px;
+    color:#ffff;
+    font-size:30px;
+    font-weight: bold;
+  }
+  
+  .bg-custom .navbar-brand, .collapse{
+    display: inline-block;
+  }
+  
+  .collapse{
+    float: right;
+    color: #ffff;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
