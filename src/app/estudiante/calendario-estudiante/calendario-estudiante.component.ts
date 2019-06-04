@@ -28,6 +28,7 @@ import { Profesor } from '../../modelo/profesor';
 import { Estudiante } from '../../modelo/estudiante';
 //import {MatDialogModule} from '@angular/material/dialog';
 import{CalendarioService} from '../../services/calendario-service.service';
+import { viewAttached } from '@angular/core/src/render3/instructions';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
@@ -57,17 +58,21 @@ const colors: any = {
 
 
 export class CalendarioEstudianteComponent implements OnInit {
-  ProfeCita:Profesor;
-  EstudianteCita: Estudiante;
+  profeCita:Profesor;
+  estudianteCita: Estudiante;
 
   listaProfes: Array<Date> = new Array<Date>();
   listaEstudiantes: Array<Date> = new Array<Date>();
+  dat: Array<Date> = new Array<Date>();
+  da:Date;
+  diaInicio:Date;
+  diaFin:Date;
       
   constructor( private calendarService: CalendarioService,private modalService: NgbModal) { 
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
-    this. ProfeCita = {
+    this. profeCita = {
       cedula: parsed['cedula'],
       email: parsed['email'],
       nombre: parsed['nombre'],
@@ -77,7 +82,7 @@ export class CalendarioEstudianteComponent implements OnInit {
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
     parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un estudiante
-    this.EstudianteCita = {
+    this.estudianteCita = {
       cedula: parsed['cedula'],
       email: parsed['email'],
       nombre: parsed['nombre'],
@@ -95,14 +100,23 @@ export class CalendarioEstudianteComponent implements OnInit {
   }
  
 //  constructor(private modal: NgbModal) { }
-dat: Array<Date> = new Array<Date>();
-da:Date;
+
   ngOnInit() {
+   
     this.da = new Date(2019, 4, 31);
     this.dat.push(this.da);
     this.da = new Date(2019, 4, 30);
     this.dat.push(this.da);
-    this.recorrefechas();
+    this.da = new Date(2019, 5, 3);
+    this.dat.push(this.da);
+    
+    var date = new Date();
+    var primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    this.diaInicio = new Date(primerDia.getFullYear(), +primerDia.getMonth(), primerDia.getDate());
+    this.diaFin = new Date(primerDia.getFullYear(), +primerDia.getMonth(), ultimoDia.getDate());
+      //this.listaProfes=getFechasDisponiblesProfesor(this.profeCita,diaInicio,diaFin);
+      //this.listaEstudiantes= getDiasAgendadosEstudiante(this.profeCita,diaInicio,diaFin)
 
   }
   
@@ -165,6 +179,11 @@ da:Date;
   }
    
    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content){
+    for(var i=0;i<this.dat.length;i++){
+      if(date==this.dat[i]){
+        this.val=true;
+       return this.val;
+      }}
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -172,11 +191,7 @@ da:Date;
     });
 
 
-  for(var i=0;i<this.dat.length;i++){
-    if(date==this.dat[i]){
-      this.val=true;
-     return this.val;
-    }}
+
 return this.val;
 
 

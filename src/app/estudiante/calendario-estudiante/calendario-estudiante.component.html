@@ -3,6 +3,9 @@
 <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.css" rel="stylesheet">
 <link href="https://unpkg.com/angular-calendar@0.27.8/css/angular-calendar.css" rel="stylesheet">
 <link href="https://unpkg.com/flatpickr@4.5.7/dist/flatpickr.css" rel="stylesheet">
+
+     
+    
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">
@@ -86,15 +89,19 @@
   
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <h4 class="modal-title" id="modal-basic-title">Slots</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
   
-  </div>
+      <div *ngFor="let fecha of dat" class="botonList">
+      
+    <button type="button" class="btn btn-outline-dark"  (click)="modal.close('Save click')">{{fecha}}</button>
+  
+      </div>
+  
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+
   </div>
 </ng-template>

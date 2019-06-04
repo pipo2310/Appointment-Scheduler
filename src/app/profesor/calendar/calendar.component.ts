@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
 
-  //La varibale events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
+  //La variable events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
   events: CalendarEvent[] = [
     {
       start: subDays(startOfDay(new Date()), 1),

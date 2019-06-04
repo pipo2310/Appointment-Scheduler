@@ -94,7 +94,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     this.router.navigate(['login']);
   }
   Prof(profeActualCita:Profesor):void{
-    window.alert(profeActualCita.cedula+profeActualCita.nombre)
     localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
     this.router.navigate(['CalendarioEst'])
   }
