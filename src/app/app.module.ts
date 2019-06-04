@@ -27,6 +27,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 import { CitaComponent } from './cita/cita.component';
+import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CitaComponent } from './cita/cita.component';
     EstudianteComponent,
     ProfesorComponent,
     ListaProfesorComponent,
-    CitaComponent
+    CitaComponent,
+    AgregarRangoComponent
   ],
   imports: [
     CommonModule,

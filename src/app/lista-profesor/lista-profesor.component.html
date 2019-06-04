@@ -1,36 +1,9 @@
-<header>
-  
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <a class="navbar-brand" href="login">U-Meeter</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExample04">
-        <ul class="navbar-nav mr-auto">
-            <!-- <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>-->
-
-        </ul>
-        <form class="nav-item dropdown" ngbDropdown>
-            <a class="nav-link dropdown-toggle" id="dropdown04" ngbDropdownToggle>Dropdown</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown04" ngbDropdownMenu>
-                <button ngbDropdownItem (click)="logout()">Logout</button>
-            </div>
-        </form>
-    </div>
-</nav>
-
-</header>
-
 <body>
     <div class="container-fluid">
         <h2>
             Citas
+            <button class="btn btn-secondary mr-2">Aceptar</button>
+            <button class="btn btn-danger">Cancelar</button>
         </h2>
         <ul class="cursos">
             <ngb-accordion [closeOthers]="true" activeIds="">
@@ -41,33 +14,44 @@
                             <span class="titulo2">Semana {{i+1}}: </span>
                             <span class="titulo3"> {{semana.diaInicio}} - {{semana.diaFinal}} </span>
 
+
                         </ng-template>
-                        
+
 
                         <ng-template ngbPanelContent>
-                            <li *ngFor="let cita of citas">
-                                <a href="detalleCita">
-                                   
-                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} - {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}  
-                                    <label>
-                                            <input type="checkbox" checked="unchecked"> Aceptar
-                                    </label>
-                                          
-                                    
-                                </a>
+                <li *ngFor="let cita of citas">
+                    <a href="detalleCita">
+                        <label>
+                            <input type="checkbox" checked="">
+                        </label>
+                        <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
+                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
 
-                            </li>
-                        </ng-template>
-                    </ngb-panel>
+
+
+                    </a>
+
+                </li>
+                </ng-template>
+                </ngb-panel>
 
                 </li>
             </ngb-accordion>
         </ul>
     </div>
+
+
     <button (click)="logout()">
-        
-            <a> Cerrar Sesión
-            </a>
-          
-          </button>
+
+        <a> Cerrar Sesión
+        </a>
+
+    </button>
+
+    <button (click)="rangos()">
+
+        <a> Definir Rangos
+        </a>
+
+    </button>
 </body>

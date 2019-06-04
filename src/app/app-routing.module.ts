@@ -19,6 +19,7 @@ import { EstudianteComponent } from './estudiante/estudiante.component';
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import {ListaProfesorComponent} from './lista-profesor/lista-profesor.component'
 import { CitaComponent } from './cita/cita.component';
+import{AgregarRangoComponent} from  './agregar-rango/agregar-rango.component'
 
 
 //lista de rutas de cada una de las "pantallas".
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'homeProfesor', component: ProfesorComponent },
   { path: 'vistaLista', component: ListaProfesorComponent},
   { path: 'detalleCita', component: CitaComponent},
+  {path: 'definirRango',component: AgregarRangoComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 

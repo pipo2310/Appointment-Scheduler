@@ -14,6 +14,7 @@ import { Profesor } from '../modelo/profesor';
 export class ListaProfesorComponent implements OnInit {
   semanas = SEMANAS;
   citas = CITAS;
+  
   usuarioActual: Profesor;
   constructor(private profesorService: ProfesorService,private router: Router) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -33,6 +34,10 @@ export class ListaProfesorComponent implements OnInit {
   logout() {
     this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
    this.router.navigate(['login']);
+  }
+
+  rangos(){
+    this.router.navigate(['definirRango']);
   }
   
 

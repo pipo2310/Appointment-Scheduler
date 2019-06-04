@@ -13,6 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Profesor } from 'src/app/modelo/profesor';
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-profesor',
   templateUrl: './profesor.component.html',

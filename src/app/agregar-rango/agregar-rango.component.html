@@ -1,0 +1,116 @@
+<body>
+
+  <div class="border border-primary mt-3 container d-flex justify-content-center">
+    <div class="w-50">
+      <div class="card 300 mb-1 mt-1 p-2">
+        <h3 class="text-center"> Agregar rango de consulta <br></h3>
+
+
+
+
+
+
+        <div class="row">
+          <div class="col-sm-4 text-center">
+              <label><b>Hora de inicio</b></label>
+            <ngb-timepicker [(ngModel)]="time" [seconds]="false" [minuteStep]=15 id="piker1"></ngb-timepicker>
+            
+          </div>
+          <div class="col-sm-4">
+
+          </div>
+          <div class="col-sm-4 text-center">
+              <label><b>Hora final</b></label>
+            <ngb-timepicker [(ngModel)]="time2" [seconds]="false" [minuteStep]=15 id="piker2"></ngb-timepicker>
+           
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-sm-3 text-center">
+              <label><b>Fecha de inicio</b></label>
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+                    #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          </div>
+          <div class="col-sm-3">
+
+          </div>
+          <div class="col-sm-3 text-center">
+              <label><b>Fecha final</b></label>
+            <form class="form-inline">
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+                    #d="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-sm-2">
+            <label><b>Lugar</b></label>
+            <input type="text" #lugar name="lugar" placeholder="Ingrese el lugar" required id="lbl">
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-6">
+              <label><b>Seleccione los dias</b></label>   
+        <div class="weekDays-selector">
+            <input type="checkbox" id="weekday-mon" class="weekday" />
+            <label for="weekday-mon">L</label>
+            <input type="checkbox" id="weekday-tue" class="weekday" />
+            <label for="weekday-tue">M</label>
+            <input type="checkbox" id="weekday-wed" class="weekday" />
+            <label for="weekday-wed">K</label>
+            <input type="checkbox" id="weekday-thu" class="weekday" />
+            <label for="weekday-thu">J</label>
+            <input type="checkbox" id="weekday-fri" class="weekday" />
+            <label for="weekday-fri">V</label>
+            
+  
+          </div>
+
+          </div>
+
+        </div>
+ 
+      
+      </div>
+      <div class="w-100 p-2 d-flex justify-content-center">
+        <button class="btn btn-primary mr-2">Agregar</button>
+
+      </div>
+      <div class="card p-2">
+        <h3 class="text-center"> Modificar <br></h3>
+        <span class="texto">Nombre: </span><br>
+        <span class="texto">Carné:</span> <br>
+        <span class="texto"> Curso:</span><br>
+        <span class="texto">Grupo: </span><br>
+      </div>
+      <div class="w-100 p-2 d-flex justify-content-center">
+        <button class="btn btn-primary mr-2">Aceptar</button>
+        <button class="btn btn-danger">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>

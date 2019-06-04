@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit {
    */
   navegarAProfesor() {
     this.router.navigate(['homeProfesor']);
+  
   }
 
   /**

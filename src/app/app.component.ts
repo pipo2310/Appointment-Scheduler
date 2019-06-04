@@ -15,6 +15,7 @@ import { ProfesorService } from '../app/services/profesor.service';
 import { Estudiante } from '../app/modelo/estudiante'
 import { Router } from '@angular/router';
 import { Profesor } from './modelo/profesor';
+import { Usuario } from './modelo/usuario';
 
 @Component({
   selector: 'app-root',
@@ -26,90 +27,111 @@ export class AppComponent {
 
   usuarioActualEst: Estudiante;
   usuarioActualProf: Profesor;
+  usuarioActual: Usuario;
+  estaLogueado:boolean;
+
 
   constructor(private studentService: EstudianteService, private profesorService: ProfesorService, private router: Router) {
     try {
+      this.estaLogueado=true;
+     
+
       //this.beforeUnloadHander(event);
       //this.unloadHandler(event);
     } catch (Exception) { }
 
 
   }
-/*
-  @HostListener('window:unload', ['$event'])
-  unloadHandler(event) {
-    let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-    if (localStorage.getItem('usuarioActual').search('carne') > 0) {
-      if (parsed) {
-        this.usuarioActualEst = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido'],
-          carne: parsed['carne']
+  /*
+    @HostListener('window:unload', ['$event'])
+    unloadHandler(event) {
+      let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+      if (localStorage.getItem('usuarioActual').search('carne') > 0) {
+        if (parsed) {
+          this.usuarioActualEst = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido'],
+            carne: parsed['carne']
+          }
+          //console.log(this.usuarioActualEst)
+          this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
         }
-        //console.log(this.usuarioActualEst)
-        this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
-        localStorage.removeItem('usuarioActual');
-        this.router.navigate(['login']);
-      }
-    } else {
-      if (parsed) {
-        this.usuarioActualProf = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido']
+      } else {
+        if (parsed) {
+          this.usuarioActualProf = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido']
+          }
+          //console.log(this.usuarioActualProf)
+          this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
         }
-        //console.log(this.usuarioActualProf)
-        this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
-        localStorage.removeItem('usuarioActual');
-        this.router.navigate(['login']);
-      }
-    }
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHander(event) {
-    let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-    if (localStorage.getItem('usuarioActual').search('carne') > 0) {
-      if (parsed) {
-        this.usuarioActualEst = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido'],
-          carne: parsed['carne']
-        }
-        //console.log(this.usuarioActualEst)
-        this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
-        localStorage.removeItem('usuarioActual');
-        this.router.navigate(['login']);
-      }
-    } else {
-      if (parsed) {
-        this.usuarioActualProf = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido']
-        }
-        //console.log(this.usuarioActualProf)
-        this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
-        localStorage.removeItem('usuarioActual');
-        this.router.navigate(['login']);
       }
     }
-  }
-  */
+  
+    @HostListener('window:beforeunload', ['$event'])
+    beforeUnloadHander(event) {
+      let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+      if (localStorage.getItem('usuarioActual').search('carne') > 0) {
+        if (parsed) {
+          this.usuarioActualEst = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido'],
+            carne: parsed['carne']
+          }
+          //console.log(this.usuarioActualEst)
+          this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      } else {
+        if (parsed) {
+          this.usuarioActualProf = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido']
+          }
+          //console.log(this.usuarioActualProf)
+          this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      }
+    }
+    */
   title = 'U-Meeter';
 
 
+getUsuarioActual(){
+  let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+  if (parsed) {
+    this.usuarioActual = {
+      cedula: parsed['cedula'],
+      email: parsed['email'],
+      nombre: parsed['nombre'],
+      primerApellido: parsed['primerApellido'],
+      segundoApellido: parsed['segundoApellido']
+    }
 
+  }
+  this.estaLogueado=true;
+  return this.usuarioActual;
+  
+}
   // getUser(){
   //  return localStorage.getItem('usuarioActual');
   //}
