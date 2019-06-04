@@ -13,6 +13,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Profesor } from 'src/app/modelo/profesor';
 import { ProfesorService } from 'src/app/services/profesor.service';
 import { Router } from '@angular/router';
+import {CalendarComponent} from 'src/app/profesor/calendar/calendar.component';
 @Component({
   selector: 'app-profesor',
   templateUrl: './profesor.component.html',
@@ -20,7 +21,7 @@ import { Router } from '@angular/router';
 })
 export class ProfesorComponent implements OnInit, OnDestroy {
     usuarioActual: Profesor;
-  
+
     constructor(private profesorService: ProfesorService,private router: Router) {
       // Extrae la información del usuario guardada en el almacenamiento local por el login service
       let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -34,7 +35,7 @@ export class ProfesorComponent implements OnInit, OnDestroy {
       };
     }
 
-  
+
     ngOnInit() {
     }
 
@@ -49,13 +50,12 @@ export class ProfesorComponent implements OnInit, OnDestroy {
       this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
       this.router.navigate(['login']);
     }
-    
+
     vistaCalend(){
       console.log('vista calendario')
     }
-  
+
     vistaList(){
       this.router.navigate(['vistaLista'])
     }
   }
-
