@@ -13,7 +13,9 @@ ul.cursos * {
     font-size: 20px;
     color: rgb(255, 255, 255)
 }
-
+.texto{
+    color: #fff
+}
 
 
 .titulo2 {
@@ -24,6 +26,7 @@ ul.cursos * {
 
 .container-fluid {
     background-color: #fff;
+    
     
 }
 
@@ -217,19 +220,23 @@ ul.cursos li a:hover {
     background-color: #fff
 }
 .col-sm-3 {
-    background-color: #fff ;
+    background-color: transparent ;
     
     background-image: radial-gradient( rgb(9, 115, 187, .95), white)
     
 }
 .card{
-    background-color: #fff;
+    display: block;
+    margin: auto !important;
+    background-color: rgb(255, 255, 255);
     outline-color:  rgb(9, 115, 187, .95);
     outline-style: auto;
-    float: center;
+    
+    
+    
 }
 .card-body{
-    background-color: #fff
+    background-color:  rgb(9, 115, 187, .95)
 }
 .botones{
     background-color: #fff;
