@@ -29,6 +29,7 @@ import { Estudiante } from '../../modelo/estudiante';
 //import {MatDialogModule} from '@angular/material/dialog';
 import{CalendarService} from '../../services/calendario-service.service';
 import { viewAttached, element } from '@angular/core/src/render3/instructions';
+import { stringify } from '@angular/compiler/src/util';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
@@ -66,8 +67,8 @@ export class CalendarioEstudianteComponent implements OnInit {
   diaFin:Date;
   primerDia:Date;
   ultimoDia:Date;
-  fechas:Date[];
-  fechasString:String[];
+  fechas:Array<Date> = new Array<Date>();
+  fechasString:Object[];
       
   constructor( private calendarService: CalendarService,private modalService: NgbModal) { 
 
@@ -282,16 +283,22 @@ return this.val;
 
    getHorarioDispProfe(){
      this.calendarService.getHorarioDispProfe(/*this.profeCita.cedula*/ "999887777", this.primerDia.toISOString(),this.ultimoDia.toISOString())
-     .subscribe(data => { 
-        /*this.fechasString.forEach(element =>{
-          this.fechas.push(new Date(element.toString()));
-          console.log(this.fechas);
-        })*/
-        
+     .subscribe(data => { this.fechasString = data,
+        this.fechasString.forEach(element =>{
+          //let n = this.parseISOString(element);
+          this.fechas.push(new Date(element["fecha"]));
+          //console.log(element["fecha"]);
+        })
      });
+     console.log(this.fechas);
     /*for(let f of fechasString){
       console.log(f);
     }*/
    }
+
+   parseISOString(s:string) {
+    let b = s.split(/\D+/);
+    return new Date(Number(b[0]), Number(b[1]) -1, Number(b[2]));
+  }
  
 }

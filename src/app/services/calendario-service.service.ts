@@ -45,7 +45,7 @@ export class CalendarService {
     diaFin: fechaFinal})
       .pipe(tap(res => {
         fechas =  res;
-        console.log("fechas:", fechas);
+        //console.log("fechas:", fechas);
       }));
   }
 }
