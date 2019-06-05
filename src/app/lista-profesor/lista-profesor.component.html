@@ -1,48 +1,71 @@
 <body>
     <br>
     <div class="container-fluid">
-        
+
         <h2>
             Listado de citas
         </h2>
-        
+
         <br>
 
         <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
         <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
-        <button class="btn btn-outline-primary mr-2"(click)="rangos()" id="btn3">Definir Rangos</button>
-        
+        <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar disponibilidad</button>
+
         <br>
         <br>
-        
+
         <ul class="cursos">
-            <ngb-accordion class="acordeon" [closeOthers]="true" activeIds="">
-                <li *ngFor="let semana of semanas; let i = index">
-                    <ngb-panel type="primary">
-                        
-                        <ng-template ngbPanelTitle>
-                            <span class="titulo2">Semana {{i+1}}: </span>
-                            <span class="titulo3"> {{semana.diaInicio}} - {{semana.diaFinal}} </span>
+            <div class="row">
+                <div class="col-sm-9">
+                    <ngb-accordion class="acordeon" [closeOthers]="true" activeIds="">
+                        <li *ngFor="let semana of semanas; let i = index">
+                            <ngb-panel type="primary">
+
+                                <ng-template ngbPanelTitle>
+                                    <span class="titulo2">Semana {{i+1}}: </span>
+                                    <span class="titulo3"> {{semana.diaInicio}} - {{semana.diaFinal}} </span>
+                                </ng-template>
+
+                                <ng-template ngbPanelContent>
+                        <li *ngFor="let cita of citas">
+                            <a href="detalleCita">
+                                <label>
+                                    <input type="checkbox" checked="">
+                                </label>
+                                <span
+                                    class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
+                                -
+                                {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                            </a>
+                        </li>
                         </ng-template>
-                        
-                        <ng-template ngbPanelContent>
-                            <li *ngFor="let cita of citas">
-                                <a href="detalleCita">
-                                    <label>
-                                        <input type="checkbox" checked="">
-                                    </label>
-                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} -
-                                    {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
-                                </a>
-                            </li>
-                        </ng-template>
-                    </ngb-panel>
-                </li>
-            </ngb-accordion>
+                        </ngb-panel>
+                        </li>
+                    </ngb-accordion>
+                </div>
+
+                <div class="col-sm-3 ">
+                    <div class="card align-items-center" style="width: 18rem">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Informacion</h5>
+                            <br>
+                            <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
+                            <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
+                            <br>
+                            <br>
+                            <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar
+                                disponibilidad</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
         </ul>
     </div>
 
-<!---
+    <!---
     <button (click)="logout()">
 
         <a> Cerrar Sesión

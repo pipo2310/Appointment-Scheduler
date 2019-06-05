@@ -47,7 +47,7 @@ div .buton li {
   z-index: 90px;
   display: none;
 }
-div .buton{
+div .col-sm-3 .buton{
   background:url("https://img.icons8.com/material-rounded/48/000000/gender-neutral-user.png");
   margin-left: 10px;
   margin-right: 90px;

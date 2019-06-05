@@ -70,8 +70,8 @@ div .buton li {
     z-index: 90px;
     display: none;
 }
-
-div .buton {
+/*
+div ..buton {
     background: url("https://img.icons8.com/material-rounded/48/000000/gender-neutral-user.png");
     margin-left: 10px;
     margin-right: 90px;
@@ -81,7 +81,7 @@ div .buton {
     font-family: Arial;
     width: 50px;
 }
-
+*/
 div h1 {
     margin-inline-start: 15px;
     color: rgba(9, 115, 187, .95);
@@ -159,7 +159,7 @@ ul.cursos li a:hover {
     background: rgb(9, 115, 187, .95);
     color: #fff;
 }
-
+/*
 .container-fluid #btn1{
     float: left;
 }
@@ -167,11 +167,63 @@ ul.cursos li a:hover {
 .container-fluid #btn2{
     float: left;
 }
+*/
 
-.container-fluid #btn3{
+.container-fluid .col-sm-3 #btn1{
+    margin-right: 25px;
+    margin-left: 10px;
+    outline-color: rgb(9, 115, 187, .95);;
+    outline-style: auto;
+    outline-width: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+   
+}
+
+.container-fluid .col-sm-3 #btn2{
+    margin-right: 15px;
+    margin-left: 25px;
+    outline-color: rgb(9, 115, 187, .95);;
+    outline-style: auto;
+    outline-width: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.container-fluid .col-sm-3 #btn3{
+    float: left;
+    outline-color: rgb(9, 115, 187, .95);
+    outline-style: auto;
+    outline-width: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+
+
+.row {
+    background-color: #fff
+}
+.col-sm-3 {
+    background-color: #fff 
+}
+.card{
+    background-color: #fff;
+    outline-color:  rgb(9, 115, 187, .95);
+    outline-style: auto;
     float: right;
 }
+.card-body{
+    background-color: #fff
+}
 
+/*
 .container-fluid .cursos .acordeon .panel{
     background: rgba(9, 115, 187, .95);
-}
+}*/
