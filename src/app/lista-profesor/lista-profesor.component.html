@@ -7,15 +7,20 @@
         </h2>
 
         <br>
+        <div class="botones">
+                <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
+                <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
+                <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar disponibilidad</button>
+        </div>
 
-        <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
-        <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
-        <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar disponibilidad</button>
+       
 
         <br>
         <br>
 
         <ul class="cursos">
+
+        
             <div class="row">
                 <div class="col-sm-9">
                     <ngb-accordion class="acordeon" [closeOthers]="true" activeIds="">
@@ -46,6 +51,7 @@
                 </div>
 
                 <div class="col-sm-3 ">
+                    <!--
                     <div class="card align-items-center" style="width: 18rem">
                         <div class="card-body">
                             <h5 class="card-title text-center">Informacion</h5>
@@ -58,6 +64,7 @@
                                 disponibilidad</button>
                         </div>
                     </div>
+                    -->
                     
                 </div>
             </div>

@@ -204,6 +204,11 @@ ul.cursos li a:hover {
     padding-right: 5px;
     padding-bottom: 5px;
 }
+.container-fluid #btn3{
+    margin-left: 49.5%
+     
+    
+}
 
 
 
@@ -221,6 +226,10 @@ ul.cursos li a:hover {
 }
 .card-body{
     background-color: #fff
+}
+.botones{
+    background-color: #fff;
+    display: inline
 }
 
 /*
