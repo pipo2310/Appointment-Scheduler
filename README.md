@@ -32,3 +32,4 @@ npm install --save-dev @angular-devkit/build-angular
 npm install --save bootstrap jquery
 sudo npm install --save @ng-bootstrap/ng-bootstrap
 npm install --save flatpickr angularx-flatpickr
+npm install @angular/animations

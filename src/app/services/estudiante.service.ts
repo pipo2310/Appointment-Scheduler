@@ -28,8 +28,9 @@ const httpOptions = {
 
 export class EstudianteService {
   //conexión a la base de datos
-  PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
-  
+  //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
+  NODE_API_SERVER = "http://localhost:3000";
+
   constructor(private httpClient : HttpClient) { }
 
   /**
@@ -38,12 +39,13 @@ export class EstudianteService {
    */
   getCursos(estudiante:Estudiante): Observable<Curso[]>{
     let cursos:Curso[];
-    return this.httpClient.post<Curso[]>(`${this.PHP_API_SERVER}/cursosEst.php`,{
-    cedula: estudiante.cedula}, httpOptions)
+    return this.httpClient.post<Curso[]>(`${this.NODE_API_SERVER}/cursosEst`,{
+    cedula: estudiante.cedula})
       .pipe(tap(res => {
-        cursos =  res["cursos"];
+        cursos =  res;
       }));
   }
+
 
   /**
    * devuelve la lista de profesores que imparten el curso.
@@ -51,10 +53,10 @@ export class EstudianteService {
    */
   public getProfesores(curso : Curso) {
     let profesores:Profesor[];
-    return this.httpClient.post<any>(`${this.PHP_API_SERVER}/profCurso.php`, {
-      sigla: curso.sigla }, httpOptions)
+    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/profCurso`, {
+      sigla: curso.sigla })
     .pipe(tap(res => {
-      profesores = res["profesores"];
+      profesores = res;
     }));
   }
 
@@ -63,7 +65,7 @@ export class EstudianteService {
    * @param estudiante 
    */
   public conmutarLogueado(estudiante:Estudiante) {
-    return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
-    {cedula: estudiante.cedula}, httpOptions);
+    return this.httpClient.post(`${this.NODE_API_SERVER}/logeado`,
+    {"cedula": estudiante.cedula});
   }
 }

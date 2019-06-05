@@ -27,8 +27,8 @@ import { MaxLengthValidator } from '@angular/forms';
 import { Profesor } from '../../modelo/profesor';
 import { Estudiante } from '../../modelo/estudiante';
 //import {MatDialogModule} from '@angular/material/dialog';
-import{CalendarioService} from '../../services/calendario-service.service';
-import { viewAttached } from '@angular/core/src/render3/instructions';
+import{CalendarService} from '../../services/calendario-service.service';
+import { viewAttached, element } from '@angular/core/src/render3/instructions';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
@@ -51,10 +51,7 @@ const colors: any = {
   templateUrl: './calendario-estudiante.component.html',
   styleUrls: ['./calendario-estudiante.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  
-  
 })
-
 
 
 export class CalendarioEstudianteComponent implements OnInit {
@@ -67,8 +64,14 @@ export class CalendarioEstudianteComponent implements OnInit {
   da:Date;
   diaInicio:Date;
   diaFin:Date;
+  primerDia:Date;
+  ultimoDia:Date;
+  fechas:Date[];
+  fechasString:String[];
       
-  constructor( private calendarService: CalendarioService,private modalService: NgbModal) { 
+  constructor( private calendarService: CalendarService,private modalService: NgbModal) { 
+
+    //this.fechas = new Date[0]();
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
@@ -91,12 +94,10 @@ export class CalendarioEstudianteComponent implements OnInit {
       carne: parsed['carne']
     };
 
-
     //Llamar ambos metodos del servicio aqui
-   // this.listaProfes = 
+    //this.listaProfes = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
+    //let horario = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //this.listaEstudiantes = 
-
-    
   }
  
 //  constructor(private modal: NgbModal) { }
@@ -111,10 +112,13 @@ export class CalendarioEstudianteComponent implements OnInit {
     this.dat.push(this.da);
     
     var date = new Date();
-    var primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
-    var ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    this.diaInicio = new Date(primerDia.getFullYear(), +primerDia.getMonth(), primerDia.getDate());
-    this.diaFin = new Date(primerDia.getFullYear(), +primerDia.getMonth(), ultimoDia.getDate());
+    this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    console.log("primerdia", this.primerDia.toISOString());
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    console.log("ultimoDIA", this.ultimoDia.toISOString());
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(),this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    this.getHorarioDispProfe();
       //this.listaProfes=getFechasDisponiblesProfesor(this.profeCita,diaInicio,diaFin);
       //this.listaEstudiantes= getDiasAgendadosEstudiante(this.profeCita,diaInicio,diaFin)
 
@@ -190,18 +194,7 @@ export class CalendarioEstudianteComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
 
-
-
 return this.val;
-
-
-
-
-
-
-
-
-
      /*if (isSameMonth(date, this.viewDate)) {
        this.viewDate = date;
        if (
@@ -253,9 +246,6 @@ return this.val;
   
     this.addEvent(this.listaProfes[i]);
     }
-
-
-
  }
  
    addEvent(fecha:Date): void {
@@ -289,7 +279,19 @@ return this.val;
    closeOpenMonthViewDay() {
      this.activeDayIsOpen = false;
    }
- 
- 
 
+   getHorarioDispProfe(){
+     this.calendarService.getHorarioDispProfe(/*this.profeCita.cedula*/ "999887777", this.primerDia.toISOString(),this.ultimoDia.toISOString())
+     .subscribe(data => { 
+        /*this.fechasString.forEach(element =>{
+          this.fechas.push(new Date(element.toString()));
+          console.log(this.fechas);
+        })*/
+        
+     });
+    /*for(let f of fechasString){
+      console.log(f);
+    }*/
+   }
+ 
 }

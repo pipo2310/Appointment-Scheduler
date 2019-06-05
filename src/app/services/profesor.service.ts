@@ -22,7 +22,8 @@ const httpOptions = {
 })
 export class ProfesorService {
   //conexión a la base de datos
-  PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
+  NODE_API_SERVER = "http://localhost:3000";
+  //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
   
   constructor(private httpClient : HttpClient) { }
 
@@ -31,7 +32,7 @@ export class ProfesorService {
    * @param profesor 
    */
   public conmutarLogueado(profesor: Profesor) {
-    return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
-    {cedula: profesor.cedula}, httpOptions);
+    return this.httpClient.post(`${this.NODE_API_SERVER}/logeado`,
+    {"cedula": profesor.cedula});
   }
 }

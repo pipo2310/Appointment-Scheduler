@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
     {
       if(username!=""|| password!=""){
         //Llamada al servicio del api
-      let cedula = this.apiService.login(username, password);
+        /*let cedula = this.apiService.login(username, password);
       
       if (cedula != null) {
         let usuario = this.apiService.getUsuario(cedula);
@@ -56,38 +56,38 @@ export class LoginComponent implements OnInit {
         elem2.setAttribute("style", "color:#A20412");
         elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
         elem.textContent="";
-      }
-      // // Llamada al servicio del api
-      // let promesa = this.loginService.login(username, password).toPromise();
+      }*/
+      //Llamada al servicio del api
+      let promesa = this.loginService.login(username, password).toPromise();
    
-      // promesa.then(res => {
-      //     // Obtiene el status de login que aparece en la respuesta
-      //     let logueado = res['logueado'];
-      //     if (logueado == 0) { // Se puede continuar con el login
-      //      // this.loginService.conmutarLogueado(res['cedula']).subscribe();
-      //       // Obtiene el rol que aparece en la respuesta
-      //       this.loginService.conmutarLogueado(res['cedula']).subscribe();
-      //       let rol = res['rol'];
-      //       if (rol == 1) { // Profesor
-      //         this.navegarAProfesor();
-      //       } else { // Estudiante
-      //         this.navegarAEstudiante();
-      //       }
-      //     }
-      //     else { // No se debe continuar con el login
-      //       elem2.textContent="";           
-      //       elem.setAttribute("style", "color:#E50E21");         
-      //       elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
+      promesa.then(res => {
+          // Obtiene el status de login que aparece en la respuesta
+          let logueado = res['logueado'];
+          if (logueado == 0) { // Se puede continuar con el login
+           // this.loginService.conmutarLogueado(res['cedula']).subscribe();
+            // Obtiene el rol que aparece en la respuesta
+            this.loginService.conmutarLogueado(res['cedula']).subscribe();
+            let rol = res['rol'];
+            if (rol == 1) { // Profesor
+              this.navegarAProfesor();
+            } else { // Estudiante
+              this.navegarAEstudiante();
+            }
+          }
+          else { // No se debe continuar con el login
+            elem2.textContent="";           
+            elem.setAttribute("style", "color:#E50E21");         
+            elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
           
-      //     }
-      //   },
-      //   error => {
-      //     elem2.setAttribute("style", "color:#A20412");
-      //     elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
-      //     elem.textContent=""; 
+          }
+        },
+        error => {
+          elem2.setAttribute("style", "color:#A20412");
+          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+          elem.textContent=""; 
 
-      //   }
-      // );
+        }
+      );
       }
     }
   }

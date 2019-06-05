@@ -16,6 +16,7 @@ import { ApiService } from '../api.service';
 import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home-estudiante',
   host:{'window:beforeunload':'this.logout'},
@@ -71,9 +72,8 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * @param estudiante 
    */
   getCursos(estudiante:Estudiante){
-    this.cursos = this.apiService.getCursos(estudiante);
-    // this.studentService.getCursos(estudiante)
-    //   .subscribe(data => {this.cursos = data});
+    //this.cursos = this.apiService.getCursos(estudiante);
+    this.studentService.getCursos(estudiante).subscribe(data => {this.cursos = data});
   }
 
   /**
@@ -81,19 +81,19 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * @param curso 
    */
   getProfes(curso:Curso){
-    this.profes = this.apiService.getProfesores(curso);
-    // this.studentService.getProfesores(curso)
-    // .subscribe(data => {this.profes = data});
+    //this.profes = this.apiService.getProfesores(curso);
+    this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
   }
 
   /**
    * cierra la sesión del usuario. 
    */
   logout() {
-    this.apiService.conmutarLogueado(this.usuarioActual);
-    //this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
-    this.router.navigate(['login']);
+    //this.apiService.conmutarLogueado(this.usuarioActual);
+    this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    //this.router.navigate(['login']);
   }
+  
   Prof(profeActualCita:Profesor):void{
     localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
     this.router.navigate(['CalendarioEst'])
