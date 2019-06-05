@@ -23,7 +23,8 @@ ul.cursos * {
 }
 
 .container-fluid {
-    background-color: #fff
+    background-color: #fff;
+    
 }
 
 .buton:hover {
@@ -216,13 +217,16 @@ ul.cursos li a:hover {
     background-color: #fff
 }
 .col-sm-3 {
-    background-color: #fff 
+    background-color: #fff ;
+    
+    background-image: radial-gradient( rgb(9, 115, 187, .95), white)
+    
 }
 .card{
     background-color: #fff;
     outline-color:  rgb(9, 115, 187, .95);
     outline-style: auto;
-    float: right;
+    float: center;
 }
 .card-body{
     background-color: #fff

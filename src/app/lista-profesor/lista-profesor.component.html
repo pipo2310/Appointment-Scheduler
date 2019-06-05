@@ -7,11 +7,11 @@
         </h2>
 
         <br>
-        <div class="botones">
+        
                 <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
                 <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
                 <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar disponibilidad</button>
-        </div>
+       
 
        
 
@@ -36,7 +36,7 @@
                         <li *ngFor="let cita of citas">
                             <a href="detalleCita">
                                 <label>
-                                    <input type="checkbox" checked="">
+                                    <input type="checkbox" >
                                 </label>
                                 <span
                                     class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
@@ -54,17 +54,16 @@
                     <!--
                     <div class="card align-items-center" style="width: 18rem">
                         <div class="card-body">
-                            <h5 class="card-title text-center">Informacion</h5>
+                            <h5 class="card-title text-center">Eventos Proximos</h5>
                             <br>
-                            <button class="btn btn-outline-primary mr-2" id="btn1">Aceptar</button>
-                            <button class="btn btn-outline-primary" id="btn2">Cancelar</button>
+                            
                             <br>
                             <br>
-                            <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar
-                                disponibilidad</button>
+                        
                         </div>
                     </div>
                     -->
+                
                     
                 </div>
             </div>
