@@ -13,6 +13,13 @@ const cursosEstRoutes_1 = __importDefault(require("./routes/cursosEstRoutes"));
 const profCursoRoutes_1 = __importDefault(require("./routes/profCursoRoutes"));
 const dispHoraProfRoutes_1 = __importDefault(require("./routes/dispHoraProfRoutes"));
 const DiasConCitasEstRouter_1 = __importDefault(require("./routes/DiasConCitasEstRouter"));
+const citaCompletaProfRoutes_1 = __importDefault(require("./routes/citaCompletaProfRoutes"));
+const citasUnDiaEstRoutes_1 = __importDefault(require("./routes/citasUnDiaEstRoutes"));
+const bloquesDispDiaRoutes_1 = __importDefault(require("./routes/bloquesDispDiaRoutes"));
+const semanasSemestreRoutes_1 = __importDefault(require("./routes/semanasSemestreRoutes"));
+const insertCitaUnBloqueRoutes_1 = __importDefault(require("./routes/insertCitaUnBloqueRoutes"));
+const insertDispDiasSemanaRangoRoutes_1 = __importDefault(require("./routes/insertDispDiasSemanaRangoRoutes"));
+const citasUnDiaProfRoutes_1 = __importDefault(require("./routes/citasUnDiaProfRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -43,6 +50,13 @@ class Server {
         this.app.use('/profCurso', profCursoRoutes_1.default);
         this.app.use('/dispHoraProf', dispHoraProfRoutes_1.default);
         this.app.use('/diasConCitaEst', DiasConCitasEstRouter_1.default);
+        this.app.use('/citasCompletasProf', citaCompletaProfRoutes_1.default); //no funca procedimiento en base.
+        this.app.use('/citasUnDiaEst', citasUnDiaEstRoutes_1.default);
+        this.app.use('/bloquesDispUnDia', bloquesDispDiaRoutes_1.default);
+        this.app.use('/semanasSemestre', semanasSemestreRoutes_1.default);
+        this.app.use('/insertCitaBloque', insertCitaUnBloqueRoutes_1.default);
+        this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes_1.default);
+        this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
@@ -52,3 +66,19 @@ class Server {
 }
 const server = new Server();
 server.start();
+/**
+ * conmutarLogeado [x]
+ * getBloquesDisponiblesUnDia [x]
+ * getCitaCompleta [] (no funciona el procedimiento)
+ * getCitasUnDiaVistaEst [x]
+ * getCitasUnDiaVistaProf []
+ * getDiasExisteCitaVistaEst []
+ * getDiasExisteCitaVistaProfesor []
+ * getDiasExisteDispVistasProfEst [x]
+ * getDiasSemanasSemestre [x]
+ * getEventosUnDiaVistaEst [x]
+ * insertCitaUnBloque [x]
+ * insertDispDiasSemanaRangoFechas [x]
+ * insertDisponibilidadUnicoDia []
+ * loginUsuario [x]
+ */ 

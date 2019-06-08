@@ -9,6 +9,13 @@ import cursosEstRoutes from './routes/cursosEstRoutes'
 import profCursoRoutes from './routes/profCursoRoutes'
 import dispHoraProfRoutes from './routes/dispHoraProfRoutes';
 import diasConCitasEstRouter from './routes/DiasConCitasEstRouter';
+import citaCompletaProfRoutes from './routes/citaCompletaProfRoutes';
+import citasUnDiaEst from './routes/citasUnDiaEstRoutes';
+import bloquesDispDiaRoutes from './routes/bloquesDispDiaRoutes';
+import semanasSemestre from './routes/semanasSemestreRoutes';
+import insertCitaUnBloque from './routes/insertCitaUnBloqueRoutes';
+import insertDispDiasSemanaRangoRoutes from './routes/insertDispDiasSemanaRangoRoutes';
+import citasUnDiaProfRoutes from './routes/citasUnDiaProfRoutes';
 
 class Server {
 
@@ -48,6 +55,14 @@ class Server {
         this.app.use('/profCurso', profCursoRoutes);
         this.app.use('/dispHoraProf', dispHoraProfRoutes);
         this.app.use('/diasConCitaEst', diasConCitasEstRouter);
+        this.app.use('/citasCompletasProf', citaCompletaProfRoutes); //no funca procedimiento en base.
+        this.app.use('/citasUnDiaEst', citasUnDiaEst);
+        this.app.use('/bloquesDispUnDia', bloquesDispDiaRoutes);
+        this.app.use('/semanasSemestre', semanasSemestre);
+        this.app.use('/insertCitaBloque', insertCitaUnBloque);
+        this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes);
+        this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes);
+
     }
 
     start(): void {
@@ -59,3 +74,20 @@ class Server {
 
 const server = new Server();
 server.start();
+
+/**
+ * conmutarLogeado [x]
+ * getBloquesDisponiblesUnDia [x]
+ * getCitaCompleta [] (no funciona el procedimiento)
+ * getCitasUnDiaVistaEst [x]
+ * getCitasUnDiaVistaProf [x]
+ * getDiasExisteCitaVistaEst []
+ * getDiasExisteCitaVistaProfesor []
+ * getDiasExisteDispVistasProfEst [x]
+ * getDiasSemanasSemestre [x]
+ * getEventosUnDiaVistaEst [x]
+ * insertCitaUnBloque [x]
+ * insertDispDiasSemanaRangoFechas [x]
+ * insertDisponibilidadUnicoDia []
+ * loginUsuario [x]
+ */

@@ -16,6 +16,7 @@ import { ApiService } from '../api.service';
 import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-estudiante',
@@ -29,11 +30,10 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   selectedCourse:Curso;
   usuarioActual: Estudiante;
   profes: Profesor[];
+  cursosSub: Subscription;
+  profCursosSub: Subscription;
+  conmutarLogSub: Subscription;
 
-
-  ngOnDestroy(): void{
-    this.logout();
-  }
   constructor(
     private studentService: EstudianteService, private apiService: ApiService, private router: Router) {
       
@@ -51,6 +51,17 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     };
   }
 
+  ngOnInit() {
+    this.getCursos(this.usuarioActual);
+  }
+
+  ngOnDestroy(): void {
+    this.cursosSub.unsubscribe();
+    this.profCursosSub.unsubscribe();
+    this.conmutarLogSub.unsubscribe();
+    this.logout();
+  }
+
   /**
    * busca la lista de profesores que imparten el curso seleccionado.
    * @param curso 
@@ -63,17 +74,13 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    
   }
 
-  ngOnInit() {
-    this.getCursos(this.usuarioActual);
-  }
-
   /**
    * devuelve los cursos en los que está matriculado el estudiante.
    * @param estudiante 
    */
   getCursos(estudiante:Estudiante){
     //this.cursos = this.apiService.getCursos(estudiante);
-    this.studentService.getCursos(estudiante).subscribe(data => {this.cursos = data});
+    this.cursosSub = this.studentService.getCursos(estudiante).subscribe(data => {this.cursos = data});
   }
 
   /**
@@ -82,7 +89,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    */
   getProfes(curso:Curso){
     //this.profes = this.apiService.getProfesores(curso);
-    this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
+    this.profCursosSub =  this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
   }
 
   /**
@@ -90,8 +97,8 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    */
   logout() {
     //this.apiService.conmutarLogueado(this.usuarioActual);
-    this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
-    //this.router.navigate(['login']);
+    this.conmutarLogSub =  this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.router.navigate(['login']);
   }
   
   Prof(profeActualCita:Profesor):void{

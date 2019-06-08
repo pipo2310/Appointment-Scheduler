@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, OnDestroy } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ViewChild,
@@ -15,7 +15,7 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -31,7 +31,6 @@ import{CalendarService} from '../../services/calendario-service.service';
 import { viewAttached, element } from '@angular/core/src/render3/instructions';
 import { stringify } from '@angular/compiler/src/util';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
 
 const colors: any = {
   red: {
@@ -55,7 +54,7 @@ const colors: any = {
 })
 
 
-export class CalendarioEstudianteComponent implements OnInit {
+export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   profeCita:Profesor;
   estudianteCita: Estudiante;
 
@@ -69,6 +68,7 @@ export class CalendarioEstudianteComponent implements OnInit {
   ultimoDia:Date;
   fechas:Array<Date> = new Array<Date>();
   fechasString:Object[];
+  horarioDispProfeSubs: Subscription;
       
   constructor( private calendarService: CalendarService,private modalService: NgbModal) { 
 
@@ -114,15 +114,19 @@ export class CalendarioEstudianteComponent implements OnInit {
     
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
-    console.log("primerdia", this.primerDia.toISOString());
+    //console.log("primerdia", this.primerDia.toISOString());
     this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    console.log("ultimoDIA", this.ultimoDia.toISOString());
+    //console.log("ultimoDIA", this.ultimoDia.toISOString());
     this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(),this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
     this.getHorarioDispProfe();
       //this.listaProfes=getFechasDisponiblesProfesor(this.profeCita,diaInicio,diaFin);
       //this.listaEstudiantes= getDiasAgendadosEstudiante(this.profeCita,diaInicio,diaFin)
 
+  }
+
+  ngOnDestroy(){
+    this.horarioDispProfeSubs.unsubscribe();
   }
   
   
@@ -282,18 +286,13 @@ return this.val;
    }
 
    getHorarioDispProfe(){
-     this.calendarService.getHorarioDispProfe(/*this.profeCita.cedula*/ "999887777", this.primerDia.toISOString(),this.ultimoDia.toISOString())
+     this.horarioDispProfeSubs = this.calendarService.getHorarioDispProfe(/*this.profeCita.cedula*/ "999887777", this.primerDia.toISOString(),this.ultimoDia.toISOString())
      .subscribe(data => { this.fechasString = data,
         this.fechasString.forEach(element =>{
-          //let n = this.parseISOString(element);
           this.fechas.push(new Date(element["fecha"]));
-          //console.log(element["fecha"]);
         })
      });
-     console.log(this.fechas);
-    /*for(let f of fechasString){
-      console.log(f);
-    }*/
+     console.log("horario del profe en días", this.fechas);
    }
 
    parseISOString(s:string) {
