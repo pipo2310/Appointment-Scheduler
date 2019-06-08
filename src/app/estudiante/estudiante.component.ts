@@ -86,6 +86,8 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     // .subscribe(data => {this.profes = data});
   }
 
+  
+
   /**
    * cierra la sesión del usuario. 
    */

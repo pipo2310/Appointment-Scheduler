@@ -1,5 +1,5 @@
 export class Fecha {
-    "año": string;
+    "anno": string;
     "mes": string;
     "dia": string;
 }
