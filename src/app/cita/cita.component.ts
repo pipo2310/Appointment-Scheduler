@@ -11,6 +11,15 @@ export class CitaComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+//Se acepta la cita detallada
+  aceptarCita(){
+
+  }
+//Se cancela la cita detallada
+  cancelarCita(){
+
+  }
 
 
 }

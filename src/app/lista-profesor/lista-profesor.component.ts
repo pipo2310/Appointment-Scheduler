@@ -4,6 +4,8 @@ import { SEMANAS } from '../modelo/datosPrueba';
 import { ProfesorService } from '../services/profesor.service';
 import { Router } from '@angular/router';
 import { Profesor } from '../modelo/profesor';
+import { Semana } from '../modelo/semana';
+import { Cita } from '../modelo/citasPrueba';
 
 
 
@@ -15,6 +17,9 @@ import { Profesor } from '../modelo/profesor';
 export class ListaProfesorComponent implements OnInit {
   semanas = SEMANAS;
   citas = CITAS;
+  selectedSemana:Semana;
+
+
   
   usuarioActual: Profesor;
   constructor(private profesorService: ProfesorService,private router: Router) {
@@ -39,6 +44,32 @@ export class ListaProfesorComponent implements OnInit {
 
   rangos(){
     this.router.navigate(['definirRango']);
+  }
+
+  onSelect(sem:Semana){
+    
+    this.getCitas(this.selectedSemana);
+   
+  }
+
+  getCitas(sem:Semana)
+  {
+
+  }
+
+  irADetalles(cita:Cita)
+  {
+    this.router.navigate(['detalleCita']);
+  }
+
+  //Se aceptan las citas con el checkbox marcado
+  cancelarBloque(){
+
+  }
+  
+  //Se cancelan las citas con el checkbox marcado
+  aceptarBloque(){
+
   }
   
 

@@ -120,9 +120,9 @@ ul.cursos li {
 ul.cursos li a {
     display: block;
     padding: 10px 10px 10px 20px;
-    background: rgba(221, 221, 221, 0.76);
+    background: rgba(9, 115, 187, .95);
     margin-right: 0px;
-    color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
     border-bottom: 1px solid #000;
     border-top: 1px solid #666;
     text-decoration: none;
@@ -160,8 +160,25 @@ ul.cursos li:target ul {
 }
 
 ul.cursos li a:hover {
-    background: rgb(9, 115, 187, .95);
+    background: rgb(207, 200, 200);
     color: #fff;
+}
+ul.citaEvento li a:hover {
+    background: rgba(9, 115, 187, .95);
+    color: #fff;
+}
+
+ul.citaEvento li a {
+    display: block;
+    padding: 10px 10px 10px 20px;
+    background: rgb(207, 200, 200);
+    margin-right: 0px;
+    color: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #666;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial;
 }
 /*
 .container-fluid #btn1{
