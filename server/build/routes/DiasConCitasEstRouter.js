@@ -8,7 +8,6 @@ class DiasConCitasRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', DiasConCitasEstController_1.diasConCitasEstController.index);
         this.router.post('/', DiasConCitasEstController_1.diasConCitasEstController.getDiasConCita);
     }
 }

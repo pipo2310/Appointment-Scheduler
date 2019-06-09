@@ -16,6 +16,7 @@ import semanasSemestre from './routes/semanasSemestreRoutes';
 import insertCitaUnBloque from './routes/insertCitaUnBloqueRoutes';
 import insertDispDiasSemanaRangoRoutes from './routes/insertDispDiasSemanaRangoRoutes';
 import citasUnDiaProfRoutes from './routes/citasUnDiaProfRoutes';
+import diasExisteCitaProfRoutes from './routes/diasExisteCitaProfRoutes'
 
 class Server {
 
@@ -48,20 +49,21 @@ class Server {
     }
 
     routes(): void {
-        this.app.use('/',indexRoutes)
-        this.app.use('/login',loginRoutes);
-        this.app.use('/logeado', logeadoRoutes);
-        this.app.use('/cursosEst', cursosEstRoutes);
-        this.app.use('/profCurso', profCursoRoutes);
-        this.app.use('/dispHoraProf', dispHoraProfRoutes);
-        this.app.use('/diasConCitaEst', diasConCitasEstRouter);
-        this.app.use('/citasCompletasProf', citaCompletaProfRoutes); //no funca procedimiento en base.
+        this.app.use('/',indexRoutes) //se usa
+        this.app.use('/login',loginRoutes); //se usa
+        this.app.use('/logeado', logeadoRoutes); //se usa
+        this.app.use('/cursosEst', cursosEstRoutes); //se usa
+        this.app.use('/profCurso', profCursoRoutes); //se usa
+        this.app.use('/dispHoraProf', dispHoraProfRoutes); //se usa
+        this.app.use('/diasConCitaEst', diasConCitasEstRouter); //
+        this.app.use('/citasCompletasProf', citaCompletaProfRoutes);
         this.app.use('/citasUnDiaEst', citasUnDiaEst);
         this.app.use('/bloquesDispUnDia', bloquesDispDiaRoutes);
         this.app.use('/semanasSemestre', semanasSemestre);
         this.app.use('/insertCitaBloque', insertCitaUnBloque);
         this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes);
         this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes);
+        this.app.use('/diasConCitasProf', diasExisteCitaProfRoutes);
 
     }
 
@@ -78,11 +80,11 @@ server.start();
 /**
  * conmutarLogeado [x]
  * getBloquesDisponiblesUnDia [x]
- * getCitaCompleta [] (no funciona el procedimiento)
+ * getCitaCompleta [x] 
  * getCitasUnDiaVistaEst [x]
  * getCitasUnDiaVistaProf [x]
- * getDiasExisteCitaVistaEst []
- * getDiasExisteCitaVistaProfesor []
+ * getDiasExisteCitaVistaEst [x]
+ * getDiasExisteCitaVistaProfesor [x]
  * getDiasExisteDispVistasProfEst [x]
  * getDiasSemanasSemestre [x]
  * getEventosUnDiaVistaEst [x]

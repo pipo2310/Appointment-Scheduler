@@ -10,7 +10,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient , HttpHeaders, HttpParams} from '@angular/common/http';
 import { Estudiante } from '../modelo/estudiante';
 import { Curso } from '../modelo/curso';
 import { Observable } from  'rxjs';
@@ -67,5 +67,16 @@ export class EstudianteService {
   public conmutarLogueado(estudiante:Estudiante) {
     return this.httpClient.post(`${this.NODE_API_SERVER}/logeado`,
     {"cedula": estudiante.cedula});
+  }
+
+  public getDiasConCita(cedula:String, diaInicio:String, diaFinal:String) {
+    let diasConCita;
+    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/diasConCitaEst`,{
+      cedula: cedula,
+      diaIni: diaInicio,
+      diaFin: diaFinal
+    }).pipe(tap(res =>{
+      diasConCita = res;
+    }));
   }
 }

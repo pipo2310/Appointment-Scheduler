@@ -1,16 +1,17 @@
 import {Request, Response} from 'express';
 import pool from '../database';
 
-class DiasConCitasEstController {
+class DiasExisteCitaProfController {
     
-    public getDiasConCita(req:Request, res:Response){
+    public getDias(req:Request, res: Response){
         const cedula = req.body.cedula;
         const diaIni = req.body.diaIni;
         const diaFin = req.body.diaFin;
-        let sql = "CALL getDiasExisteCitaVistaEst('"+cedula+"','"+diaIni+"', '"+diaFin+"')"
+        let sql = "call getDiasExisteCitaVistaProfesor('"+cedula+"', '"+diaIni+"', '"+diaFin+"');";
+        console.log("info: ", cedula, diaIni, diaFin);
         pool.query(sql, (err:Error, result:any) =>{
             if(result){
-            res.send({result:result[0]})
+            res.send(result[0]);
             } else{
                 res.send({
                     "Error: ": err
@@ -19,4 +20,4 @@ class DiasConCitasEstController {
         });
     }
 }
-export const diasConCitasEstController = new DiasConCitasEstController();
+export const diasExisteCitaProfController = new DiasExisteCitaProfController();

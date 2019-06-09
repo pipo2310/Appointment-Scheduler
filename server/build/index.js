@@ -20,6 +20,7 @@ const semanasSemestreRoutes_1 = __importDefault(require("./routes/semanasSemestr
 const insertCitaUnBloqueRoutes_1 = __importDefault(require("./routes/insertCitaUnBloqueRoutes"));
 const insertDispDiasSemanaRangoRoutes_1 = __importDefault(require("./routes/insertDispDiasSemanaRangoRoutes"));
 const citasUnDiaProfRoutes_1 = __importDefault(require("./routes/citasUnDiaProfRoutes"));
+const diasExisteCitaProfRoutes_1 = __importDefault(require("./routes/diasExisteCitaProfRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -43,20 +44,21 @@ class Server {
         });
     }
     routes() {
-        this.app.use('/', indexRoutes_1.default);
-        this.app.use('/login', loginRoutes_1.default);
-        this.app.use('/logeado', logeadoRoutes_1.default);
-        this.app.use('/cursosEst', cursosEstRoutes_1.default);
-        this.app.use('/profCurso', profCursoRoutes_1.default);
-        this.app.use('/dispHoraProf', dispHoraProfRoutes_1.default);
-        this.app.use('/diasConCitaEst', DiasConCitasEstRouter_1.default);
-        this.app.use('/citasCompletasProf', citaCompletaProfRoutes_1.default); //no funca procedimiento en base.
+        this.app.use('/', indexRoutes_1.default); //se usa
+        this.app.use('/login', loginRoutes_1.default); //se usa
+        this.app.use('/logeado', logeadoRoutes_1.default); //se usa
+        this.app.use('/cursosEst', cursosEstRoutes_1.default); //se usa
+        this.app.use('/profCurso', profCursoRoutes_1.default); //se usa
+        this.app.use('/dispHoraProf', dispHoraProfRoutes_1.default); //se usa
+        this.app.use('/diasConCitaEst', DiasConCitasEstRouter_1.default); //
+        this.app.use('/citasCompletasProf', citaCompletaProfRoutes_1.default);
         this.app.use('/citasUnDiaEst', citasUnDiaEstRoutes_1.default);
         this.app.use('/bloquesDispUnDia', bloquesDispDiaRoutes_1.default);
         this.app.use('/semanasSemestre', semanasSemestreRoutes_1.default);
         this.app.use('/insertCitaBloque', insertCitaUnBloqueRoutes_1.default);
         this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes_1.default);
         this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes_1.default);
+        this.app.use('/diasConCitasProf', diasExisteCitaProfRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
@@ -69,11 +71,11 @@ server.start();
 /**
  * conmutarLogeado [x]
  * getBloquesDisponiblesUnDia [x]
- * getCitaCompleta [] (no funciona el procedimiento)
+ * getCitaCompleta [x]
  * getCitasUnDiaVistaEst [x]
- * getCitasUnDiaVistaProf []
- * getDiasExisteCitaVistaEst []
- * getDiasExisteCitaVistaProfesor []
+ * getCitasUnDiaVistaProf [x]
+ * getDiasExisteCitaVistaEst [x]
+ * getDiasExisteCitaVistaProfesor [x]
  * getDiasExisteDispVistasProfEst [x]
  * getDiasSemanasSemestre [x]
  * getEventosUnDiaVistaEst [x]

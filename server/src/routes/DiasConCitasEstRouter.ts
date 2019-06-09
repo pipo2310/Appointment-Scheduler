@@ -11,8 +11,7 @@ class DiasConCitasRoutes{
     }
 
     config(){
-        this.router.get('/', diasConCitasEstController.index)
-        this.router.post('/', diasConCitasEstController.getDiasConCita)
+        this.router.post('/', diasConCitasEstController.getDiasConCita);
     }
 }
 

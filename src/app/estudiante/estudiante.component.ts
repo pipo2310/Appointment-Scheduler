@@ -30,9 +30,11 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   selectedCourse:Curso;
   usuarioActual: Estudiante;
   profes: Profesor[];
+  diasConCita: String[];
   cursosSub: Subscription;
   profCursosSub: Subscription;
   conmutarLogSub: Subscription;
+  diasConCitaSub: Subscription;
 
   constructor(
     private studentService: EstudianteService, private apiService: ApiService, private router: Router) {
@@ -56,9 +58,18 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.cursosSub.unsubscribe();
+    try {
+      this.cursosSub.unsubscribe();
+      this.profCursosSub.unsubscribe();
+      this.conmutarLogSub.unsubscribe();
+      this.diasConCitaSub.unsubscribe();
+    } catch(Exception){
+
+    }
+    /*this.cursosSub.unsubscribe();
     this.profCursosSub.unsubscribe();
     this.conmutarLogSub.unsubscribe();
+    this.diasConCitaSub.unsubscribe();*/
     this.logout();
   }
 
@@ -71,7 +82,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     this.profes = []
     this.selectedCourse = curso;
     this.getProfes(this.selectedCourse);
-   
   }
 
   /**
@@ -96,7 +106,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * cierra la sesión del usuario. 
    */
   logout() {
-    //this.apiService.conmutarLogueado(this.usuarioActual);
     this.conmutarLogSub =  this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
   }
@@ -104,5 +113,13 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   Prof(profeActualCita:Profesor):void{
     localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
     this.router.navigate(['CalendarioEst'])
+  }
+
+  getDiasConCita(diaInicio:string,diaFin:string):void{
+   this.diasConCitaSub =  this.studentService.getDiasConCita(this.usuarioActual.cedula, diaInicio, diaFin)
+   .subscribe(data =>{
+     this.diasConCita = data;
+     console.log(this.diasConCita);
+   });
   }
 }
