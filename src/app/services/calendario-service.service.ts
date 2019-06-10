@@ -16,7 +16,6 @@ import { Curso } from '../modelo/curso';
 import { Observable } from  'rxjs';
 import { tap } from  'rxjs/operators';
 import { Profesor } from '../modelo/profesor';
-import { CitaPrivadaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst } from '../modelo/eventdiaVistaEst';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'homeStudent' })
@@ -25,37 +24,6 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-
-  constructor() { 
-    
-  }
- 
-  cancelarConsultaPrivada(informacionCita:CitaPrivadaVistaEst){
-   window.alert('llego1');
-  }
-
-  cancelarConsultaPublica(citaPublica:CitaPublicaPropiaEstVistaEst){
-    window.alert('llego2');
-  }
-
-
-  asistirACitaPublica(citaPublica:DispCitaPublicaVistaEst){
-    window.alert('llego3');
-  }
-
-  noAsistirACitaPublica(citaPublica:CitaPublicaAjenaEstVistaEst){
-    window.alert('llego4');
-  }
-
- infoCitaSolicitada(info:DispProfeVistaEst,descripcion:String,espublica:Boolean){
- 
-    window.alert(info.horaFin+espublica+descripcion);
-  }
-
-
-
-
-
 
 
 export class CalendarService {

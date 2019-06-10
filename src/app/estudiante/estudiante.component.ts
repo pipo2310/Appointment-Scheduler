@@ -102,8 +102,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
     this.profCursosSub =  this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
   }
 
-  
-
   /**
    * cierra la sesión del usuario. 
    */
