@@ -1,10 +1,10 @@
-import { Component, OnInit,Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ViewChild,
   TemplateRef
 } from '@angular/core';
-import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   startOfDay,
   endOfDay,
@@ -26,10 +26,13 @@ import {
 import { MaxLengthValidator } from '@angular/forms';
 import { Profesor } from '../../modelo/profesor';
 import { Estudiante } from '../../modelo/estudiante';
+import { ApiService } from '../../api.service';
+
 //import {MatDialogModule} from '@angular/material/dialog';
-import{CalendarService} from '../../services/calendario-service.service';
-import { viewAttached, element } from '@angular/core/src/render3/instructions';
-import { stringify } from '@angular/compiler/src/util';
+import { CalendarioService } from '../../services/calendario-service.service';
+import { viewAttached } from '@angular/core/src/render3/instructions';
+import { Slot } from 'src/app/modelo/slot';
+import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 const colors: any = {
@@ -57,7 +60,7 @@ const colors: any = {
 export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   profeCita:Profesor;
   estudianteCita: Estudiante;
-
+  eventos: Array<EventDiaVistaEst>;
   listaProfes: Array<Date> = new Array<Date>();
   listaEstudiantes: Array<Date> = new Array<Date>();
   dat: Array<Date> = new Array<Date>();
@@ -76,7 +79,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
-    this. profeCita = {
+    this.profeCita = {
       cedula: parsed['cedula'],
       email: parsed['email'],
       nombre: parsed['nombre'],
@@ -100,18 +103,14 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     //let horario = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //this.listaEstudiantes = 
   }
- 
-//  constructor(private modal: NgbModal) { }
 
+  variablr: DispProfeVistaEst;
+  variable2: CitaPrivadaVistaEst;
+  variable3: CitaPrivadaVistaEst;
+  variable4: CitaPublicaPropiaEstVistaEst;
+  variable5: DispCitaPublicaVistaEst;
+  variable6: CitaPublicaAjenaEstVistaEst;
   ngOnInit() {
-   
-    this.da = new Date(2019, 4, 31);
-    this.dat.push(this.da);
-    this.da = new Date(2019, 4, 30);
-    this.dat.push(this.da);
-    this.da = new Date(2019, 5, 3);
-    this.dat.push(this.da);
-    
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
     //console.log("primerdia", this.primerDia.toISOString());
@@ -149,55 +148,52 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
        label: '<i class="fa fa-fw fa-pencil"></i>',
        onClick: ({ event }: { event: CalendarEvent }): void => {
         // this.handleEvent('Edited', event);
-       }
-     },
-     {
-       label: '<i class="fa fa-fw fa-times"></i>',
-       onClick: ({ event }: { event: CalendarEvent }): void => {
-         this.events = this.events.filter(iEvent => iEvent !== event);
+      }
+    },
+    {
+      label: '<i class="fa fa-fw fa-times"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter(iEvent => iEvent !== event);
         // this.handleEvent('Deleted', event);
-       }
-     }
-   ];
- 
-   refresh: Subject<any> = new Subject();
- 
-   events: CalendarEvent[] = [
-  
-     
-   ];
- 
-   activeDayIsOpen: boolean = true;
- 
-   tieneEventos(){
+      }
+    }
+  ];
 
-  
-   }
-   val:Boolean=false;
+  refresh: Subject<any> = new Subject();
 
-   closeResult: string;
+  events: CalendarEvent[] = [
 
-   private getDismissReason(reason: any): string {
+
+  ];
+
+  activeDayIsOpen: boolean = true;
+
+  tieneEventos() {
+
+
+  }
+  val: Boolean = false;
+
+  closeResult: string;
+
+  private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
-   
-   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content){
-    for(var i=0;i<this.dat.length;i++){
-      if(date==this.dat[i]){
-        this.val=true;
-       return this.val;
-      }}
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+  slotActual:DispProfeVistaEst
+  formularioDatosCitas(content,slot:DispProfeVistaEst) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-formEstudiante' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+    this.slotActual=slot;
+  }
 
 return this.val;
      /*if (isSameMonth(date, this.viewDate)) {
@@ -247,7 +243,8 @@ return this.val;
   
     this.addEvent(this.dat[i]);
     }
-   for(var i = 0; i <this.listaProfes.length; i++){
+    
+    this.calendarService.infoCitaSolicitada(this.slotActual,descripcion,espublica)
   
     this.addEvent(this.listaProfes[i]);
     }
