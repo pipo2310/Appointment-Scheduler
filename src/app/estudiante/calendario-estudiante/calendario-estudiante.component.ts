@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ViewChild,
@@ -29,7 +29,7 @@ import { Estudiante } from '../../modelo/estudiante';
 import { ApiService } from '../../api.service';
 
 //import {MatDialogModule} from '@angular/material/dialog';
-import { CalendarioService } from '../../services/calendario-service.service';
+import { CalendarService } from '../../services/calendario-service.service';
 import { viewAttached } from '@angular/core/src/render3/instructions';
 import { Slot } from 'src/app/modelo/slot';
 import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
@@ -58,22 +58,22 @@ const colors: any = {
 
 
 export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
-  profeCita:Profesor;
+
+  profeCita: Profesor;
   estudianteCita: Estudiante;
   eventos: Array<EventDiaVistaEst>;
-  listaProfes: Array<Date> = new Array<Date>();
+  listaDispProf: Array<Date> = new Array<Date>();
   listaEstudiantes: Array<Date> = new Array<Date>();
   dat: Array<Date> = new Array<Date>();
-  da:Date;
-  diaInicio:Date;
-  diaFin:Date;
-  primerDia:Date;
-  ultimoDia:Date;
-  fechas:Array<Date> = new Array<Date>();
-  fechasString:Object[];
+  da: Date;
+  diaInicio: Date;
+  diaFin: Date;
+  primerDia: Date;
+  ultimoDia: Date;
+  fechasString: Object[];
   horarioDispProfeSubs: Subscription;
-      
-  constructor( private calendarService: CalendarService,private modalService: NgbModal) { 
+
+  constructor(private calendarService: CalendarService, private modalService: NgbModal) {
 
     //this.fechas = new Date[0]();
     // Extrae la información del profe guardada en el almacenamiento local por el student service
@@ -102,6 +102,8 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     //this.listaProfes = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //let horario = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //this.listaEstudiantes = 
+
+
   }
 
   variablr: DispProfeVistaEst;
@@ -110,43 +112,57 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   variable4: CitaPublicaPropiaEstVistaEst;
   variable5: DispCitaPublicaVistaEst;
   variable6: CitaPublicaAjenaEstVistaEst;
+
   ngOnInit() {
+    /*var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    //console.log("primerdia", this.primerDia.toISOString());
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    //console.log("ultimoDIA", this.ultimoDia.toISOString());
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    //this.getHorarioDispProfe();
+    //this.listaProfes=getFechasDisponiblesProfesor(this.profeCita,diaInicio,diaFin);
+    //this.listaEstudiantes= getDiasAgendadosEstudiante(this.profeCita,diaInicio,diaFin)
+    //this.recorrefechas();*/
+
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
     //console.log("primerdia", this.primerDia.toISOString());
     this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     //console.log("ultimoDIA", this.ultimoDia.toISOString());
-    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(),this.primerDia.getDate());
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+
     this.getHorarioDispProfe();
-      //this.listaProfes=getFechasDisponiblesProfesor(this.profeCita,diaInicio,diaFin);
-      //this.listaEstudiantes= getDiasAgendadosEstudiante(this.profeCita,diaInicio,diaFin)
+    this.recorrefechas();
 
   }
 
-  ngOnDestroy(){
+
+  ngOnDestroy() {
     this.horarioDispProfeSubs.unsubscribe();
   }
-  
-  
-   @ViewChild('modalContent') modalContent: TemplateRef<any>;
- 
-   view: CalendarView = CalendarView.Month;
- 
-   CalendarView = CalendarView;
-   
- 
-   viewDate: Date = new Date();
- 
-   modalData: {
-     action: string;
-     event: CalendarEvent;
-   };
- 
-   actions: CalendarEventAction[] = [
-     {
-       label: '<i class="fa fa-fw fa-pencil"></i>',
-       onClick: ({ event }: { event: CalendarEvent }): void => {
+
+
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+
+  view: CalendarView = CalendarView.Month;
+
+  CalendarView = CalendarView;
+
+
+  viewDate: Date = new Date();
+
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
+
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fa fa-fw fa-pencil"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
         // this.handleEvent('Edited', event);
       }
     },
@@ -185,116 +201,115 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       return `with: ${reason}`;
     }
   }
-  slotActual:DispProfeVistaEst
-  formularioDatosCitas(content,slot:DispProfeVistaEst) {
+  slotActual: DispProfeVistaEst;
+
+  formularioDatosCitas(content, slot: DispProfeVistaEst) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-formEstudiante' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    this.slotActual=slot;
+    this.slotActual = slot;
+
+    return this.val;
   }
 
-return this.val;
-     /*if (isSameMonth(date, this.viewDate)) {
-       this.viewDate = date;
-       if (
-         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-         events.length === 0
-       ) {
-         this.activeDayIsOpen = false;
-       } else {
-         this.activeDayIsOpen = true;
-       }
-     }*/
-   }
- 
-   eventTimesChanged({
-     event,
-     newStart,
-     newEnd
-   }: CalendarEventTimesChangedEvent): void {
-     this.events = this.events.map(iEvent => {
-       if (iEvent === event) {
-         return {
-           ...event,
-           start: newStart,
-           end: newEnd
-         };
-       }
-       return iEvent;
-     });
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    this.events = this.events.map(iEvent => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd
+        };
+      }
+      return iEvent;
+    });
     // this.handleEvent('Dropped or resized', event);
-   }
- 
- /*  handleEvent(action: string, event: CalendarEvent): void {
-     this.modalData = { event, action };
-     this.modal.open(this.modalContent, { size: 'lg' });
-   }*/
-  
- 
- recorrefechas():void{
-  
-   for(var i = 0; i <this.listaProfes.length; i++){
-  
-   this.addEvent(this.listaProfes[i]);
-   }
-   for(var i = 0; i <this.dat.length; i++){
-  
-    this.addEvent(this.dat[i]);
-    }
-    
-    this.calendarService.infoCitaSolicitada(this.slotActual,descripcion,espublica)
-  
-    this.addEvent(this.listaProfes[i]);
-    }
- }
- 
-   addEvent(fecha:Date): void {
-     
-     this.events = [
-       ...this.events,
-       {
-       // background-color:red,
-         title: 'New event',
-         start: startOfDay(fecha),
-         color: colors.red,
-         draggable: true,
-         resizable: {
-           beforeStart: true,
-           afterEnd: true
-         }
-       }
-     ];
-   }
-  
- 
-   deleteEvent(eventToDelete: CalendarEvent) {
-     this.events = this.events.filter(event => event !== eventToDelete);
-   }
- 
-   setView(view: CalendarView) {
-     this.view = view;
-     
-   }
- 
-   closeOpenMonthViewDay() {
-     this.activeDayIsOpen = false;
-   }
-
-   getHorarioDispProfe(){
-     this.horarioDispProfeSubs = this.calendarService.getHorarioDispProfe(/*this.profeCita.cedula*/ "999887777", this.primerDia.toISOString(),this.ultimoDia.toISOString())
-     .subscribe(data => { this.fechasString = data,
-        this.fechasString.forEach(element =>{
-          this.fechas.push(new Date(element["fecha"]));
-        })
-     });
-     console.log("horario del profe en días", this.fechas);
-   }
-
-   parseISOString(s:string) {
-    let b = s.split(/\D+/);
-    return new Date(Number(b[0]), Number(b[1]) -1, Number(b[2]));
   }
- 
+
+  /*  handleEvent(action: string, event: CalendarEvent): void {
+      this.modalData = { event, action };
+      this.modal.open(this.modalContent, { size: 'lg' });
+    }*/
+
+
+  async recorrefechas() {
+    await this.delay(1000);
+    console.log("lista disp profes en recorre fechas: ", this.listaDispProf, this.listaDispProf.length);
+
+    for (let i = 0; i < this.listaDispProf.length; i++) {
+      this.addEvent(this.listaDispProf[i]);
+    }
+
+    //this.calendarService.infoCitaSolicitada(this.slotActual,"descripcion",true);
+
+    //this.addEvent(this.listaDispProf[i]);
+  }
+
+  addEvent(fecha: Date): void {
+    console.log("add events: ", fecha);
+    this.events = [
+      ...this.events,
+      {
+        // background-color:red,
+        title: 'New event',
+        start: startOfDay(fecha),
+        color: colors.red,
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        }
+      }
+    ];
+  }
+
+
+  deleteEvent(eventToDelete: CalendarEvent) {
+    this.events = this.events.filter(event => event !== eventToDelete);
+  }
+
+  setView(view: CalendarView) {
+    this.view = view;
+
+  }
+
+  closeOpenMonthViewDay() {
+    this.activeDayIsOpen = false;
+  }
+
+  getHorarioDispProfe() {
+    this.horarioDispProfeSubs = this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
+      .subscribe(data => {
+      this.fechasString = data,
+        this.fechasString.forEach(element => {
+          this.listaDispProf.push(new Date(element["fecha"]));
+        })
+        console.log("horario del profe en días", this.listaDispProf.length);
+      });
+    //this.listaDispProf = this.fechas;
+    
+  }
+
+  parseISOString(s: string) {
+    let b = s.split(/\D+/);
+    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2] +1));
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
+    const activeModal =this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 }

@@ -1,3 +1,4 @@
+Jimmy Acuña, [10.06.19 17:44]
 <link href="https://unpkg.com/bootstrap-css-only@4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.css" rel="stylesheet">
 <link href="https://unpkg.com/angular-calendar@0.27.8/css/angular-calendar.css" rel="stylesheet">
@@ -102,7 +103,10 @@
 
     <div *ngIf="slot.constructor.name =='CitaPublicaPropiaEstVistaEst'">
       <button type="button" class="btn btn-outline-dark" float="left" id="citasPublicasPropias"> {{slot.horaIni}}
-        {{slot.horaFin}} {{slot.propietario}}-Pública {{slot.descripcion}} </button>
+        {{slot.horaFin}}
+
+Jimmy Acuña, [10.06.19 17:44]
+{{slot.propietario}}-Pública {{slot.descripcion}} </button>
       <button type="button" class="btn btn-outline-dark" float="left" id='derecha'
         (click)="cancelarCitaPublica(slot)">Cancelar</button>
     </div>

@@ -26,38 +26,6 @@ const httpOptions = {
   providedIn: 'root'
 })
 
-  constructor() { 
-    
-  }
- 
-  cancelarConsultaPrivada(informacionCita:CitaPrivadaVistaEst){
-   window.alert('llego1');
-  }
-
-  cancelarConsultaPublica(citaPublica:CitaPublicaPropiaEstVistaEst){
-    window.alert('llego2');
-  }
-
-
-  asistirACitaPublica(citaPublica:DispCitaPublicaVistaEst){
-    window.alert('llego3');
-  }
-
-  noAsistirACitaPublica(citaPublica:CitaPublicaAjenaEstVistaEst){
-    window.alert('llego4');
-  }
-
- infoCitaSolicitada(info:DispProfeVistaEst,descripcion:String,espublica:Boolean){
- 
-    window.alert(info.horaFin+espublica+descripcion);
-  }
-
-
-
-
-
-
-
 export class CalendarService {
   //conexión a la base de datos
   //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
@@ -80,4 +48,27 @@ export class CalendarService {
         //console.log("fechas:", fechas);
       }));
   }
+
+ 
+  cancelarConsultaPrivada(informacionCita:CitaPrivadaVistaEst){
+   window.alert('llego1');
+  }
+
+  cancelarConsultaPublica(citaPublica:CitaPublicaPropiaEstVistaEst){
+    window.alert('llego2');
+  }
+
+
+  asistirACitaPublica(citaPublica:DispCitaPublicaVistaEst){
+    window.alert('llego3');
+  }
+
+  noAsistirACitaPublica(citaPublica:CitaPublicaAjenaEstVistaEst){
+    window.alert('llego4');
+  }
+
+ infoCitaSolicitada(info:DispProfeVistaEst,descripcion:String,espublica:Boolean){
+    window.alert(info.horaFin+espublica+descripcion);
+  }
+
 }
