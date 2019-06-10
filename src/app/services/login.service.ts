@@ -12,10 +12,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from  'rxjs';
-import { tap } from  'rxjs/operators';
+import { tap, catchError } from  'rxjs/operators';
 import { Usuario } from '../modelo/usuario';
 import { Profesor } from '../modelo/profesor';
 import { Estudiante } from '../modelo/estudiante';
+import { json } from 'body-parser';
+import { response } from 'express';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'login' })
@@ -24,18 +26,22 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
-  PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
+  NODE_API_SERVER = "http://localhost:3000";
+  //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
   constructor(private httpClient : HttpClient) { }
 
-  public login(username : string, password : string) {
-    return this.httpClient.post<any>(`${this.PHP_API_SERVER}/login.php`, {
-      user: username,
-      pass: password
-    }, httpOptions)
+  public login(username : string, password : string){
+    //console.log("credenciales en service: ", username, "-", password);
+    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/login`,{
+      'user': username,
+      'pass': password
+    })
     .pipe(tap(res => {
       // Obtiene el rol que aparece en la respuesta
       let rol = res['rol'];
+      //console.log('rol: ' ,res)
 
       // Crea un usuario genérico para asignarlo a Profesor o Estudiante según corresponda
       var user: Usuario;
@@ -63,17 +69,22 @@ export class LoginService {
 
       // Guarda la información del usuario en el almacenamiento local
       localStorage.setItem('usuarioActual', JSON.stringify(user));
-
       return res;
-    }));
+    },(err =>{
+      console.log("error en loginservice:login");
+    })));
   }
   
-  /**
+/**
    * cierra la sesión del usuario identificado por su cedula.
    * @param cedula 
    */
   public conmutarLogueado(cedula: string) {
-    return this.httpClient.post(`${this.PHP_API_SERVER}/logueado.php`,
-    {cedula: cedula}, httpOptions);
+    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/logeado`,
+    {"cedula": cedula});/*.pipe(tap(res =>{
+      console.log("bien en loginservice:login");
+    },(err=>{
+      console.log("error en loginservice:conmutarLogeado: ", err);
+    })));*/
   }
 }
