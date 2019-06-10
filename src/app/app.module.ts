@@ -19,7 +19,7 @@ import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
@@ -52,7 +52,8 @@ import { CalendarComponent } from './profesor/calendar/calendar.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
