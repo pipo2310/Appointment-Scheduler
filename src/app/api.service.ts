@@ -67,7 +67,7 @@ export class ApiService {
       if (slotProfesor.profesor.cedula == profesor.cedula) {
         slotDisponible = true;
 
-        fechaSlotProfesor = new Date(Number(slotProfesor.fecha.año), Number(slotProfesor.fecha.mes) - 1, Number(slotProfesor.fecha.dia));
+        fechaSlotProfesor = new Date(Number(slotProfesor.fecha.anno), Number(slotProfesor.fecha.mes) - 1, Number(slotProfesor.fecha.dia)-1);
         if (fechaSlotProfesor >= fechaInicial && fechaSlotProfesor <= fechaFinal) {
           for (let citaEstudiante of this.data.citasEstudiantes) {
             if (slotProfesor.fecha.año == citaEstudiante.fecha.año && slotProfesor.fecha.mes == citaEstudiante.fecha.mes &&
