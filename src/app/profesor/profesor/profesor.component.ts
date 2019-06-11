@@ -43,9 +43,12 @@ export class ProfesorComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void{
+      try{
+        this.conmutarLogSub.unsubscribe();
+        this.semanasSub.unsubscribe();
+      } catch(Exception ){}
       this.logout();
-      this.conmutarLogSub.unsubscribe();
-      this.semanasSub.unsubscribe();
+     
     }
 
     /**

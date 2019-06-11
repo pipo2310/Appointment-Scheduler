@@ -21,6 +21,14 @@ const insertCitaUnBloqueRoutes_1 = __importDefault(require("./routes/insertCitaU
 const insertDispDiasSemanaRangoRoutes_1 = __importDefault(require("./routes/insertDispDiasSemanaRangoRoutes"));
 const citasUnDiaProfRoutes_1 = __importDefault(require("./routes/citasUnDiaProfRoutes"));
 const diasExisteCitaProfRoutes_1 = __importDefault(require("./routes/diasExisteCitaProfRoutes"));
+const programarCitaPropiaBloqueDispRoutes_1 = __importDefault(require("./routes/programarCitaPropiaBloqueDispRoutes"));
+const asistirACitaAjenaRoutes_1 = __importDefault(require("./routes/asistirACitaAjenaRoutes"));
+const cancelarCitaPrivadaRoutes_1 = __importDefault(require("./routes/cancelarCitaPrivadaRoutes"));
+const noAsistirACitaPublicaPropiaRoutes_1 = __importDefault(require("./routes/noAsistirACitaPublicaPropiaRoutes"));
+const noAsistirACitaPublicaAjenaRoutes_1 = __importDefault(require("./routes/noAsistirACitaPublicaAjenaRoutes"));
+const insertDisponibilidadUnicoDiaRoutes_1 = __importDefault(require("./routes/insertDisponibilidadUnicoDiaRoutes"));
+const getDiasExisteDispVistaEstRoutes_1 = __importDefault(require("./routes/getDiasExisteDispVistaEstRoutes"));
+const getTodosEventosUnDiaVistaEstRoutes_1 = __importDefault(require("./routes/getTodosEventosUnDiaVistaEstRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -59,6 +67,14 @@ class Server {
         this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes_1.default);
         this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes_1.default);
         this.app.use('/diasConCitasProf', diasExisteCitaProfRoutes_1.default);
+        this.app.use('/programarCitaPropia', programarCitaPropiaBloqueDispRoutes_1.default);
+        this.app.use('/asistirACitaAjena', asistirACitaAjenaRoutes_1.default);
+        this.app.use('/cancelarCitaPrivada', cancelarCitaPrivadaRoutes_1.default);
+        this.app.use('/noAsistirACitaPropia', noAsistirACitaPublicaPropiaRoutes_1.default);
+        this.app.use('/noAsistirACitaPubAjena', noAsistirACitaPublicaAjenaRoutes_1.default);
+        this.app.use('/insertDispUnDia', insertDisponibilidadUnicoDiaRoutes_1.default);
+        this.app.use('/getDiasDispEst', getDiasExisteDispVistaEstRoutes_1.default);
+        this.app.use('/getTodosEventosUnDiaEst', getTodosEventosUnDiaVistaEstRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {

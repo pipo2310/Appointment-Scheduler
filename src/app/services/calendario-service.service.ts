@@ -52,6 +52,8 @@ export class CalendarService {
       return fechasObservable;*/
   }
 
+  getHorario
+
  
   cancelarConsultaPrivada(informacionCita:CitaPrivadaVistaEst){
    window.alert('llego1');

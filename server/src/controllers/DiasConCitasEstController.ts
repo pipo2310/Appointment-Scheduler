@@ -4,10 +4,12 @@ import pool from '../database';
 class DiasConCitasEstController {
     
     public getDiasConCita(req:Request, res:Response){
-        const cedula = req.body.cedula;
         const diaIni = req.body.diaIni;
         const diaFin = req.body.diaFin;
-        let sql = "CALL getDiasExisteCitaVistaEst('"+cedula+"','"+diaIni+"', '"+diaFin+"')"
+        const cedProf = req.body.cedProf;
+        const cedEst = req.body.cedEst;
+        const siglaCursoCitas = req.body.siglaCursoCitas;
+        let sql = "CALL getDiasExisteCitaVistaEst('"+diaIni+"','"+diaFin+"', '"+cedProf+"', '"+cedEst+"', '"+siglaCursoCitas+"')"
         pool.query(sql, (err:Error, result:any) =>{
             if(result){
             res.send({result:result[0]})

@@ -17,6 +17,14 @@ import insertCitaUnBloque from './routes/insertCitaUnBloqueRoutes';
 import insertDispDiasSemanaRangoRoutes from './routes/insertDispDiasSemanaRangoRoutes';
 import citasUnDiaProfRoutes from './routes/citasUnDiaProfRoutes';
 import diasExisteCitaProfRoutes from './routes/diasExisteCitaProfRoutes'
+import programarCitaPropiaBloqueDispRoutes from './routes/programarCitaPropiaBloqueDispRoutes';
+import asistirACitaAjenaRoutes from './routes/asistirACitaAjenaRoutes'
+import cancelarCitaPrivadaRoutes from './routes/cancelarCitaPrivadaRoutes'
+import noAsistirACitaPublicaPropiaRoutes from './routes/noAsistirACitaPublicaPropiaRoutes'
+import noAsistirACitaPublicaAjenaRoutes from './routes/noAsistirACitaPublicaAjenaRoutes'
+import insertDisponibilidadUnicoDiaRoutes from './routes/insertDisponibilidadUnicoDiaRoutes'
+import getDiasExisteDispVistaEstRoutes from './routes/getDiasExisteDispVistaEstRoutes'
+import getTodosEventosUnDiaVistaEstRoutes from './routes/getTodosEventosUnDiaVistaEstRoutes'
 
 class Server {
 
@@ -64,7 +72,14 @@ class Server {
         this.app.use('/insertDispDiasRango', insertDispDiasSemanaRangoRoutes);
         this.app.use('/citasUnDiaProf', citasUnDiaProfRoutes);
         this.app.use('/diasConCitasProf', diasExisteCitaProfRoutes);
-
+        this.app.use('/programarCitaPropia', programarCitaPropiaBloqueDispRoutes)
+        this.app.use('/asistirACitaAjena', asistirACitaAjenaRoutes);
+        this.app.use('/cancelarCitaPrivada', cancelarCitaPrivadaRoutes);
+        this.app.use('/noAsistirACitaPropia', noAsistirACitaPublicaPropiaRoutes);
+        this.app.use('/noAsistirACitaPubAjena', noAsistirACitaPublicaAjenaRoutes);
+        this.app.use('/insertDispUnDia', insertDisponibilidadUnicoDiaRoutes);
+        this.app.use('/getDiasDispEst', getDiasExisteDispVistaEstRoutes);
+        this.app.use('/getTodosEventosUnDiaEst', getTodosEventosUnDiaVistaEstRoutes);
     }
 
     start(): void {

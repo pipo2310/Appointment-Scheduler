@@ -33,7 +33,8 @@ import { Slot } from 'src/app/modelo/slot';
 import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
 import { promise } from 'protractor';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { tap } from 'rxjs/operators';
+import { tap, timeout, takeWhile } from 'rxjs/operators';
+import { async } from 'q';
 
 const colors: any = {
   red: {
@@ -72,6 +73,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   ultimoDia: Date;
   fechasString: Object[];
   horarioDispProfeSubs: Subscription;
+  loaded = false;
 
   constructor(private calendarService: CalendarService, private modalService: NgbModal) {
 
@@ -105,8 +107,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     //this.listaProfes = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //let horario = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
     //this.listaEstudiantes = 
-
-
+    
   }
 
 
@@ -117,7 +118,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   variable5: DispCitaPublicaVistaEst;
   variable6: CitaPublicaAjenaEstVistaEst;
 
-  ngOnInit() {
+  async ngOnInit() {
     /*var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
     //console.log("primerdia", this.primerDia.toISOString());
@@ -139,7 +140,9 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
 
     //this.getHorarioDispProfe();
-    this.recorrefechas();
+
+    await this.recorrefechas();   
+    
   }
 
   ngOnDestroy() {
@@ -252,19 +255,19 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       .pipe(tap(data => {
         this.fechasString = data,
           this.fechasString.forEach(element => {
-            this.listaDispProf.push(new Date(element["fecha"]));
+            this.listaDispProf.push(new Date(this.parseISOString(element["fecha"])));
           })
         console.log("horario del profe en días", this.listaDispProf.length);
       }));
     //this.listaDispProf = this.fechas;*/ 
   }
 
-  recorrefechas() {
-    //this.delay(1500);
-    this.getHorarioDispProfe().subscribe(()=>{
+  async recorrefechas() {
+    await this.getHorarioDispProfe().subscribe(()=>{
       for (var i = 0; i < this.listaDispProf.length; i++) {
         this.addEvent(this.listaDispProf[i]);
       }
+      this.loaded = true;
     });
     /*console.log("tamaño", this.listaDispProf.length);
     
@@ -312,7 +315,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
 
   parseISOString(s: string) {
     let b = s.split(/\D+/);
-    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2] + 1));
+    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
 
   delay(ms: number) {
