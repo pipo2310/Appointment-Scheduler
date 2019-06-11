@@ -88,6 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   navegarAProfesor() {
     this.router.navigate(['homeProfesor']);
+  
   }
 
   /**

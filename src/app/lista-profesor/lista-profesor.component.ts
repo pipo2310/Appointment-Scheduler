@@ -5,7 +5,11 @@ import { ProfesorService } from '../services/profesor.service';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { Profesor } from '../modelo/profesor';
-import { Subscription } from 'rxjs';
+import { Semana } from '../modelo/semana';
+import { Cita } from '../modelo/citasPrueba';
+
+
+
 
 @Component({
   selector: 'app-lista-profesor',
@@ -15,6 +19,11 @@ import { Subscription } from 'rxjs';
 export class ListaProfesorComponent implements OnInit, OnDestroy {
   semanas = SEMANAS;
   citas = CITAS;
+  selectedSemana:Semana;
+  citaActual:Cita;
+
+message:string;
+  
   usuarioActual: Profesor;
   conmutarLogSub: Subscription;
 
@@ -31,16 +40,54 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    
   }
-
-  ngOnDestroy(){
-    this.conmutarLogSub.unsubscribe();
+/*
+  newMessage() {
+    this.data.changeCita(this.citaActual)
   }
-
+*/
   logout() {
-    //this.apiService.conmutarLogueado(this.usuarioActual);
-    this.conmutarLogSub = this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
+  }
+
+  rangos(){
+    this.router.navigate(['definirRango']);
+  }
+
+  onSelect(sem:Semana){
+    
+    this.getCitas(this.selectedSemana);
+   
+  }
+
+  getCitas(sem:Semana)
+  {
+
+  }
+
+  irADetalles(cita:Cita)
+  {
+    //this.router.navigate(['detalleCita']);
+    //Parametro o cita se requiere pasar para ver detalles en siguiente pantalla
+    this.citaActual=cita;
+    
+    localStorage.setItem('citaActual', JSON.stringify(this.citaActual));
+  }
+
+  //Se aceptan las citas con el checkbox marcado
+  cancelarBloque(){
+
+  }
+  
+  //Se cancelan las citas con el checkbox marcado
+  aceptarBloque(){
+
+  }
+
+  getCitaActual(){
+    return this.citaActual;
   }
   
 

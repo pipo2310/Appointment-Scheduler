@@ -1,36 +1,131 @@
 <body>
+    <br>
     <div class="container-fluid">
+
         <h2>
-            Citas
+            Listado de citas
         </h2>
+
+        <br>
+
+        <button class="btn btn-outline-primary mr-2 " (click)="aceptarBloque()" id="btn1">Aceptar</button>
+        <button class="btn btn-outline-primary" (click)="cancelarBloque()" id="btn2">Cancelar</button>
+        <button class="btn btn-outline-primary mr-2" (click)="rangos()" id="btn3">Configurar disponibilidad</button>
+
+
+
+
+        <br>
+        <br>
+
         <ul class="cursos">
-            <ngb-accordion [closeOthers]="true" activeIds="">
-                <li *ngFor="let semana of semanas">
 
-                    <ngb-panel>
-                        <ng-template ngbPanelTitle>
-                            <span class="titulo2"> {{semana.diaInicio}}-{{semana.diaFinal}} </span>
 
+            <div class="row ">
+                <div class="col-sm-9">
+                    <!--
+                    <ngb-accordion class="acordeon" [closeOthers]="true" activeIds="">
+                        <li *ngFor="let semana of semanas; let i = index">
+                            <ngb-panel type="primary">
+
+                                <ng-template ngbPanelTitle>
+                                    <span class="titulo2">Semana {{i+1}}: </span>
+                                    <span class="titulo3"> {{semana.diaInicio}} - {{semana.diaFinal}} </span>
+                                </ng-template>
+
+                                <ng-template ngbPanelContent>
+                        <li *ngFor="let cita of citas">
+                            <a href="detalleCita">
+                                <label>
+                                    <input type="checkbox">
+                                </label>
+                                <span
+                                    class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
+                                -
+                                {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                            </a>
+                        </li>
                         </ng-template>
+                        </ngb-panel>
+                        </li>
+                    </ngb-accordion>
+                    -->
 
-                        <ng-template ngbPanelContent>
-                            <li *ngFor="let cita of citas">
-                                <a href="detalleCita">
-                                    <span class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}} - {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+
+
+                    <li *ngFor="let semana of semanas;let i=index" id={{semana.diaInicio}} (click)="onSelect(semana)">
+                        <a href="vistaLista#{{semana.diaInicio}}"><span class="badge"> Semana {{i+1}}: </span>
+                            {{semana.diaInicio}}-{{semana.diaFinal}}</a>
+                        <ul class="citas">
+                            <li *ngFor="let cita of citas" id=cita.nombre (click)="irADetalles(cita)">                             
+                          
+                                <a href="detalleCita">                                        
+                                    <span class="badge">
+                                        <label>
+                                            <input type="checkbox" >
+                                        </label>
+                                    </span>
+                                    {{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}-{{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
                                 </a>
-
                             </li>
-                        </ng-template>
-                    </ngb-panel>
+                        </ul>
+                    </li>
 
-                </li>
-            </ngb-accordion>
+
+                </div>
+
+                <div class="col-sm-3">
+
+                    <div class="card text-center" style="width: 20rem">
+                        <div class="card-header">
+                            Eventos Proximos
+                        </div>
+                        <div class="card-body">
+
+                            <br>
+                            <ul class="citaEvento">
+                                <li *ngFor="let cita of citas">
+                                    <a href="detalleCita">
+
+                                        <span
+                                            class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
+                                        -
+                                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+
+                                    </a>
+                                </li>
+                            </ul>
+                            <br>
+
+
+                        </div>
+                        <div class="card-footer text-muted">
+                            U-Meeter
+                        </div>
+                    </div>
+                    
+
+
+
+                </div>
+            </div>
+
         </ul>
     </div>
+
+    <!---
     <button (click)="logout()">
-        
-            <a> Cerrar Sesión
-            </a>
-          
-          </button>
+
+        <a> Cerrar Sesión
+        </a>
+
+    </button>
+
+    <button (click)="rangos()">
+
+        <a> Definir Rangos
+        </a>
+
+    </button>
+    -->
 </body>
