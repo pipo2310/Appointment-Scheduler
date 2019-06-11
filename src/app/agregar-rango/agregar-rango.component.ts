@@ -22,6 +22,7 @@ export class AgregarRangoComponent implements OnInit {
   sabado:boolean;
 
   constructor() {
+    
     this.lunes=false;
     this.martes=false;
     this.miercoles=false;

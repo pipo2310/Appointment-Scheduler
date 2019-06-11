@@ -8,7 +8,7 @@ class CitaCompletaProfRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', citaCompletaProfController_1.citaCompletaProfController.getCitaCompleta);
+        this.router.post('/', citaCompletaProfController_1.citaCompletaProfController.getCitaCompleta);
     }
 }
 const citaCompletaProfRoutes = new CitaCompletaProfRoutes();
