@@ -9,6 +9,7 @@ import { Cita } from '../modelo/citasPrueba';
 
 
 
+
 @Component({
   selector: 'app-lista-profesor',
   templateUrl: './lista-profesor.component.html',
@@ -18,8 +19,9 @@ export class ListaProfesorComponent implements OnInit {
   semanas = SEMANAS;
   citas = CITAS;
   selectedSemana:Semana;
+  citaActual:Cita;
 
-
+message:string;
   
   usuarioActual: Profesor;
   constructor(private profesorService: ProfesorService,private router: Router) {
@@ -35,11 +37,16 @@ export class ListaProfesorComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
-
+/*
+  newMessage() {
+    this.data.changeCita(this.citaActual)
+  }
+*/
   logout() {
     this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
-   this.router.navigate(['login']);
+    this.router.navigate(['login']);
   }
 
   rangos(){
@@ -59,7 +66,11 @@ export class ListaProfesorComponent implements OnInit {
 
   irADetalles(cita:Cita)
   {
-    this.router.navigate(['detalleCita']);
+    //this.router.navigate(['detalleCita']);
+    //Parametro o cita se requiere pasar para ver detalles en siguiente pantalla
+    this.citaActual=cita;
+    
+    localStorage.setItem('citaActual', JSON.stringify(this.citaActual));
   }
 
   //Se aceptan las citas con el checkbox marcado
@@ -70,6 +81,10 @@ export class ListaProfesorComponent implements OnInit {
   //Se cancelan las citas con el checkbox marcado
   aceptarBloque(){
 
+  }
+
+  getCitaActual(){
+    return this.citaActual;
   }
   
 

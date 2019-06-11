@@ -180,6 +180,27 @@ ul.citaEvento li a {
     box-sizing: border-box;
     font-family: Arial;
 }
+
+ul.cursos .citas li a:hover {
+    background: rgba(53, 149, 212, 0.95);
+    color: #fff;
+}
+
+ul.cursos .citas li a li{
+    list-style: none;
+}
+ul.cursos .citas li a {
+    display: block;
+    padding: 10px 10px 10px 20px;
+    background: rgb(207, 200, 200);
+    margin-right: 0px;
+    color: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #666;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial;
+}
 /*
 .container-fluid #btn1{
     float: left;

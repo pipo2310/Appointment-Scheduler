@@ -57,13 +57,14 @@
                         <a href="vistaLista#{{semana.diaInicio}}"><span class="badge"> Semana {{i+1}}: </span>
                             {{semana.diaInicio}}-{{semana.diaFinal}}</a>
                         <ul class="citas">
-                            <li *ngFor="let cita of citas" id=cita.nombre (click)="irADetalles(cita)">
-                                
-                                <a>
+                            <li *ngFor="let cita of citas" id=cita.nombre (click)="irADetalles(cita)">                             
+                          
+                                <a href="detalleCita">                                        
+                                    <span class="badge">
                                         <label>
-                                                <input type="checkbox" >
-                                            </label>
-                                    <span class="badge"></span>
+                                            <input type="checkbox" >
+                                        </label>
+                                    </span>
                                     {{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}-{{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
                                 </a>
                             </li>
@@ -90,6 +91,7 @@
                                             class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
                                         -
                                         {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+
                                     </a>
                                 </li>
                             </ul>
@@ -101,6 +103,7 @@
                             U-Meeter
                         </div>
                     </div>
+                    
 
 
 
