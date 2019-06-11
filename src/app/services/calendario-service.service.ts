@@ -16,7 +16,7 @@ import { Curso } from '../modelo/curso';
 import { Observable } from  'rxjs';
 import { tap } from  'rxjs/operators';
 import { Profesor } from '../modelo/profesor';
-import { CitaPrivadaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst } from '../modelo/eventdiaVistaEst';
+import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'homeStudent' })
@@ -47,6 +47,9 @@ export class CalendarService {
         fechas =  res;
         //console.log("fechas:", fechas);
       }));
+
+      /*const fechasObservable = new Observable(fechas);
+      return fechasObservable;*/
   }
 
  

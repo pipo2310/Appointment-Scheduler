@@ -15,7 +15,7 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, Observable } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -26,14 +26,14 @@ import {
 import { MaxLengthValidator } from '@angular/forms';
 import { Profesor } from '../../modelo/profesor';
 import { Estudiante } from '../../modelo/estudiante';
-import { ApiService } from '../../api.service';
-
 //import {MatDialogModule} from '@angular/material/dialog';
 import { CalendarService } from '../../services/calendario-service.service';
 import { viewAttached } from '@angular/core/src/render3/instructions';
 import { Slot } from 'src/app/modelo/slot';
 import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
+import { promise } from 'protractor';
 //import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { tap } from 'rxjs/operators';
 
 const colors: any = {
   red: {
@@ -97,6 +97,9 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       segundoApellido: parsed['segundoApellido'],
       carne: parsed['carne']
     };
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.dat.push(this.primerDia);
 
     //Llamar ambos metodos del servicio aqui
     //this.listaProfes = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
@@ -105,6 +108,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
 
 
   }
+
 
   variablr: DispProfeVistaEst;
   variable2: CitaPrivadaVistaEst;
@@ -134,14 +138,15 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
 
-    this.getHorarioDispProfe();
+    //this.getHorarioDispProfe();
     this.recorrefechas();
-
   }
 
-
   ngOnDestroy() {
-    this.horarioDispProfeSubs.unsubscribe();
+    try {
+      this.horarioDispProfeSubs.unsubscribe();
+    } catch (Exception) { }
+
   }
 
 
@@ -201,15 +206,20 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       return `with: ${reason}`;
     }
   }
-  slotActual: DispProfeVistaEst;
 
-  formularioDatosCitas(content, slot: DispProfeVistaEst) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-formEstudiante' }).result.then((result) => {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
+    for (var i = 0; i < this.dat.length; i++) {
+      if (date == this.dat[i]) {
+        this.val = true;
+        return this.val;
+      }
+    }
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-    this.slotActual = slot;
+    //this.slotActual = slot;
 
     return this.val;
   }
@@ -237,14 +247,31 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       this.modal.open(this.modalContent, { size: 'lg' });
     }*/
 
+  getHorarioDispProfe(): Observable<any> {
+    return this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
+      .pipe(tap(data => {
+        this.fechasString = data,
+          this.fechasString.forEach(element => {
+            this.listaDispProf.push(new Date(element["fecha"]));
+          })
+        console.log("horario del profe en días", this.listaDispProf.length);
+      }));
+    //this.listaDispProf = this.fechas;*/ 
+  }
 
-  async recorrefechas() {
-    await this.delay(1000);
-    console.log("lista disp profes en recorre fechas: ", this.listaDispProf, this.listaDispProf.length);
+  recorrefechas() {
+    //this.delay(1500);
+    this.getHorarioDispProfe().subscribe(()=>{
+      for (var i = 0; i < this.listaDispProf.length; i++) {
+        this.addEvent(this.listaDispProf[i]);
+      }
+    });
+    /*console.log("tamaño", this.listaDispProf.length);
+    
 
-    for (let i = 0; i < this.listaDispProf.length; i++) {
-      this.addEvent(this.listaDispProf[i]);
-    }
+    for (var i = 0; i < this.dat.length; i++) {
+      this.addEvent(this.dat[i]);
+    }*/
 
     //this.calendarService.infoCitaSolicitada(this.slotActual,"descripcion",true);
 
@@ -269,7 +296,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     ];
   }
 
-
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
   }
@@ -283,33 +309,13 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.activeDayIsOpen = false;
   }
 
-  getHorarioDispProfe() {
-    this.horarioDispProfeSubs = this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
-      .subscribe(data => {
-      this.fechasString = data,
-        this.fechasString.forEach(element => {
-          this.listaDispProf.push(new Date(element["fecha"]));
-        })
-        console.log("horario del profe en días", this.listaDispProf.length);
-      });
-    //this.listaDispProf = this.fechas;
-    
-  }
 
   parseISOString(s: string) {
     let b = s.split(/\D+/);
-    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2] +1));
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
-    const activeModal =this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2] + 1));
   }
 
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }

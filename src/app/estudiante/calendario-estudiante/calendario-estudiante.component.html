@@ -1,19 +1,16 @@
-Jimmy Acuña, [10.06.19 17:44]
 <link href="https://unpkg.com/bootstrap-css-only@4.3.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.css" rel="stylesheet">
 <link href="https://unpkg.com/angular-calendar@0.27.8/css/angular-calendar.css" rel="stylesheet">
 <link href="https://unpkg.com/flatpickr@4.5.7/dist/flatpickr.css" rel="stylesheet">
 
-
-
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">
+
       <div class="btn btn-primary" id="buttonPre" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()">
         Previous
       </div>
-
       <div class="btn btn-primary" id="buttonNext" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()">
         Next
@@ -40,25 +37,7 @@ Jimmy Acuña, [10.06.19 17:44]
 
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
-      Event:
-      <pre>{{ modalData?.event | json }}</pre>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
-      OK
-    </button>
+   
   </div>
 </ng-template>
 
@@ -69,9 +48,6 @@ Jimmy Acuña, [10.06.19 17:44]
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-
-
-
   <div *ngFor="let slot of eventos">
     <div *ngIf="slot.constructor.name =='DispProfeVistaEst'" float="left">
       <button type="button" class="btn btn-outline-dark" float="left" (click)="formularioDatosCitas(content,slot)">
@@ -103,10 +79,7 @@ Jimmy Acuña, [10.06.19 17:44]
 
     <div *ngIf="slot.constructor.name =='CitaPublicaPropiaEstVistaEst'">
       <button type="button" class="btn btn-outline-dark" float="left" id="citasPublicasPropias"> {{slot.horaIni}}
-        {{slot.horaFin}}
-
-Jimmy Acuña, [10.06.19 17:44]
-{{slot.propietario}}-Pública {{slot.descripcion}} </button>
+        {{slot.horaFin}} {{slot.propietario}}-Pública {{slot.descripcion}} </button>
       <button type="button" class="btn btn-outline-dark" float="left" id='derecha'
         (click)="cancelarCitaPublica(slot)">Cancelar</button>
     </div>
@@ -127,7 +100,6 @@ Jimmy Acuña, [10.06.19 17:44]
         <label for="descrip">Descripción</label>
         <input type="text" id="textDescripcion" class="form-control" placeholder="Descripción">
       </div>
-
       <div class="form-group">
         <label for="ejemplo_archivo_1">Adjuntar un archivo</label>
         <input type="file" id="ejemplo_archivo_1">
