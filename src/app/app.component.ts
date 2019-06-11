@@ -15,6 +15,7 @@ import { ProfesorService } from '../app/services/profesor.service';
 import { Estudiante } from '../app/modelo/estudiante'
 import { Router } from '@angular/router';
 import { Profesor } from './modelo/profesor';
+import { Usuario } from './modelo/usuario';
 import {LoginService} from '../app/services/login.service';
 
 @Component({

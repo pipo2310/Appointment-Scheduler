@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Profesor } from '../modelo/profesor';
 import { Semana } from '../modelo/semana';
 import { Cita } from '../modelo/citasPrueba';
+import {Subscription}  from 'rxjs';
 
 
 
@@ -41,6 +42,10 @@ message:string;
 
   ngOnInit() {
     
+  }
+
+  ngOnDestroy(){
+
   }
 /*
   newMessage() {
