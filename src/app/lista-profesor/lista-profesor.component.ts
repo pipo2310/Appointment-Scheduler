@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CITAS } from '../modelo/datosCitas';
 import { SEMANAS } from '../modelo/datosPrueba';
 import { ProfesorService } from '../services/profesor.service';
+import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { Profesor } from '../modelo/profesor';
 import { Semana } from '../modelo/semana';
@@ -15,7 +16,7 @@ import { Cita } from '../modelo/citasPrueba';
   templateUrl: './lista-profesor.component.html',
   styleUrls: ['./lista-profesor.component.css']
 })
-export class ListaProfesorComponent implements OnInit {
+export class ListaProfesorComponent implements OnInit, OnDestroy {
   semanas = SEMANAS;
   citas = CITAS;
   selectedSemana:Semana;
@@ -24,7 +25,9 @@ export class ListaProfesorComponent implements OnInit {
 message:string;
   
   usuarioActual: Profesor;
-  constructor(private profesorService: ProfesorService,private router: Router) {
+  conmutarLogSub: Subscription;
+
+  constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {

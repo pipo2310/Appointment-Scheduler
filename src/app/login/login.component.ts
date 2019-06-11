@@ -9,10 +9,12 @@
  * Soto Li Jose Alberto
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from '../services/login.service';
+import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +22,17 @@ import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-    constructor(private loginService: LoginService, private router: Router) { }
+  conmutarLogSub: Subscription;
+
+    constructor(private loginService: LoginService, private apiService: ApiService, private router: Router) { }
   
     ngOnInit() {
+    }
+
+    ngOnDestroy(){
+      this.conmutarLogSub.unsubscribe();
     }
    
   
@@ -41,17 +49,15 @@ export class LoginComponent implements OnInit {
     else
     {
       if(username!=""|| password!=""){
-
-      // Llamada al servicio del api
+      //Llamada al servicio del api
       let promesa = this.loginService.login(username, password).toPromise();
    
       promesa.then(res => {
           // Obtiene el status de login que aparece en la respuesta
           let logueado = res['logueado'];
           if (logueado == 0) { // Se puede continuar con el login
-           // this.loginService.conmutarLogueado(res['cedula']).subscribe();
             // Obtiene el rol que aparece en la respuesta
-            this.loginService.conmutarLogueado(res['cedula']).subscribe();
+            this.conmutarLogSub = this.loginService.conmutarLogueado(res['cedula']).subscribe();
             let rol = res['rol'];
             if (rol == 1) { // Profesor
               this.navegarAProfesor();

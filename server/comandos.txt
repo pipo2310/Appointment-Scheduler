@@ -1,0 +1,6 @@
+en carpeta server:
+    npm i express morgan promise-mysql cors
+    npm install -g typescript
+    npm i nodemon -D
+    npm i @types/express -D
+    npm i @types/morgan @types/cors -D

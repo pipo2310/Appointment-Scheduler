@@ -19,12 +19,14 @@ import {EstudianteComponent} from './estudiante/estudiante.component'
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {CitaComponent} from '../app/cita/cita.component'
 import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 import { CitaComponent } from './cita/cita.component';
 import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
@@ -37,7 +39,8 @@ import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
     ProfesorComponent,
     ListaProfesorComponent,
     CitaComponent,
-    AgregarRangoComponent
+    CalendarioEstudianteComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,
@@ -51,7 +54,8 @@ import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

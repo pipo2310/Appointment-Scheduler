@@ -25,6 +25,7 @@ import { from } from 'rxjs';
 
 //lista de rutas de cada una de las "pantallas".
 const routes: Routes = [
+  {path:'CalendarioEst',component:CalendarioEstudianteComponent},
   { path: 'login', component: LoginComponent },
   { path: 'homeEstudiante', component: EstudianteComponent },
   { path: 'homeProfesor', component: ProfesorComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'detalleCita', component: CitaComponent},
   {path: 'definirRango',component: AgregarRangoComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+
+ 
 ];
 
 @NgModule({

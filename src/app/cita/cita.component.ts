@@ -36,5 +36,7 @@ export class CitaComponent implements OnInit {
 
   }
 
+  ngOnDestroy(){
 
+  }
 }
