@@ -39,7 +39,7 @@ export class CitaComponent implements OnInit {
     };
     let parsed = JSON.parse(localStorage.getItem('citaActual'));
     this.citaActual = parsed;
-    if (this.citaActual.estado = 'Aprobado') {
+    if (this.citaActual.estado == 'Aprobado') {
       this.estado = true;
     } else {
       this.estado = false;
@@ -71,7 +71,7 @@ export class CitaComponent implements OnInit {
 
   }
   //Se cancela la cita detallada
-  rechazarCita() {
+  cancelarCita() {
     this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
   }
 

@@ -92,12 +92,10 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
           tiempoIni=tiempoIni.substring(0,tiempoIni.length-3);
           tiempoFin=tiempoFin.substring(0,tiempoFin.length-3);
           estadoS=element["status"];
-          if(estadoS='A'){
+          if(estadoS=='A'){
             estadoS='Aprobado';
-          }else{
-            if(estadoS='R'){
+          }else if(estadoS=='R'){
               estadoS='Reservado';
-            }
           }
           if (element["cedula"] == null) {
             nombreS = "Sin propietario";
