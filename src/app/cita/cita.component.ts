@@ -5,6 +5,7 @@ import { CitaVistaProf } from '../modelo/citaVistaProf';
 import { ObjetoCita } from '../modelo/objetoCita';
 import { ProfesorService } from '../services/profesor.service';
 import { Usuario } from '../modelo/usuario';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-cita',
@@ -14,9 +15,15 @@ import { Usuario } from '../modelo/usuario';
 export class CitaComponent implements OnInit {
   citaActual: CitaVistaProf; //Viene de la otra pantalla
   objetoCita: ObjetoCita;
+  objCitasString: Object[];
   message: string;
   estado: boolean;
-  usuarioActual: Usuario
+  usuarioActual: Usuario;
+  esconderDatosCedula: boolean;
+  esconderContador:boolean;
+  citasObjetos: Array<ObjetoCita>;
+  x: any;
+
 
   listProf: ListaProfesorComponent;
 
@@ -37,6 +44,15 @@ export class CitaComponent implements OnInit {
     } else {
       this.estado = false;
     }
+
+    if (this.citaActual.cedulaEst == null) {
+      this.esconderDatosCedula = true;
+
+    } else {
+      this.esconderDatosCedula = false;
+    }
+
+    this.objetoCita = new ObjetoCita;
     this.getCitaCompleta();
 
 
@@ -51,12 +67,12 @@ export class CitaComponent implements OnInit {
 
   //Se acepta la cita detallada
   aceptarCita() {
-    this.profesorService.aceptarCita(this.usuarioActual.cedula,this.citaActual.diaSinParsear,this.citaActual.horaInicio).subscribe(data => {});
+    this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
 
   }
   //Se cancela la cita detallada
   rechazarCita() {
-    this.profesorService.rechazarCita(this.usuarioActual.cedula,this.citaActual.diaSinParsear,this.citaActual.horaInicio).subscribe(data => {});
+    this.profesorService.rechazarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
   }
 
   ngOnDestroy() {
@@ -65,7 +81,40 @@ export class CitaComponent implements OnInit {
 
   getCitaCompleta() {
     this.profesorService.getCitaCompleta(this.citaActual.cedulaEst, this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio)
-    .subscribe(data => {})
-    ;
+      .subscribe(data => {
+        this.objCitasString = data.result;
+        console.log((this.objCitasString[0])["carne"]);
+        this.objetoCita.carne = ((this.objCitasString[0])["carne"]);
+        this.objetoCita.descripcion = ((this.objCitasString[0])["descr"]);
+        this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);
+        this.objetoCita.tipo = ((this.objCitasString[0])["pub"]);
+        this.objetoCita.contador = ((this.objCitasString[0])["cont"]);
+        if (this.objetoCita.tipo == "1") {
+          this.objetoCita.tipo = "Publica";
+          this.esconderContador=false;
+        } else {
+          this.objetoCita.tipo = "Privada";
+          this.esconderContador=true;
+        }
+
+
+        /* 
+           this.objetoCita.carne = this.objCitasString[0][0];//carne
+           this.objetoCita.descripcion = this.objCitasString[0][1];//descr
+           this.objetoCita.lugar = this.objCitasString[0][2];//lug
+           this.objetoCita.tipo = this.objCitasString[0][3];//tipo
+           this.objetoCita.contador = this.objCitasString[0][4];//cont
+          */
+      });
+
+
+
+
+
+
   }
+
+
+  // 
 }
+

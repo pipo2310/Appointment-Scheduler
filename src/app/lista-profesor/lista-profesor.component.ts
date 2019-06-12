@@ -78,9 +78,12 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     let tiempoIni:string;
     let tiempoFin:string;
     let estadoS:string;
+    let nombreS:string;
+
     this.profesorService.getCitasSemana(this.usuarioActual.cedula, sem.ini.toISOString(), sem.fin.toISOString())
       .subscribe(data => {
         this.citasSemanaString = data;
+        console.log(this.citasSemanaString);
         this.citasSemanaString.forEach(element => {
           diaIng=(new Date(element["fecha"]).toLocaleDateString("es-ES", options));
           diaIng= diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
@@ -96,9 +99,14 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
               estadoS='Reservado';
             }
           }
+          if (element["cedula"] == null) {
+            nombreS = "Sin propietario";
+          } else {
+            nombreS = element["nombre"]+' '+ element["primerApellido"]+' '+element["segundoApellido"];
+          }
           this.citasSemana.push(
             {
-              nombre: element["nombre"]+' '+ element["primerApellido"]+' '+element["segundoApellido"],
+              nombre: nombreS,
               cedulaEst: element["cedula"],
               dia : diaIng,             
               //horaInicio: element["horaIni"],

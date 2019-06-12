@@ -62,8 +62,8 @@ export class ProfesorService {
   }
 
 
-  public getCitaCompleta(cedulaEst: string, cedulaProf: string, fecha: string, hora: string) {
-    let cita;
+  public getCitaCompleta(cedulaEst: string, cedulaProf: string, fecha: string, hora: string): Observable<any> {
+    let cita: any[];
     return this.httpClient.post(`${this.NODE_API_SERVER}/citasCompletasProf`, {
       cedulaEst: cedulaEst,
       fecha: fecha,
