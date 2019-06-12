@@ -72,7 +72,7 @@ export class CitaComponent implements OnInit {
   }
   //Se cancela la cita detallada
   rechazarCita() {
-    this.profesorService.rechazarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+    this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
   }
 
   ngOnDestroy() {

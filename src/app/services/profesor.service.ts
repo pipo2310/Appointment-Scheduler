@@ -83,19 +83,19 @@ export class ProfesorService {
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
 
-      // console.log(cita);
+      console.log(res);
 
     }));
   }
 
-  public rechazarCita(cedulaProf: string, fecha: string, hora: string) {
+  public cancelarCita(cedulaProf: string, fecha: string, hora: string) {
     return this.httpClient.post(`${this.NODE_API_SERVER}/rechazarCitaProf`, {
       fecha: fecha,
       hora: hora,
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
 
-      // console.log(cita);
+      console.log(res);
 
     }));
   }

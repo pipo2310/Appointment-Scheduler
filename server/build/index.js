@@ -30,6 +30,8 @@ const insertDisponibilidadUnicoDiaRoutes_1 = __importDefault(require("./routes/i
 const getDiasExisteDispVistaEstRoutes_1 = __importDefault(require("./routes/getDiasExisteDispVistaEstRoutes"));
 const getTodosEventosUnDiaVistaEstRoutes_1 = __importDefault(require("./routes/getTodosEventosUnDiaVistaEstRoutes"));
 const citasUnaSemProfRoutes_1 = __importDefault(require("./routes/citasUnaSemProfRoutes"));
+const aceptarCitaRoutes_1 = __importDefault(require("./routes/aceptarCitaRoutes"));
+const cancelarCitaRoutes_1 = __importDefault(require("./routes/cancelarCitaRoutes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -77,6 +79,8 @@ class Server {
         this.app.use('/getDiasDispEst', getDiasExisteDispVistaEstRoutes_1.default);
         this.app.use('/getTodosEventosUnDiaEst', getTodosEventosUnDiaVistaEstRoutes_1.default);
         this.app.use('/citasUnaSemProf', citasUnaSemProfRoutes_1.default);
+        this.app.use('/aceptarCitaProf', aceptarCitaRoutes_1.default);
+        this.app.use('/rechazarCitaProf', cancelarCitaRoutes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => {
