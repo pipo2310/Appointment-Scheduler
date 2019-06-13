@@ -30,7 +30,7 @@ const httpOptions = {
 export class CalendarService {
   //conexión a la base de datos
   //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
-  NODE_API_SERVER = "http://localhost:3000";
+  NODE_API_SERVER = "http://ec2-34-239-46-160.compute-1.amazonaws.com:3000";
 
   constructor(private httpClient: HttpClient) { }
 
