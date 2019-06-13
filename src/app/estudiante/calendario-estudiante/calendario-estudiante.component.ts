@@ -186,10 +186,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-
-
-  ];
+  events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = true;
 
@@ -219,8 +216,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
     for (let i = 0; i < this.listaDispProf.length; i++) {
       if (date.getTime() == this.listaDispProf[i].getTime()) {
+
         this.horarioDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe(() => {
         });
+
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
