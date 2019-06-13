@@ -73,13 +73,14 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
 
   onSelect(sem: SemanaProf) {
 
-    this.citasSemana = [];
+    //this.citasSemana = [];
     this.selectedSemana = sem;
     this.getCitas(this.selectedSemana);
 
   }
 
   getCitas(sem: SemanaProf) {
+    this.citasSemana=[];
     let options = { weekday: 'long', month: 'long', day: 'numeric' };
     let diaIng:string;
     let tiempoIni:string;

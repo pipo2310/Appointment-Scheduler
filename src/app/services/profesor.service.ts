@@ -75,11 +75,13 @@ export class ProfesorService {
   }
 
   public aceptarCita(cedulaProf: string, fecha: string, hora: string) {
+    //console.log(cedulaProf+fecha+hora);
     return this.httpClient.post(`${this.NODE_API_SERVER}/aceptarCitaProf`, {
       dia: fecha,
       hora: hora,
       cedProf: cedulaProf
     }).pipe(tap(res => {
+      console.log(res);
     }));
   }
 

@@ -71,7 +71,7 @@ export class CitaComponent implements OnInit {
 
   ngOnDestroy() {
     try {
-      this.aceptarCitaSubs.unsubscribe();
+      //this.aceptarCitaSubs.unsubscribe();
       this.cancelarCitaSubs.unsubscribe();
       this.getCitaCompletaSubs.unsubscribe();
     } catch (Exception) { }
@@ -80,7 +80,9 @@ export class CitaComponent implements OnInit {
 
   //Se acepta la cita detallada
   aceptarCita() {
+    //console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHS");
     this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+    //console.log("");
     this.router.navigate(['vistaLista']);
   }
   //Se cancela la cita detallada
