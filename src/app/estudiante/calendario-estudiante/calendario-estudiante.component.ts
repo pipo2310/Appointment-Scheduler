@@ -213,6 +213,11 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.slotActual = slot;
   }
 
+  /*
+  En este metodo toma las listas ya llenas y habre el modal sólo si al recorrer la lista encuentra el día en que se clickeo
+  
+  */
+
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
     for (let i = 0; i < this.listaDispProf.length; i++) {
       if (date.getTime() == this.listaDispProf[i].getTime()) {
@@ -228,6 +233,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
         i = this.listaDispProf.length
       }
     }
+
     for (let i = 0; i < this.listaEstudiantes.length; i++) {
       if (date.getTime() == this.listaEstudiantes[i].getTime()) {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -240,6 +246,8 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     }
     return this.val;
   }
+
+
   eventTimesChanged({
     event,
     newStart,
@@ -295,6 +303,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     window.alert("cancelada");
   }
 
+  /**
+   * En este metodo llena lista que luego se van a usar para desplegar el modal en el daycliked
+   * 
+   */
   getHorarioDispProfe() {
     return this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
       .pipe(tap(data => {
@@ -304,6 +316,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
           })
       }));
   }
+  /**
+   * En esta llena otra lista que luego se usa para desplegar en el modal
+   * 
+   */
 
   getDiasConCitasEst() {
     let diasCitaObject: Object[];
@@ -379,6 +395,11 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
           })
       }));
   }
+
+  /**
+   * Este metodo recorre los elemnetos de las listas que tienen los horarios y los meten en el calendarEvent que es el quien
+   * despliega los eventos en el calendario
+   */
 
   recorrefechas() {
     this.horarioDispProfeSubs = this.getHorarioDispProfe()

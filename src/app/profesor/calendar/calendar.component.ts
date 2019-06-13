@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import { Subject, Observable, Subscription } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { viewAttached, element } from '@angular/core/src/render3/instructions';
 import {CalendarEvent,
    CalendarEventAction, 
    CalendarEventTimesChangedEvent, 
@@ -50,7 +51,6 @@ export class CalendarComponent implements OnInit {
   citasDia: Array<CitaVistaProf>;
   citasDiaObject: Object[]; 
   profesorActual: Profesor;
-  profeCita: Profesor;
   primerDia: Date;
   ultimoDia: Date;
   loaded: Promise<boolean>;
@@ -67,6 +67,7 @@ export class CalendarComponent implements OnInit {
 
 constructor(private modal: NgbModal, private calendarioService: CalendarioProfesorService) {
 
+  this.loaded = Promise.resolve(true);
   // Extrae la información del usuario guardada en el almacenamiento local por el login service
 
   let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -81,10 +82,8 @@ constructor(private modal: NgbModal, private calendarioService: CalendarioProfes
     segundoApellido : parsed['segundoApellido']
 
   };
+  this.citasDia = new Array<CitaVistaProf>();
   var date = new Date();
-  
-  
-  this.slots = ["cita1", "cita2", "cita3"];
   
 
 }
@@ -109,9 +108,36 @@ return this.mostrar;
 
   /***************************************************************************************************/
 
+  closeResult: string;
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
   // Este método va relacionado a cuando se hace click en un día y se sepliega hacia abajo la lista de eventos
 dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
   this.citasDia = [];
+  for (let i = 0; i < this.listaFechas.length; i++) {
+    if (date.getTime() == this.listaFechas[i].getTime()) {
+
+      this.getCitasDia(date).subscribe(()=>{});
+
+      this.modal.open(this.modalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+      i = this.listaFechas.length
+    }
+  }
+
+  /*this.citasDia = [];
   this.getCitasDia(date).subscribe(()=>{
 
   });
@@ -125,29 +151,32 @@ dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         //this.activeDayIsOpen = true;
         this.modal.open(this.modalContent, { size: 'lg' });
       }
-    }
+    }*/
   }
 
   /***************************************************************************************************/
 
   async ngOnInit() {
-  this.citasProfSubs = await this.getDiasConCita().subscribe();
-  var date = new Date();
-  this.citasDia = new Array<CitaVistaProf>();
-  this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
-  this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  this.horarioProfeSubs = await this.getDiasConCita().subscribe();
+    this.loaded = Promise.resolve(false);
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    //this.horarioProfeSubs = await this.getDiasConCita().subscribe();
     await this.recorrefechas();
 
   }
-  getDiasConCita() {
+
+
+  getDiasConCitas() {
     let diasCitaObject: Object[];
-    return this.calendarioService.getDiasConCita(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profeCita.cedula)
+    console.log("hola");
+    return this.calendarioService.getDiasConCita(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profesorActual.cedula)
       .pipe(tap(data => {
         diasCitaObject = data,
-          diasCitaObject['result'].forEach(element => {
-            this.listaFechas.push(new Date(this.parseISOString(element['fecha'])));
+          diasCitaObject.forEach(element => {
+           this.listaFechas.push(new Date(this.parseISOString(element['fecha'])));
           })
+          
       }));
   }
 
@@ -175,56 +204,9 @@ actions: CalendarEventAction[] = [
 refresh: Subject<any> = new Subject();
 
 
-  //La variable events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
+  // La variable events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
   // En este vector deben estar todos los eventos que vaya a tener el calendario.
-events: CalendarEvent[] = [
-    /*{
-      start: subDays(startOfDay(new Date()), 0),
-      end: addDays(new Date(),0),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-
-
-    {
-      start: startOfDay(new Date()),
-      end: addDays(new Date(), 1),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-
-
-
-    { //Este es para las bolitas azules
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-
-
-    {    //Este es para las bolitas anaranjadas
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true  //*****************
-    }*/
-  ];
+events: CalendarEvent[] = [];
 
   /***************************************************************************************************/
 
@@ -256,77 +238,15 @@ handleEvent(action: string, event: CalendarEvent): void {
   }
 
   /***************************************************************************************************/
-/*
-  getEventosUnDiaEst(fecha: string): Observable<any> {
-    this.citasDia = [];
-    return this.calendarService.getEventosEst(this.estudianteCita.cedula, fecha, this.profeCita.cedula, localStorage.getItem('sigla'))
-      .pipe(tap(data => {
-        this.eventsObject = data,
-          this.eventsObject['result'].forEach(element => {
-            switch (element['tipoEvento']) {
-              case 0:
-                let dispProfeVistaEst = new DispProfeVistaEst();
-                dispProfeVistaEst.fecha = this.parseISOString(fecha);
-                dispProfeVistaEst.horaIni = element['horaIni'];
-                dispProfeVistaEst.horaFin = element['horaFin'];
-                this.eventos.push(dispProfeVistaEst);
-                break;
 
-              case 1:
-                let dispCitaPublicaVistaEst = new DispCitaPublicaVistaEst();
-                dispCitaPublicaVistaEst.fecha = this.parseISOString(fecha);
-                dispCitaPublicaVistaEst.horaIni = element['horaIni'];
-                dispCitaPublicaVistaEst.horaFin = element['horaFin'];
-                dispCitaPublicaVistaEst.descripcion = element['descripcion'];
-                if (element['idEstPropCita'] != null) {
-                  dispCitaPublicaVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
-                } else {
-                  dispCitaPublicaVistaEst.propietario = "Sin propietario"
-                }
-                dispCitaPublicaVistaEst.estado = element['statusCita'];
-                this.eventos.push(dispCitaPublicaVistaEst);
-                break;
-              case 2:
-                let citaPrivadaVistaEst = new CitaPrivadaVistaEst();
-                citaPrivadaVistaEst.fecha = this.parseISOString(fecha);
-                citaPrivadaVistaEst.horaIni = element['horaIni'];
-                citaPrivadaVistaEst.horaFin = element['horaFin'];
-                citaPrivadaVistaEst.descripcion = element['descripcion'];
-                citaPrivadaVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
-                citaPrivadaVistaEst.estado = element['statusCita'];
-                this.eventos.push(citaPrivadaVistaEst);
-                break;
-              case 3:
-                let citaPublicaPropiaEstVistaEst = new CitaPublicaPropiaEstVistaEst();
-                citaPublicaPropiaEstVistaEst.fecha = this.parseISOString(fecha);
-                citaPublicaPropiaEstVistaEst.horaIni = element['horaIni'];
-                citaPublicaPropiaEstVistaEst.horaFin = element['horaFin'];
-                citaPublicaPropiaEstVistaEst.descripcion = element['descripcion'];
-                citaPublicaPropiaEstVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
-                citaPublicaPropiaEstVistaEst.estado = element['statusCita'];
-                this.eventos.push(citaPublicaPropiaEstVistaEst);
-                break;
-              case 4:
-                let citaPublicaAjenaEstVistaEst = new CitaPublicaAjenaEstVistaEst();
-                citaPublicaAjenaEstVistaEst.fecha = this.parseISOString(fecha);
-                citaPublicaAjenaEstVistaEst.horaIni = element['horaIni'];
-                citaPublicaAjenaEstVistaEst.horaFin = element['horaFin'];
-                citaPublicaAjenaEstVistaEst.descripcion = element['descripcion'];
-                citaPublicaAjenaEstVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
-                citaPublicaAjenaEstVistaEst.estado = element['statusCita'];
-                this.eventos.push(citaPublicaAjenaEstVistaEst);
-                break;
-            }
-          })
-      }));
-  }*/
 
   /***************************************************************************************************/
 
   recorrefechas() {
-    this.horarioProfeSubs = this.getDiasConCita().subscribe(() => {
-
+    this.horarioProfeSubs = this.getDiasConCitas().subscribe(() => {
+        
         for (var i = 0; i < this.listaFechas.length; i++) {
+
           this.addEvent(this.listaFechas[i]);
         }
       });
@@ -339,10 +259,10 @@ addEvent(fecha: Date): void {
     this.events = [
       ...this.events,
       {
+        // background-color:red,
         title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
+        start: startOfDay(fecha),
+        color: colors.green,
         draggable: true,
         resizable: {
           beforeStart: true,
@@ -379,6 +299,7 @@ getCitasDia(date: Date):Observable<any>{
   let nombreS:string; 
 
   return this.calendarioService.getCitasDia(this.profesorActual.cedula, date.toISOString()).pipe(tap(data => {
+    console.log(this.profesorActual);
     this.citasDiaObject = data;
     this.citasDiaObject.forEach(element => {
 
@@ -401,11 +322,8 @@ getCitasDia(date: Date):Observable<any>{
         nombreS = "Sin propietario";
 
       } else {
-
         nombreS = element["nombre"]+' '+ element["primerApellido"]+' '+element["segundoApellido"];
-
       }
-
       this.citasDia.push(
 
         {
@@ -423,6 +341,11 @@ getCitasDia(date: Date):Observable<any>{
   });
 }));
 
+}
+
+parseISOString(s: string) {
+  let b = s.split(/\D+/);
+  return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
 }
 
 }

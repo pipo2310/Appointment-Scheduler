@@ -83,23 +83,24 @@
             <button type="button" class="btn btn-warning" id="btnActions" (click)="close()"> 
               <span aria-hidden="true">Rechazar</span>
             </button>
-
+            <!--
             <button type="button" class="btn btn-danger" id="btnActions" (click)="close()"> 
               <span class="glyphicon glyphicon glyphicon-trash">Cancelar</span>
             </button>
-        </div>
 
+-->
+        </div>
+        <!--
         <div>
             Action:
             <pre>{{ modalData?.action }}</pre>
         </div>
+-->
     </div>
     <br>
     <button type="button" class="btn btn-outline-secondary" id="btnOK" (click)="close()">Aceptar</button>
     <br>
     <div class="modal-footer">
-        <h5> palabra: </h5>
-        <br>
-        <h5 class="footer-msj"> palabra: {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h5>
+        <h5 class="footer-msj"> Fecha: {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h5>
     </div>
 </ng-template>

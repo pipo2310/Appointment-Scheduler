@@ -45,9 +45,10 @@ export class CalendarioProfesorService {
     return this.httpClient.post<any>(`${this.NODE_API_SERVER}/diasConCitasProf`, {
       diaIni: diaIni,
       diaFin: diaFin,
-      cedProf: cedProf,
+      cedula: cedProf
     }).pipe(tap(res => {
       diasConCita = res;
+      console.log(diasConCita);
     }));
   }
 

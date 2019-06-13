@@ -54,7 +54,7 @@ ng-template {
 
 #btnActions {
     float: right;
-    display: block;
+    display: inline;
 }
 
 
