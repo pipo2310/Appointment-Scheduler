@@ -57,7 +57,6 @@ export class ProfesorService {
     })
       .pipe(tap(res => {
         citas = res;
-
       }));
   }
 
@@ -71,7 +70,6 @@ export class ProfesorService {
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
       cita = res;
-      // console.log(cita);
 
     }));
   }
@@ -82,9 +80,6 @@ export class ProfesorService {
       hora: hora,
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
-
-      // console.log(cita);
-
     }));
   }
 
@@ -94,12 +89,8 @@ export class ProfesorService {
       hora: hora,
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
-
-      // console.log(cita);
-
     }));
   }
-
 }
 
 

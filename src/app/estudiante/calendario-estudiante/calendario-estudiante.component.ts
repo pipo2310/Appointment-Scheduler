@@ -130,9 +130,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.loaded = Promise.resolve(false);
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
-    //console.log("primerdia", this.primerDia.toISOString());
     this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    //console.log("ultimoDIA", this.ultimoDia.toISOString());
     this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
 
@@ -214,7 +212,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.listaDispProf.length; i++) {
       if (date.getTime() == this.listaDispProf[i].getTime()) {
         this.horarioDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe(() => {
-          //console.log("eventos", this.eventos);
         });
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
           this.closeResult = `Closed with: ${result}`;
@@ -234,11 +231,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
         i = this.listaEstudiantes.length
       }
     }
-
-
-
-    //this.slotActual = slot;
-
     return this.val;
   }
   eventTimesChanged({
@@ -307,7 +299,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
           diasCitaObject['result'].forEach(element => {
             this.listaEstudiantes.push(new Date(this.parseISOString(element['fecha'])));
           })
-        //console.log("dias ", diasCitaObject);
       }));
   }
 
@@ -407,7 +398,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   }
 
   addEventEstudiantes(fecha: Date): void {
-    //console.log("add events: ", fecha);
     this.events = [
       ...this.events,
       {

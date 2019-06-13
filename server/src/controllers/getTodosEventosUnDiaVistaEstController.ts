@@ -13,7 +13,6 @@ class GetTodosEventosUnDiaVistaEstController {
         const cedEst = req.body.cedEst;
         const sigla = req.body.sigla;
         let sql = "call getTodosEventosUnDiaVistaEst('"+dia+"', '"+cedProf+"', '"+cedEst+"', '"+sigla+"');";
-        //console.log("info: ", cedula, diaIni, diaFin);
         pool.query(sql, (err:Error, result:any) =>{
             if(result){
             res.send(result[0]);

@@ -13,9 +13,7 @@ class InsertDisponibilidadUnicoDiaController {
         const horaIni = req.body.horaIni;
         const horaFin = req.body.horaFin;
         const lugar = req.body.lugar;
-        //console.log("credenciales en server: " +username + ", "+ password);
         pool.query("select insertDisponibilidadUnicoDia('" + cedProf + "', '" + dia + "','" + horaIni + "','" + horaFin + "','" + lugar + "') AS resultado", (err: Error, result: any) => {
-            console.log(result);
             if (result) {
                 res.send(result)
             } else {

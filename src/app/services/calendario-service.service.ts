@@ -50,7 +50,6 @@ export class CalendarService {
   }
 
   getEventosEst(cedEst: String, fecha: string, cedProf: string, sigla: string): Observable<any> {
-    //console.log("service ")
     let eventos: Object[];
     return this.httpClient.post<any>(`${this.NODE_API_SERVER}/citasUnDiaEst`, {
       cedulaEst: cedEst,
@@ -58,7 +57,6 @@ export class CalendarService {
       cedulaProf: cedProf,
       sigla: sigla
     }).pipe(tap(res => {
-      //console.log("en servicio", res);
       eventos = res;
     }));
   }
@@ -86,9 +84,6 @@ export class CalendarService {
       descrip: descripcion,
       pub: publica
     }).pipe(tap(res => {
-      if (res) {
-        console.log("insertada");
-      }
     }));
 
   }
@@ -100,9 +95,6 @@ export class CalendarService {
       cedProf: cedProf,
       cedEst: cedEst
     }).pipe(tap(res => {
-      if (res) {
-        console.log("cancelada");
-      }
     }));
   }
 
@@ -113,24 +105,17 @@ export class CalendarService {
       cedProf: cedProf,
       cedEst: cedEst
     }).pipe(tap(res => {
-      if (res) {
-        console.log("no asistir");
-      }
     }));
   }
 
 
   asistirACitaPublica(slot: DispCitaPublicaVistaEst, cedProf: string, cedEst: string) {
-    console.log("en service: ", slot.fecha, slot.horaIni, cedProf, cedEst);
     return this.httpClient.post<any>(`${this.NODE_API_SERVER}/asistirACitaAjena`, {
       dia: slot.fecha,
       hora: slot.horaIni,
       cedProf: cedProf,
       cedEst: cedEst
     }).pipe(tap(res => {
-      if (res) {
-        console.log("apuntado");
-      }
     }));
   }
 
@@ -141,9 +126,6 @@ export class CalendarService {
       cedProf: cedProf,
       cedEst: cedEst
     }).pipe(tap(res => {
-      if (res) {
-        console.log("no asistir");
-      }
     }));
   }
 

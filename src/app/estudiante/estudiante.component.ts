@@ -115,7 +115,6 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    this.diasConCitaSub =  this.studentService.getDiasConCita(this.usuarioActual.cedula, diaInicio, diaFin)
    .subscribe(data =>{
      this.diasConCita = data;
-     console.log(this.diasConCita);
    });
   }
 }
