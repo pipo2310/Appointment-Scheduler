@@ -55,17 +55,20 @@
 
                     <li *ngFor="let semana of semanas;let i=index" id={{semana.diaInicio}} (click)="onSelect(semana)">
                         <a href="vistaLista#{{semana.diaInicio}}"><span class="badge"> Semana {{i+1}}: </span>
-                            {{semana.diaInicio}}-{{semana.diaFinal}}</a>
+                            {{semana.diaInicio}} - {{semana.diaFinal}}</a>
                         <ul class="citas">
-                            <li *ngFor="let cita of citas" id=cita.nombre (click)="irADetalles(cita)">                             
-                          
-                                <a href="detalleCita">                                        
+                            <li *ngFor="let cita of citasSemana" id=cita.nombre (click)="irADetalles(cita)">
+
+                                <a href="detalleCita">
                                     <span class="badge">
                                         <label>
-                                            <input type="checkbox" >
+                                            <input type="checkbox">
                                         </label>
                                     </span>
-                                    {{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}-{{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                                    {{cita.nombre}}  Dia de la cita: {{cita.dia}} Hora inicial:
+                                    {{cita.horaInicio}} Hora final:
+                                    {{cita.horaFinal}}, Estado de la cita: 
+                                    {{cita.estado}}, Curso: {{cita.siglaCurso}},Grupo: {{cita.numGrupo}}
                                 </a>
                             </li>
                         </ul>
@@ -84,13 +87,14 @@
 
                             <br>
                             <ul class="citaEvento">
-                                <li *ngFor="let cita of citas">
+                                <li *ngFor="let cita of citasSemana">
                                     <a href="detalleCita">
 
                                         <span
-                                            class="badge"></span>{{cita.dia}},{{cita.horaInicio.hours}}:{{cita.horaInicio.minutes}}
-                                        -
-                                        {{cita.horaFinal.hours}}:{{cita.horaFinal.minutes}}
+                                            class="badge"></span> Dia de la cita: {{cita.dia}} Hora inicial:
+                                            {{cita.horaInicio}} Hora final:
+                                            {{cita.horaFinal}}, Estado de la cita: 
+                                            {{cita.estado}}
 
                                     </a>
                                 </li>
@@ -103,7 +107,7 @@
                             U-Meeter
                         </div>
                     </div>
-                    
+
 
 
 

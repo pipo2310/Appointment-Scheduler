@@ -155,7 +155,7 @@ ul.cursos li li:last-child a {
 }
 
 ul.cursos li:target ul {
-    max-height: 300px;
+    max-height: 1000px;
     transition: .3s all ease-in;
 }
 
@@ -198,7 +198,9 @@ ul.cursos .citas li a {
     border-bottom: 1px solid #000;
     border-top: 1px solid #666;
     text-decoration: none;
-    box-sizing: border-box;
+    box-sizing: content-box;
+    box-sizing: inherit;
+   
     font-family: Arial;
 }
 /*

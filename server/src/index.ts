@@ -25,6 +25,7 @@ import noAsistirACitaPublicaAjenaRoutes from './routes/noAsistirACitaPublicaAjen
 import insertDisponibilidadUnicoDiaRoutes from './routes/insertDisponibilidadUnicoDiaRoutes'
 import getDiasExisteDispVistaEstRoutes from './routes/getDiasExisteDispVistaEstRoutes'
 import getTodosEventosUnDiaVistaEstRoutes from './routes/getTodosEventosUnDiaVistaEstRoutes'
+import citasUnaSemProfRoutes from './routes/citasUnaSemProfRoutes';
 
 class Server {
 
@@ -80,6 +81,7 @@ class Server {
         this.app.use('/insertDispUnDia', insertDisponibilidadUnicoDiaRoutes);
         this.app.use('/getDiasDispEst', getDiasExisteDispVistaEstRoutes);
         this.app.use('/getTodosEventosUnDiaEst', getTodosEventosUnDiaVistaEstRoutes);
+        this.app.use('/citasUnaSemProf', citasUnaSemProfRoutes);
     }
 
     start(): void {
