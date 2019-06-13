@@ -10,7 +10,6 @@ class DiasExisteCitaProfController {
         const diaIni = req.body.diaIni;
         const diaFin = req.body.diaFin;
         let sql = "call getDiasExisteCitaVistaProfesor('" + cedula + "', '" + diaIni + "', '" + diaFin + "');";
-        console.log("info: ", cedula, diaIni, diaFin);
         database_1.default.query(sql, (err, result) => {
             if (result) {
                 res.send(result[0]);

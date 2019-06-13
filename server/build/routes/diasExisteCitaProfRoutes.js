@@ -8,7 +8,7 @@ class DiasExisteCitaProfRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', diasExisteCitaProfController_1.diasExisteCitaProfController.getDias);
+        this.router.post('/', diasExisteCitaProfController_1.diasExisteCitaProfController.getDias);
     }
 }
 const diasExisteCitaProfRoutes = new DiasExisteCitaProfRoutes();

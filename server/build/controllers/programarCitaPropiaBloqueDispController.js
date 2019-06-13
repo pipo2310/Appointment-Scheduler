@@ -16,9 +16,7 @@ class ProgramarCitaPropiaBloqueDispController {
         const sigla = req.body.sigla;
         const descrCita = req.body.descrCita;
         const publica = req.body.publica;
-        //console.log("credenciales en server: " +username + ", "+ password);
         database_1.default.query("select programarCitaPropiaBloqueDisp('" + dia + "', '" + hora + "','" + cedProf + "','" + cedEst + "','" + sigla + "','" + descrCita + "','" + publica + "') AS resultado", (err, result) => {
-            console.log(result);
             if (result) {
                 res.send(result);
             }

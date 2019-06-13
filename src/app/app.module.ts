@@ -29,7 +29,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {CitaComponent} from '../app/cita/cita.component'
 import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
-import {CalendarComponent} from './profesor/calendar/calendar.component'
+import {CalendarComponent} from './profesor/calendar/calendar.component';
 
 @NgModule({
   declarations: [

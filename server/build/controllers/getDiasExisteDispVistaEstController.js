@@ -15,7 +15,6 @@ class GetDiasExisteDispVistaEstController {
         const cedEst = req.body.cedEst;
         const sigla = req.body.sigla;
         let sql = "call getDiasExisteDispVistaEst('" + diaIni + "', '" + diaFin + "', '" + cedProf + "', '" + cedEst + "', '" + sigla + "');";
-        //console.log("info: ", cedula, diaIni, diaFin);
         database_1.default.query(sql, (err, result) => {
             if (result) {
                 res.send(result[0]);

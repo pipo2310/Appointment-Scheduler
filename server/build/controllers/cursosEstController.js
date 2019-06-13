@@ -13,8 +13,6 @@ class CursosEstController {
         let sql = "select C.sigla AS 'sigla', C.nombre AS 'nombre' from ESTUDIANTE join LLEVA L on ESTUDIANTE.cedula = L.cedEst join GRUPO G on L.siglaCurso = G.siglaCurso and L.numGrupo = G.numGrupo and L.semestre = G.semestre and L.anno = G.anno JOIN CURSO C on G.siglaCurso = C.sigla where ESTUDIANTE.cedula = '" + cedula + "'";
         database_1.default.query(sql, (err, result) => {
             if (result) {
-                //console.log("CURSOS");
-                //console.log(result)
                 res.send(result);
             }
             else {

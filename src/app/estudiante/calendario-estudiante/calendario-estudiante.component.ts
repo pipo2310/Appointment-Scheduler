@@ -88,7 +88,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   slotActual: DispProfeVistaEst
 
   constructor(private calendarService: CalendarService, private modalService: NgbModal) {
-    this.loaded = Promise.resolve(true);
+    this.loaded = Promise.resolve(false);
     //this.fechas = new Date[0]();
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
@@ -130,7 +130,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   variable5: DispCitaPublicaVistaEst;
   variable6: CitaPublicaAjenaEstVistaEst;
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loaded = Promise.resolve(false);
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -138,8 +138,8 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
 
-    this.horarioDispProfeSubs = await this.getDiasConCitasEst().subscribe();
-    await this.recorrefechas();
+    this.horarioDispProfeSubs = this.getDiasConCitasEst().subscribe();
+    this.loaded = this.recorrefechas().then();
   }
 
   ngOnDestroy() {
@@ -296,7 +296,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     window.alert("cancelada");
   }
 
-  getHorarioDispProfe() {
+  public getHorarioDispProfe() {
     return this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
       .pipe(tap(data => {
         this.fechasString = data,
@@ -306,7 +306,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       }));
   }
 
-  getDiasConCitasEst() {
+  public getDiasConCitasEst() {
     let diasCitaObject: Object[];
     return this.calendarService.getDiasConCitaEst(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profeCita.cedula, this.estudianteCita.cedula, localStorage.getItem('sigla'))
       .pipe(tap(data => {
@@ -317,7 +317,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       }));
   }
 
-  getEventosUnDiaEst(fecha: string): Observable<any> {
+  public getEventosUnDiaEst(fecha: string): Observable<any> {
     this.eventos = [];
     return this.calendarService.getEventosEst(this.estudianteCita.cedula, fecha, this.profeCita.cedula, localStorage.getItem('sigla'))
       .pipe(tap(data => {
@@ -381,7 +381,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       }));
   }
 
-  recorrefechas() {
+  recorrefechas() :Promise<boolean>{
     this.horarioDispProfeSubs = this.getHorarioDispProfe()
       .subscribe(() => {
         this.listaDispProf.forEach(element => {
@@ -392,7 +392,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
           this.addEventEstudiantes(this.listaEstudiantes[i]);
         }
       });
-    this.loaded = Promise.resolve(true);
+    return this.loaded = Promise.resolve(true);
   }
 
   addEvent(fecha: Date): void {

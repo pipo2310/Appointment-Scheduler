@@ -15,7 +15,6 @@ class CitasUnDiaEstController {
         const sigla = req.body.sigla;
         let sql = "CALL getTodosEventosUnDiaVistaEst('" + fecha + "', '" + cedulaProf + "', '" + cedulaEst + "', '" + sigla + "')";
         database_1.default.query(sql, (err, result) => {
-            //console.log(result)
             if (result) {
                 res.send({ result: result[0] });
             }

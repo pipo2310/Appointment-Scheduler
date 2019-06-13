@@ -18,7 +18,6 @@ class InsertCitaUnBloque {
         const pub = req.body.pub;
         let sql = "select insertCitaUnBloque('" + cedulaEst + "','" + cedulaProf + "','" + curso + "','" + fecha + "','" + hora + "', '" + descrip + "', " + pub + ") AS resultado;";
         database_1.default.query(sql, (err, result) => {
-            //console.log(cedulaEst, cedulaProf, curso, fecha, hora, descrip, pub);
             if (result) {
                 res.send(result[0]);
             }

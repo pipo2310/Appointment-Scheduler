@@ -10,14 +10,7 @@ class LogeadoController {
     }
     conmutarLog(req, res) {
         const cedula = req.body.cedula;
-        //console.log("credenciales en server: " +username + ", "+ password);
         database_1.default.query("CALL conmutar('" + cedula + "')", (err, result) => {
-            /***/
-            /*if(err){
-                res.status(403).send({
-                    "Error": err
-                });
-            }*/
         });
     }
     ;

@@ -11,7 +11,7 @@ class DiasExisteCitaProfRoutes{
     }
 
     config(){
-        this.router.get('/', diasExisteCitaProfController.getDias)
+        this.router.post('/', diasExisteCitaProfController.getDias)
     }
 }
 

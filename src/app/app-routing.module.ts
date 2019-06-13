@@ -32,9 +32,7 @@ const routes: Routes = [
   { path: 'vistaLista', component: ListaProfesorComponent},
   { path: 'detalleCita', component: CitaComponent},
   {path: 'definirRango',component: AgregarRangoComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-
- 
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({
