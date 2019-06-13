@@ -159,9 +159,9 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     this.getSemanasSemestreSubs = this.profesorService.getSemanasSemestre().subscribe(data => {
       this.semanasString = data,
         this.semanasString.forEach(element => {
-          diaInicio = (new Date(element["ini"]).toLocaleDateString("es-ES", options));
+          diaInicio = this.parseISOString((element["ini"])).toLocaleDateString("es-ES", options);
           diaInicio = diaInicio.charAt(0).toUpperCase() + diaInicio.slice(1);
-          diaFinal = (new Date(element["fin"]).toLocaleDateString("es-ES", options));
+          diaFinal = this.parseISOString((element["fin"])).toLocaleDateString("es-ES", options);
           diaFinal = diaFinal.charAt(0).toUpperCase() + diaFinal.slice(1);
           this.semanas.push(
             {
@@ -173,6 +173,10 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
           );
         })
     });
+  }
+  parseISOString(s: string) {
+    let b = s.split(/\D+/);
+    return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
 
 

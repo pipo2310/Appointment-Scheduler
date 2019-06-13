@@ -7,6 +7,7 @@ import { ProfesorService } from '../services/profesor.service';
 import { Usuario } from '../modelo/usuario';
 import { element } from '@angular/core/src/render3';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cita',
@@ -30,7 +31,7 @@ export class CitaComponent implements OnInit {
 
   listProf: ListaProfesorComponent;
 
-  constructor(private profesorService: ProfesorService) {
+  constructor(private profesorService: ProfesorService,private router:Router) {
     let parsed2 = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -80,11 +81,12 @@ export class CitaComponent implements OnInit {
   //Se acepta la cita detallada
   aceptarCita() {
     this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
-
+    this.router.navigate(['vistaLista']);
   }
   //Se cancela la cita detallada
   cancelarCita() {
     this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+    this.router.navigate(['vistaLista']);
   }
 
   getCitaCompleta() {
