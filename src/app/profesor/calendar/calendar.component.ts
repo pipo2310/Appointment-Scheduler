@@ -1,8 +1,20 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef} from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView} from 'angular-calendar';
+import { Subject, Observable, Subscription } from 'rxjs';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { viewAttached, element } from '@angular/core/src/render3/instructions';
+import {CalendarEvent,
+   CalendarEventAction, 
+   CalendarEventTimesChangedEvent, 
+   CalendarView,
+   CalendarMonthViewBeforeRenderEvent,
+  CalendarWeekViewBeforeRenderEvent,
+  CalendarDayViewBeforeRenderEvent} from 'angular-calendar';
+import { startTimeRange } from '@angular/core/src/profile/wtf_impl';
+import {CalendarioProfesorService} from '../../services/calendario-profesor.service';
+import { CitaVistaProf } from 'src/app/modelo/citaVistaProf';
+import { Profesor } from 'src/app/modelo/profesor';
+import { tap } from 'rxjs/operators';
 
 const colors: any = {
   red: {
@@ -25,54 +37,153 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
+
 export class CalendarComponent implements OnInit {
 
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  view: CalendarView = CalendarView.Month;
+  CalendarView = CalendarView;
+  viewDate: Date = new Date();
+  mostrar: boolean = true;
+  slots: string [];
+  citasProfSubs: Subscription;
+  horarioProfeSubs: Subscription; /*horarioDispProfeSubs */
+  citasDia: Array<CitaVistaProf>;
+  citasDiaObject: Object[]; 
+  profesorActual: Profesor;
+  primerDia: Date;
+  ultimoDia: Date;
+  loaded: Promise<boolean>;
+  listaFechas: Array<Date> = new Array<Date>();
+  // Esto es lo que se va a ingresar el el modal
+  modalData: {
+      action: string,
+      event: CalendarEvent,
+  };
+
+  
+
+  // ***************************************************************************************************/
+
+constructor(private modal: NgbModal, private calendarioService: CalendarioProfesorService) {
+
+  this.loaded = Promise.resolve(true);
+  // Extrae la información del usuario guardada en el almacenamiento local por el login service
+
+  let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+
+  // Interpreta al usuario como un profesor
+
+  this.profesorActual = {
+    cedula : parsed['cedula'],
+    email : parsed['email'],
+    nombre : parsed['nombre'],
+    primerApellido : parsed['primerApellido'],
+    segundoApellido : parsed['segundoApellido']
+
+  };
+  this.citasDia = new Array<CitaVistaProf>();
+  var date = new Date();
+  
+
+}
+
+// ************************************************************************************************** */
+
+beforeMonthViewRender(renderEvent: CalendarMonthViewBeforeRenderEvent): void {
+  renderEvent.body.forEach(day => {
+    //const dayOfMonth = day.date.getDate();
+    const dayOfMonth = 1;
+    if (day.day.valueOf() === dayOfMonth && day.inMonth) {
+      day.cssClass='bn-pink';
+    }
+  });
+}
+
+// ************************************************************************************************** */
+
+mostraOpcion():boolean{
+return this.mostrar;
+}
+
   /***************************************************************************************************/
 
-  constructor(private modal: NgbModal) {}
+  closeResult: string;
 
-  /***************************************************************************************************/
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
-  //Este método va relacionado a cuando se hace click en un día y se sepliega hacia abajo la lista de eventos
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  // Este método va relacionado a cuando se hace click en un día y se sepliega hacia abajo la lista de eventos
+dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  this.citasDia = [];
+  for (let i = 0; i < this.listaFechas.length; i++) {
+    if (date.getTime() == this.listaFechas[i].getTime()) {
+
+      this.getCitasDia(date).subscribe(()=>{});
+
+      this.modal.open(this.modalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+      i = this.listaFechas.length
+    }
+  }
+
+  /*this.citasDia = [];
+  this.getCitasDia(date).subscribe(()=>{
+
+  });
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
       if ((isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) || events.length === 0 )
       {
         this.activeDayIsOpen = false;
-      }
-      else
+      } else
       {
-        this.activeDayIsOpen = true;
+        //this.activeDayIsOpen = true;
+        this.modal.open(this.modalContent, { size: 'lg' });
       }
-    }
+    }*/
   }
 
   /***************************************************************************************************/
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.loaded = Promise.resolve(false);
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    //this.horarioProfeSubs = await this.getDiasConCita().subscribe();
+    await this.recorrefechas();
+
   }
 
-  /***************************************************************************************************/
 
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  getDiasConCitas() {
+    let diasCitaObject: Object[];
+    console.log("hola");
+    return this.calendarioService.getDiasConCita(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profesorActual.cedula)
+      .pipe(tap(data => {
+        diasCitaObject = data,
+          diasCitaObject.forEach(element => {
+           this.listaFechas.push(new Date(this.parseISOString(element['fecha'])));
+          })
+          
+      }));
+  }
 
-  view: CalendarView = CalendarView.Month;
-
-  CalendarView = CalendarView;
-
-  viewDate: Date = new Date();
-
-  /***************************************************************************************************/
-
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
 
   /***************************************************************************************************/
 
-  actions: CalendarEventAction[] = [
+actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
@@ -90,63 +201,18 @@ export class CalendarComponent implements OnInit {
 
   /***************************************************************************************************/
 
-  refresh: Subject<any> = new Subject();
+refresh: Subject<any> = new Subject();
 
 
-  //La variable events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    },
-
-
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-
-
-
-    { /*Este es para las bolitas azules*/
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true
-    },
-
-
-    {    /*Este es para las bolitas anaranjadas*/
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true  /*****************/
-    }
-  ];
+  // La variable events corresponede a las bolitas o eventos que hay en cada día, en este caso hay de 4 tipos posibles
+  // En este vector deben estar todos los eventos que vaya a tener el calendario.
+events: CalendarEvent[] = [];
 
   /***************************************************************************************************/
 
-  activeDayIsOpen: boolean = true;
+activeDayIsOpen: boolean = false;
 
-  eventTimesChanged({
+eventTimesChanged({
     event,
     newStart,
     newEnd
@@ -166,21 +232,37 @@ export class CalendarComponent implements OnInit {
 
   /***************************************************************************************************/
 
-  handleEvent(action: string, event: CalendarEvent): void {
+handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   /***************************************************************************************************/
 
-  addEvent(): void {
+
+  /***************************************************************************************************/
+
+  recorrefechas() {
+    this.horarioProfeSubs = this.getDiasConCitas().subscribe(() => {
+        
+        for (var i = 0; i < this.listaFechas.length; i++) {
+
+          this.addEvent(this.listaFechas[i]);
+        }
+      });
+    this.loaded = Promise.resolve(true);
+  }
+
+  // *********************************************************************************************** */
+
+addEvent(fecha: Date): void {
     this.events = [
       ...this.events,
       {
+        // background-color:red,
         title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
+        start: startOfDay(fecha),
+        color: colors.green,
         draggable: true,
         resizable: {
           beforeStart: true,
@@ -192,19 +274,78 @@ export class CalendarComponent implements OnInit {
 
   /***************************************************************************************************/
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter(event => event !== eventToDelete);
   }
 
   /***************************************************************************************************/
 
-  setView(view: CalendarView) {
+setView(view: CalendarView) {
     this.view = view;
   }
 
   /***************************************************************************************************/
 
-  closeOpenMonthViewDay() {
+closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
+
+getCitasDia(date: Date):Observable<any>{
+  let options = { weekday: 'long', month: 'long', day: 'numeric' };
+  let diaIng:string;
+  let tiempoIni:string;
+  let tiempoFin:string;
+  let estadoS:string;
+  let nombreS:string; 
+
+  return this.calendarioService.getCitasDia(this.profesorActual.cedula, date.toISOString()).pipe(tap(data => {
+    console.log(this.profesorActual);
+    this.citasDiaObject = data;
+    this.citasDiaObject.forEach(element => {
+
+      diaIng=(new Date(element["fecha"]).toLocaleDateString("es-ES", options));
+      diaIng= diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+      tiempoIni=element["horaIni"];
+      tiempoFin=element["horaFin"];
+      tiempoIni=tiempoIni.substring(0,tiempoIni.length-3);
+      tiempoFin=tiempoFin.substring(0,tiempoFin.length-3);
+      estadoS=element["status"];
+      
+      if(estadoS=='A'){
+        estadoS='Aprobado';
+      }else if(estadoS=='R'){
+          estadoS='Reservado';
+      }
+
+      if (element["cedula"] == null) {
+
+        nombreS = "Sin propietario";
+
+      } else {
+        nombreS = element["nombre"]+' '+ element["primerApellido"]+' '+element["segundoApellido"];
+      }
+      this.citasDia.push(
+
+        {
+          nombre: nombreS,
+          cedulaEst: element["cedula"],
+          dia : diaIng,
+          horaInicio:tiempoIni,
+          horaFinal:tiempoFin,
+          diaSinParsear:element["fecha"],
+          estado:estadoS,
+          siglaCurso: element["siglaCurso"],
+          numGrupo: element["numGrupo"]
+
+        });
+  });
+}));
+
+}
+
+parseISOString(s: string) {
+  let b = s.split(/\D+/);
+  return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
+}
+
 }

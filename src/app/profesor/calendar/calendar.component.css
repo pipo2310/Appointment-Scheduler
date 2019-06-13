@@ -1,9 +1,61 @@
-
 h3 {
-  margin: 0 0 10px;
+    margin: 0 0 10px;
 }
 
 pre {
-  background-color: #f5f5f5;
-  padding: 15px;
+    background-color: #f5f5f5;
+    padding: 15px;
 }
+
+.modal-footer {
+    background-color: #12799F;
+    align-items: center;
+}
+
+.modal-footer h5 {
+    color: #f5f5f5;
+    display: block;
+}
+
+.slotsContainer {
+    display: block;
+    margin-bottom: 2%;
+}
+
+#btnCita ul {
+    background: 67e6ec;
+    margin-right: none;
+    margin-left: none;
+    color: black;
+    list-style: none;
+    text-align: left;
+}
+
+.bn-pink {
+    background-color: #b1d9b4 !important;
+}
+
+
+/*
+.modal-body {
+    margin-top: 20%;
+}*/
+
+
+/*
+ng-template {
+    margin-top: 40%;
+}*/
+
+#btnOK {
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+#btnActions {
+    float: right;
+    display: inline;
+}
+
+
+/*67e6ec*/

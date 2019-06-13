@@ -1,38 +1,32 @@
-
-.imagFondo{
-background: url( "https://tse2.mm.bing.net/th?id=OIP.U9B8hEFF0W239QESkoS8wAHaEo") scroll 0 0 transparent;
-background-repeat: no-repeat;
-
-
-
+.imagFondo {
+    background: url("https://tse2.mm.bing.net/th?id=OIP.U9B8hEFF0W239QESkoS8wAHaEo") scroll 0 0 transparent;
+    background-repeat: no-repeat;
 }
 
-.opacity{
-    background-color:rgba(9,115,187,.95);
-    opacity:0.5;
-    filter:alpha(opacity=50);
-   
- }
- img{
-    position:center;
-   display: block;
+.opacity {
+    background-color: rgba(9, 115, 187, .95);
+    opacity: 0.8;
+    filter: alpha(opacity=50);
+}
+
+img {
+    position: center;
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    width:30%;
-   
-
+    width: 30%;
 }
-.titulo{
+
+.titulo {
     top: 0%;
     height: 100%;
     margin-block-start: 0%;
     margin-inline-start: 0px;
-    color:rgba(9,115,187,.95);
+    color: rgba(9, 115, 187, .95);
     background: rgba(221, 221, 221, .76);
-   
 }
 
-h1{
+h1 {
     font-weight: normal;
     font-family: helvetica;
     text-align: left;
@@ -40,14 +34,15 @@ h1{
     margin: none;
 }
 
-hr{
+hr {
     margin-top: 0%;
-    height:37px;
-    background-color:rgba(9,115,187,.95);   
+    height: 37px;
+    background-color: rgba(9, 115, 187, .95);
 }
+
 form {
-    background:white;
-    border:1px solid black;
+    background: white;
+    border: 1px solid black;
     display: block;
     padding: 2%;
     margin-left: none;
@@ -58,28 +53,27 @@ form {
     top: 20%;
     left: 30%;
     position: absolute;
-   
 }
-.logo{
+
+.logo {
     width: 20%;
     height: 20%;
     padding: 12px 20px;
     margin: 8px 0;
-float: left;
-
-
+    float: left;
 }
 
-.entrada{
-width: 10%;
-height: 10%;
-margin-left: none;
-margin-right: none;
+.entrada {
+    width: 10%;
+    height: 10%;
+    margin-left: none;
+    margin-right: none;
 }
+
 input[type=text],
 input[type=password] {
-    opacity:none;
-    display: block; 
+    opacity: none;
+    display: block;
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -88,10 +82,10 @@ input[type=password] {
 }
 
 button {
-    opacity:none;
+    opacity: none;
     margin-top: 20px;
     display: block;
-    float:none;
+    float: none;
     margin-left: auto;
     margin-right: auto;
     border-radius: 8%;
@@ -102,9 +96,8 @@ button {
     cursor: pointer;
     width: 100%;
     left: 50%;
-    width:100px;
-    height:30px;
-  
+    width: 100px;
+    height: 30px;
 }
 
 button:hover {
@@ -113,9 +106,6 @@ button:hover {
 
 .container {
     position: center;
-    
-
-   
 }
 
 span.contaseña {
@@ -129,9 +119,8 @@ span.contaseña {
         float: none;
     }
 }
-.bas{
-    width:300px;
-    height:300px;
-     
-}
 
+.bas {
+    width: 300px;
+    height: 300px;
+}
