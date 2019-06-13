@@ -141,7 +141,6 @@ export class AppComponent {
 
   logout() {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-    if (localStorage.getItem('usuarioActual').search('carne') <= 0) {
       if (parsed) {
         this.usuarioActualProf = {
           cedula: parsed['cedula'],
@@ -150,27 +149,10 @@ export class AppComponent {
           primerApellido: parsed['primerApellido'],
           segundoApellido: parsed['segundoApellido']
         }
-        //console.log(this.usuarioActualProf)
         this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
         localStorage.removeItem('usuarioActual');
         this.router.navigate(['login']);
-      } else {
-        if (parsed) {
-          this.usuarioActualEst = {
-            carne: parsed['carne'],
-            cedula: parsed['cedula'],
-            email: parsed['email'],
-            nombre: parsed['nombre'],
-            primerApellido: parsed['primerApellido'],
-            segundoApellido: parsed['segundoApellido']
-          }
-          //console.log(this.usuarioActualProf)
-          this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
-          localStorage.removeItem('usuarioActual');
-          this.router.navigate(['login']);
-        }
       }
-    }
   }
 
 

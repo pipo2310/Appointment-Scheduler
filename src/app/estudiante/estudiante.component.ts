@@ -58,6 +58,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.logout();
     try {
       this.cursosSub.unsubscribe();
       this.profCursosSub.unsubscribe();
@@ -65,7 +66,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
       this.diasConCitaSub.unsubscribe();
     } catch(Exception){}
     
-    this.logout();
+    
   }
 
   /**
