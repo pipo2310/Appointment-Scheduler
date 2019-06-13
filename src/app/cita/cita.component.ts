@@ -83,7 +83,6 @@ export class CitaComponent implements OnInit {
     this.profesorService.getCitaCompleta(this.citaActual.cedulaEst, this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio)
       .subscribe(data => {
         this.objCitasString = data.result;
-        console.log((this.objCitasString[0])["carne"]);
         this.objetoCita.carne = ((this.objCitasString[0])["carne"]);
         this.objetoCita.descripcion = ((this.objCitasString[0])["descr"]);
         this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);

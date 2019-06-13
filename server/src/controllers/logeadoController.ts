@@ -9,14 +9,7 @@ class LogeadoController {
 
     public conmutarLog(req:Request, res:Response){
         const cedula = req.body.cedula;
-        //console.log("credenciales en server: " +username + ", "+ password);
         pool.query("CALL conmutar('"+cedula+"')", (err:Error, result:any)=>{
-            /***/
-            /*if(err){
-                res.status(403).send({
-                    "Error": err
-                });
-            }*/
         })
     };
     

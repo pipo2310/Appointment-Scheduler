@@ -12,10 +12,11 @@ export class DispProfeVistaEst extends EventDiaVistaEst {
 export class DispCitaPublicaVistaEst extends EventDiaVistaEst {
     "descripcion": string;
     "propietario": string;
+    "estado": string
 }
 
 export abstract class CitaVistaEst extends EventDiaVistaEst {
-    "aprobada": boolean;
+    "estado": string;
     "descripcion": string;
     "propietario": string;
 }

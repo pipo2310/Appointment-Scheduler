@@ -60,10 +60,8 @@ export class ProfesorComponent implements OnInit, OnDestroy {
     }
 
     vistaCalend(){
-      console.log('vista calendario');
       this.semanasSub = this.profesorService.getSemanasSemestre()
       .subscribe(data =>{
-        console.log(data);
       });
     }
 

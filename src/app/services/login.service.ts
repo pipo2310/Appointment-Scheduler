@@ -33,7 +33,6 @@ export class LoginService {
   constructor(private httpClient : HttpClient) { }
 
   public login(username : string, password : string){
-    //console.log("credenciales en service: ", username, "-", password);
     return this.httpClient.post<any>(`${this.NODE_API_SERVER}/login`,{
       'user': username,
       'pass': password
@@ -41,7 +40,6 @@ export class LoginService {
     .pipe(tap(res => {
       // Obtiene el rol que aparece en la respuesta
       let rol = res['rol'];
-      //console.log('rol: ' ,res)
 
       // Crea un usuario genérico para asignarlo a Profesor o Estudiante según corresponda
       var user: Usuario;
@@ -71,7 +69,6 @@ export class LoginService {
       localStorage.setItem('usuarioActual', JSON.stringify(user));
       return res;
     },(err =>{
-      console.log("error en loginservice:login");
     })));
   }
   
@@ -81,10 +78,6 @@ export class LoginService {
    */
   public conmutarLogueado(cedula: string) {
     return this.httpClient.post<any>(`${this.NODE_API_SERVER}/logeado`,
-    {"cedula": cedula});/*.pipe(tap(res =>{
-      console.log("bien en loginservice:login");
-    },(err=>{
-      console.log("error en loginservice:conmutarLogeado: ", err);
-    })));*/
+    {"cedula": cedula});
   }
 }

@@ -12,9 +12,7 @@ class NoAsistirACitaPublicaPropiaController {
         const hora = req.body.hora;
         const cedProf = req.body.cedProf;
         const cedEst = req.body.cedEst;
-        //console.log("credenciales en server: " +username + ", "+ password);
         pool.query("select noAsistirACitaPublicaPropia('" + dia + "', '" + hora + "','" + cedProf + "','" + cedEst + "') AS resultado", (err: Error, result: any) => {
-            console.log(result);
             if (result) {
                 res.send(result)
             } else {

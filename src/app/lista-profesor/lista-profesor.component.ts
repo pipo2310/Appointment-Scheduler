@@ -83,7 +83,6 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     this.profesorService.getCitasSemana(this.usuarioActual.cedula, sem.ini.toISOString(), sem.fin.toISOString())
       .subscribe(data => {
         this.citasSemanaString = data;
-        console.log(this.citasSemanaString);
         this.citasSemanaString.forEach(element => {
           diaIng=(new Date(element["fecha"]).toLocaleDateString("es-ES", options));
           diaIng= diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
@@ -119,7 +118,6 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
             }
           );
         })
-        console.log(this.citasSemana);
       });
 
 
