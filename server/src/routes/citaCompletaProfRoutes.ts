@@ -11,7 +11,7 @@ class CitaCompletaProfRoutes{
     }
 
     config(){
-        this.router.get('/', citaCompletaProfController.getCitaCompleta)
+        this.router.post('/', citaCompletaProfController.getCitaCompleta)
     }
 }
 

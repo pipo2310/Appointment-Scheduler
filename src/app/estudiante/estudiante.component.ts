@@ -63,13 +63,8 @@ export class EstudianteComponent implements OnInit, OnDestroy {
       this.profCursosSub.unsubscribe();
       this.conmutarLogSub.unsubscribe();
       this.diasConCitaSub.unsubscribe();
-    } catch(Exception){
-
-    }
-    /*this.cursosSub.unsubscribe();
-    this.profCursosSub.unsubscribe();
-    this.conmutarLogSub.unsubscribe();
-    this.diasConCitaSub.unsubscribe();*/
+    } catch(Exception){}
+    
     this.logout();
   }
 
@@ -99,6 +94,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    */
   getProfes(curso:Curso){
     //this.profes = this.apiService.getProfesores(curso);
+    localStorage.setItem('sigla', curso.sigla);
     this.profCursosSub =  this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
   }
 
@@ -112,7 +108,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   
   Prof(profeActualCita:Profesor):void{
     localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
-    this.router.navigate(['CalendarioEst'])
+    this.router.navigate(['CalendarioEst']);
   }
 
   getDiasConCita(diaInicio:string,diaFin:string):void{

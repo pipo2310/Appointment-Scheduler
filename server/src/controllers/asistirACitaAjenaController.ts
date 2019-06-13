@@ -14,7 +14,7 @@ class AsistirACitaAjenaController {
         const cedEst = req.body.cedEst;
         //console.log("credenciales en server: " +username + ", "+ password);
         pool.query("select asistirACitaPublicaAjena('" + dia + "', '" + hora + "','" + cedProf + "','" + cedEst + "') AS resultado", (err: Error, result: any) => {
-            console.log(result);
+            //console.log(result);
             if (result) {
                 res.send(result)
             } else {

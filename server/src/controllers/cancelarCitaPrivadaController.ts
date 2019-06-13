@@ -14,7 +14,7 @@ class CancelarCitaPrivadaController {
         const cedEst = req.body.cedEst;
         //console.log("credenciales en server: " +username + ", "+ password);
         pool.query("select cancelarCitaPrivadaPropia('" + dia + "', '" + hora + "','" + cedProf + "','" + cedEst + "') AS resultado", (err: Error, result: any) => {
-            console.log(result);
+            //console.log(result);
             if (result) {
                 res.send(result)
             } else {
