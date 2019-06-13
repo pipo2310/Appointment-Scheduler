@@ -17,17 +17,18 @@ import { Estudiante } from '../modelo/estudiante';
 import { Profesor } from '../modelo/profesor';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { CalendarComponent } from '../profesor/calendar/calendar.component';
 
 @Component({
   selector: 'app-home-estudiante',
-  host:{'window:beforeunload':'this.logout'},
+  host: { 'window:beforeunload': 'this.logout' },
   templateUrl: './estudiante.component.html',
   styleUrls: ['./estudiante.component.css']
 })
 export class EstudianteComponent implements OnInit, OnDestroy {
 
   cursos: Curso[];
-  selectedCourse:Curso;
+  selectedCourse: Curso;
   usuarioActual: Estudiante;
   profes: Profesor[];
   diasConCita: String[];
@@ -37,9 +38,9 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   diasConCitaSub: Subscription;
 
   constructor(
-    private studentService: EstudianteService, private apiService: ApiService, private router: Router) {
-      
-   
+    private studentService: EstudianteService, private router: Router) {
+
+
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un estudiante
@@ -64,9 +65,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
       this.profCursosSub.unsubscribe();
       this.conmutarLogSub.unsubscribe();
       this.diasConCitaSub.unsubscribe();
-    } catch(Exception){}
-    
-    
+    } catch (Exception) { }
   }
 
   /**
@@ -74,7 +73,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * @param curso 
    */
 
-  onSelect(curso:Curso){
+  onSelect(curso: Curso) {
     this.profes = []
     this.selectedCourse = curso;
     this.getProfes(this.selectedCourse);
@@ -84,38 +83,38 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    * devuelve los cursos en los que está matriculado el estudiante.
    * @param estudiante 
    */
-  getCursos(estudiante:Estudiante){
+  getCursos(estudiante: Estudiante) {
     //this.cursos = this.apiService.getCursos(estudiante);
-    this.cursosSub = this.studentService.getCursos(estudiante).subscribe(data => {this.cursos = data});
+    this.cursosSub = this.studentService.getCursos(estudiante).subscribe(data => { this.cursos = data });
   }
 
   /**
    * devuelve la lista de profesores que dan el curso.
    * @param curso 
    */
-  getProfes(curso:Curso){
+  getProfes(curso: Curso) {
     //this.profes = this.apiService.getProfesores(curso);
     localStorage.setItem('sigla', curso.sigla);
-    this.profCursosSub =  this.studentService.getProfesores(curso).subscribe(data => {this.profes = data});
+    this.profCursosSub = this.studentService.getProfesores(curso).subscribe(data => { this.profes = data });
   }
 
   /**
    * cierra la sesión del usuario. 
    */
   logout() {
-    this.conmutarLogSub =  this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.conmutarLogSub = this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
   }
-  
-  Prof(profeActualCita:Profesor):void{
+
+  Prof(profeActualCita: Profesor): void {
     localStorage.setItem('ProfeActualCita', JSON.stringify(profeActualCita));
     this.router.navigate(['CalendarioEst']);
   }
 
-  getDiasConCita(diaInicio:string,diaFin:string):void{
-   this.diasConCitaSub =  this.studentService.getDiasConCita(this.usuarioActual.cedula, diaInicio, diaFin)
-   .subscribe(data =>{
-     this.diasConCita = data;
-   });
+  getDiasConCita(diaInicio: string, diaFin: string): void {
+    this.diasConCitaSub = this.studentService.getDiasConCita(this.usuarioActual.cedula, diaInicio, diaFin)
+      .subscribe(data => {
+        this.diasConCita = data;
+      });
   }
 }

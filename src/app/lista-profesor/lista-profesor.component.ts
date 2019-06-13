@@ -23,11 +23,14 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   citasSemana: Array<CitaVistaProf>;
   citasSemanaString: Object[];
   citaActual: CitaVistaProf;
+  getCitasSubs: Subscription;
+  logoutSubs:Subscription;
+  getSemanasSemestreSubs:Subscription;
 
   message: string;
 
   usuarioActual: Profesor;
-  conmutarLogSub: Subscription;
+  
 
   constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
@@ -48,7 +51,11 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    try{
+      this.getCitasSubs.unsubscribe();
+      this.logoutSubs.unsubscribe();
+      this.getSemanasSemestreSubs.unsubscribe();
+    }catch(Exception ){}
   }
   /*
     newMessage() {
@@ -56,7 +63,7 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     }
   */
   logout() {
-    this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
+    this.logoutSubs = this.profesorService.conmutarLogueado(this.usuarioActual).subscribe();
     this.router.navigate(['login']);
   }
 
@@ -80,7 +87,7 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     let estadoS:string;
     let nombreS:string;
 
-    this.profesorService.getCitasSemana(this.usuarioActual.cedula, sem.ini.toISOString(), sem.fin.toISOString())
+    this.getCitasSubs = this.profesorService.getCitasSemana(this.usuarioActual.cedula, sem.ini.toISOString(), sem.fin.toISOString())
       .subscribe(data => {
         this.citasSemanaString = data;
         this.citasSemanaString.forEach(element => {
@@ -149,7 +156,7 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     let diaInicio: string;
     let diaFinal: string;
     let options = { weekday: 'long', month: 'long', day: 'numeric' };
-    this.profesorService.getSemanasSemestre().subscribe(data => {
+    this.getSemanasSemestreSubs = this.profesorService.getSemanasSemestre().subscribe(data => {
       this.semanasString = data,
         this.semanasString.forEach(element => {
           diaInicio = (new Date(element["ini"]).toLocaleDateString("es-ES", options));

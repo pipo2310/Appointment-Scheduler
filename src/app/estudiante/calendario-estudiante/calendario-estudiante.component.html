@@ -119,7 +119,7 @@
     <form role="form" id="modal-basic-formEstudiante">
       <div class="form-group">
         <label for="descrip">Descripción</label>
-        <input type="text" id="textDescripcion" class="form-control" placeholder="Descripción">
+        <input type="text" #textDescripcion id="textDescripcion" class="form-control" placeholder="Descripción">
       </div>
 
       <div class="form-group">
@@ -129,11 +129,11 @@
       </div>
       <div class="checkbox">
         <label>
-          <input type="checkbox" id="SeActivoCheck"> Activa esta casilla para hacer la cita pública
+          <input type="checkbox" #SeActivoCheck id="SeActivoCheck"> Activa esta casilla para hacer la cita pública
         </label>
       </div>
       <button type="submit" class="btn btn-default" class="buttonSendForm" id="botonEnvioInf"
-        (click)="solicitarCitaEnSlotDisponible()">
+        (click)="solicitarCitaEnSlotDisponible(textDescripcion.value, SeActivoCheck.checked)">
         <img src="https://img.icons8.com/metro/52/000000/forward-arrow.png" alt="imagen" width="32" height="32"
           style="vertical-align: middle">
         Enviar</button>

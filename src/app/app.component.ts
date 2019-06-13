@@ -33,16 +33,11 @@ export class AppComponent {
   usuarioActual: Usuario;
   estaLogueado: boolean;
 
-
   constructor(private studentService: EstudianteService, private profesorService: ProfesorService, private router: Router) {
-    try {
       this.estaLogueado = true;
-
-
+      this.usuarioActual
       //this.beforeUnloadHander(event);
       //this.unloadHandler(event);
-    } catch (Exception) { }
-
 
   }
   /*
@@ -129,7 +124,6 @@ export class AppComponent {
         primerApellido: parsed['primerApellido'],
         segundoApellido: parsed['segundoApellido']
       }
-
     }
     this.estaLogueado = true;
     return this.usuarioActual;
@@ -140,6 +134,7 @@ export class AppComponent {
   //}
 
   logout() {
+
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
       if (parsed) {
         this.usuarioActualProf = {
@@ -150,9 +145,12 @@ export class AppComponent {
           segundoApellido: parsed['segundoApellido']
         }
         this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+        //this.estaLogueado = false;
         localStorage.removeItem('usuarioActual');
         this.router.navigate(['login']);
+        
       }
+      
   }
 
 

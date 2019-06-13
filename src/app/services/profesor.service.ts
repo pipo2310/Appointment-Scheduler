@@ -24,7 +24,7 @@ const httpOptions = {
 })
 export class ProfesorService {
   //conexión a la base de datos
-  NODE_API_SERVER = "http://localhost:3000";
+  NODE_API_SERVER = "http://ec2-34-239-46-160.compute-1.amazonaws.com:3000";
   //PHP_API_SERVER = "http://ec2-18-207-248-234.compute-1.amazonaws.com";
 
   constructor(private httpClient: HttpClient) {

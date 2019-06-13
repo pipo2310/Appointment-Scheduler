@@ -80,6 +80,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   eventsObject: Object[];
   horarioDispProfeSubs: Subscription;
   insertCitaSubs: Subscription;
+  asistirACitaPublicaSubs: Subscription;
+  noAsistirACitaPublicaSubs: Subscription;
+  cancelarCitaPrivadaSubs: Subscription;
+  cancelarCitaPublicaSubs: Subscription;
   loaded: Promise<boolean>;
   slotActual: DispProfeVistaEst
 
@@ -142,6 +146,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     try {
       this.insertCitaSubs.unsubscribe();
       this.horarioDispProfeSubs.unsubscribe();
+      this.asistirACitaPublicaSubs.unsubscribe();
+      this.noAsistirACitaPublicaSubs.unsubscribe();
+      this.cancelarCitaPrivadaSubs.unsubscribe();
+      this.cancelarCitaPublicaSubs.unsubscribe();
     } catch (Exception) { }
   }
 
@@ -256,28 +264,35 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       this.modal.open(this.modalContent, { size: 'lg' });
     }*/
   asistirACitaPublica(slot: DispCitaPublicaVistaEst) {
-    this.calendarService.asistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+    this.asistirACitaPublicaSubs = this.calendarService.asistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
     window.alert("hecho");
     //this.recorrefechas();
   }
 
   noAsistirACitaPublica(slot: DispCitaPublicaVistaEst) {
-    this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+    this.noAsistirACitaPublicaSubs = this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
     window.alert("hecho no asiste");
     //this.recorrefechas();
   }
 
   cancelarCitaPrivada(slot: CitaPrivadaVistaEst) {
-    this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+    this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
     window.alert("cancelada");
   }
 
-  solicitarCitaEnSlotDisponible() {
-   this.insertCitaSubs =  this.calendarService.insertarCita(this.estudianteCita.cedula, this.profeCita.cedula, localStorage.getItem('sigla'), '2019-06-11', '10:30:00', "descripcion", 0).subscribe();
+  solicitarCitaEnSlotDisponible(descripcion: string, publica: boolean) {
+    let n = -1;
+    if (publica) {
+      n = 1;
+    } else {
+      n = 0;
+    }
+    this.insertCitaSubs = this.calendarService.insertarCita(this.estudianteCita.cedula, this.profeCita.cedula, localStorage.getItem('sigla'), this.slotActual.fecha.toISOString(), this.slotActual.horaIni, descripcion, n).subscribe();
+    window.alert("insertado");
   }
 
-  cancelarCitaPublica(slot: CitaPublicaPropiaEstVistaEst){
-    this.calendarService.cancelarConsultaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+  cancelarCitaPublica(slot: CitaPublicaPropiaEstVistaEst) {
+    this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
     window.alert("cancelada");
   }
 
@@ -324,7 +339,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
                 dispCitaPublicaVistaEst.horaFin = element['horaFin'];
                 dispCitaPublicaVistaEst.descripcion = element['descripcion'];
                 if (element['idEstPropCita'] != null) {
-                  dispCitaPublicaVistaEst.propietario = element['nombreEstPropCita'] + element['primerApellidoEstPropCita'] + element['segundoApellidoEstPropCita'];
+                  dispCitaPublicaVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
                 } else {
                   dispCitaPublicaVistaEst.propietario = "Sin propietario"
                 }
@@ -337,7 +352,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
                 citaPrivadaVistaEst.horaIni = element['horaIni'];
                 citaPrivadaVistaEst.horaFin = element['horaFin'];
                 citaPrivadaVistaEst.descripcion = element['descripcion'];
-                citaPrivadaVistaEst.propietario = element['nombreEstPropCita'] + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'];
+                citaPrivadaVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
                 citaPrivadaVistaEst.estado = element['statusCita'];
                 this.eventos.push(citaPrivadaVistaEst);
                 break;
@@ -347,7 +362,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
                 citaPublicaPropiaEstVistaEst.horaIni = element['horaIni'];
                 citaPublicaPropiaEstVistaEst.horaFin = element['horaFin'];
                 citaPublicaPropiaEstVistaEst.descripcion = element['descripcion'];
-                citaPublicaPropiaEstVistaEst.propietario = element['nombreEstPropCita'] + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'];
+                citaPublicaPropiaEstVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
                 citaPublicaPropiaEstVistaEst.estado = element['statusCita'];
                 this.eventos.push(citaPublicaPropiaEstVistaEst);
                 break;
@@ -357,7 +372,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
                 citaPublicaAjenaEstVistaEst.horaIni = element['horaIni'];
                 citaPublicaAjenaEstVistaEst.horaFin = element['horaFin'];
                 citaPublicaAjenaEstVistaEst.descripcion = element['descripcion'];
-                citaPublicaAjenaEstVistaEst.propietario = element['nombreEstPropCita'] + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'];
+                citaPublicaAjenaEstVistaEst.propietario = element['nombreEstPropCita'] + " " + element['primerApellidoEstPropCita'] + " " + element['segundoApellidoEstPropCita'] + " ";
                 citaPublicaAjenaEstVistaEst.estado = element['statusCita'];
                 this.eventos.push(citaPublicaAjenaEstVistaEst);
                 break;
