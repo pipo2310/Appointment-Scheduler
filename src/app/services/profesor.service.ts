@@ -93,6 +93,43 @@ export class ProfesorService {
     }).pipe(tap(res => {
     }));
   }
+
+  public crearDisponibilidadUnica(cedulaProf: string, fechaDisp: string,
+    horaIniDisp: string, horaFinDisp: string, lugarDisp: string) {
+    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispUnDia`, {
+      cedProf: cedulaProf,
+      dia: fechaDisp,
+      horaIni: horaIniDisp,
+      horaFin: horaFinDisp,
+      lugar: lugarDisp,
+    }).pipe(tap(res => {
+
+      console.log(res);
+
+    }));
+  }
+
+  public crearRangoDisponibilidadConRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes:boolean,martes:boolean,miercoles:boolean,jueves:boolean,viernes:boolean,sabado:boolean) {
+    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
+      cedula: cedulaProf,
+      diaIni: fechaIniRangoDisp,
+      diaFin: fechaFinRangoDisp,
+      horaIni: horaIniDisp,
+      horaFin: horaFinDisp,
+      lugar: lugarDisp,
+      lun:lunes,
+      mar: martes,
+      mie: miercoles,
+      jue: jueves,
+      vie: viernes,
+      sab: sabado
+    }).pipe(tap(res => {
+
+      console.log(res);
+
+    }));
+  }
 }
 
 
