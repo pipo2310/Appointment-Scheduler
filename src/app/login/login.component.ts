@@ -15,6 +15,7 @@ import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { equalParamsAndUrlSegments } from '@angular/router/src/router_state';
 import { Subscription } from 'rxjs';
+import { Usuario } from '../modelo/usuario';
 
 @Component({
   selector: 'app-login',
@@ -25,34 +26,41 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
 
   conmutarLogSub: Subscription;
+  usuarioAct:Usuario;
 
-    constructor(private loginService: LoginService, private apiService: ApiService, private router: Router) { }
-  
-    ngOnInit() {
-    }
+  constructor(private loginService: LoginService, private apiService: ApiService, private router: Router) { 
 
-    ngOnDestroy(){
-      this.conmutarLogSub.unsubscribe();
+  }
+
+  ngOnInit() {
+    
+    this.usuarioAct.nombre='';
+    this.usuarioAct.primerApellido='';
+    this.usuarioAct.segundoApellido='';
+    localStorage.setItem('usuarioActual', JSON.stringify(this.usuarioAct));
+  }
+
+  ngOnDestroy() {
+    this.conmutarLogSub.unsubscribe();
+  }
+
+
+  logIn(username: string, password: string, event: Event) {
+    let elem: HTMLElement = document.getElementById('msgSesionIniciada');
+    let elem2: HTMLElement = document.getElementById('msg');
+    event.preventDefault(); // Avoid default action for the submit button of the login formt
+    if (username == "" || password == "") {
+      let elem: HTMLElement = document.getElementById('lbl');
+      elem.setAttribute("style", " border: 1px solid red;");
+      let elem2: HTMLElement = document.getElementById('lb');
+      elem2.setAttribute("style", " border: 1px solid red;");
     }
-   
-  
-    logIn(username: string, password: string, event: Event) {
-      let elem: HTMLElement = document.getElementById('msgSesionIniciada');
-      let elem2: HTMLElement = document.getElementById('msg');
-      event.preventDefault(); // Avoid default action for the submit button of the login formt
-    if(username==""|| password==""){
-    let elem: HTMLElement = document.getElementById('lbl');
-    elem.setAttribute("style", " border: 1px solid red;");
-    let elem2: HTMLElement = document.getElementById('lb');
-    elem2.setAttribute("style", " border: 1px solid red;");
-    }
-    else
-    {
-      if(username!=""|| password!=""){
-      //Llamada al servicio del api
-      let promesa = this.loginService.login(username, password).toPromise();
-   
-      promesa.then(res => {
+    else {
+      if (username != "" || password != "") {
+        //Llamada al servicio del api
+        let promesa = this.loginService.login(username, password).toPromise();
+
+        promesa.then(res => {
           // Obtiene el status de login que aparece en la respuesta
           let logueado = res['logueado'];
           if (logueado == 0) { // Se puede continuar con el login
@@ -66,19 +74,19 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
           }
           else { // No se debe continuar con el login
-            elem2.textContent="";           
-            elem.setAttribute("style", "color:#E50E21");         
-            elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
-          
+            elem2.textContent = "";
+            elem.setAttribute("style", "color:#E50E21");
+            elem.textContent = "Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez.";
+
           }
         },
-        error => {
-          elem2.setAttribute("style", "color:#A20412");
-          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
-          elem.textContent=""; 
+          error => {
+            elem2.setAttribute("style", "color:#A20412");
+            elem2.textContent = "! Datos erróneos. Por favor, inténtelo otra vez.";
+            elem.textContent = "";
 
-        }
-      );
+          }
+        );
       }
     }
   }
@@ -88,7 +96,7 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   navegarAProfesor() {
     this.router.navigate(['homeProfesor']);
-  
+
   }
 
   /**

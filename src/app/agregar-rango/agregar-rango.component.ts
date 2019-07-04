@@ -4,8 +4,8 @@ import { timeInterval } from 'rxjs/operators';
 import { ProfesorService } from '../services/profesor.service';
 import { Usuario } from '../modelo/usuario';
 import { Profesor } from '../modelo/profesor';
-import {RANGOS} from '../modelo/rangoDatos';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { RANGOS } from '../modelo/rangoDatos';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
 import { Time } from '@angular/common';
 import { Rango } from '../modelo/rango';
@@ -16,32 +16,32 @@ import { Rango } from '../modelo/rango';
   styleUrls: ['./agregar-rango.component.css']
 })
 export class AgregarRangoComponent implements OnInit {
-  rangos=RANGOS;
-  rangoActual:Rango;
-  fechaInicio =  { year: 2019, month: 1, day: 1 };
+  rangos = RANGOS;
+  rangoActual: Rango;
+  fechaInicio = { year: 2019, month: 1, day: 1 };
   fechaFin = { year: 2019, month: 1, day: 1 };
-  fechaServIni:string;
-  fechaServFin:string;
-  fechaInicio2 =  { year: 2019, month: 1, day: 1 };
+  fechaServIni: string;
+  fechaServFin: string;
+  fechaInicio2 = { year: 2019, month: 1, day: 1 };
   //fechaFin2 = { year: 2019, month: 1, day: 1 };
-  tiempoServIni:string;
-  tiempoServFin:string;
+  tiempoServIni: string;
+  tiempoServFin: string;
   closeResult: string;
   //tiempoInicio;
   //tiempoFin;
-  tiempoFinInterno= {hour: 0, minute: 0};
-  tiempoInicioInterno= {hour: 0, minute: 0};
-  tiempoInicio = {hour: 0, minute: 0};
- tiempoFin = {hour: 0, minute: 0};
-  lunes:boolean;
-  martes:boolean;
-  miercoles:boolean;
-  jueves:boolean;
-  viernes:boolean;
-  sabado:boolean;
-  usuarioActual:Profesor;
+  tiempoFinInterno = { hour: 0, minute: 0 };
+  tiempoInicioInterno = { hour: 0, minute: 0 };
+  tiempoInicio = { hour: 0, minute: 0 };
+  tiempoFin = { hour: 0, minute: 0 };
+  lunes: boolean;
+  martes: boolean;
+  miercoles: boolean;
+  jueves: boolean;
+  viernes: boolean;
+  sabado: boolean;
+  usuarioActual: Profesor;
 
-  constructor(private profesorService: ProfesorService,private modalService: NgbModal) {
+  constructor(private profesorService: ProfesorService, private modalService: NgbModal) {
     let parsed2 = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -52,144 +52,180 @@ export class AgregarRangoComponent implements OnInit {
       segundoApellido: parsed2['segundoApellido']
     };
 
-    this.lunes=false;
-    this.martes=false;
-    this.miercoles=false;
-    this.jueves=false;
-    this.viernes=false;
-    this.sabado=false;
-    //console.log(this.horaInicial(this.rangos[1].horaIni));
-    this.tiempoInicio.hour = this.hora(this.rangos[1].horaIni);
-    this.tiempoFin.hour = this.hora(this.rangos[1].horaFin);
-    this.tiempoInicio.minute = this.minuto(this.rangos[1].horaIni);
-    this.tiempoFin.minute = this.minuto(this.rangos[1].horaFin);
-    //this.tiempoFin.minute = this.conv12(this.fechaServFin);
+    this.lunes = false;
+    this.martes = false;
+    this.miercoles = false;
+    this.jueves = false;
+    this.viernes = false;
+    this.sabado = false;
+
 
   }
 
   ngOnInit() {
   }
 
+ 
   //Recupera los elementos seleccionados anteriormente y los manda como parametros al servicio
-  agregar(lugar:string) {
-/*
-    console.log("----> ", this.tiempoInicio);
-    console.log("----> ", this.tiempoFin);
-    console.log("----> ", lugar);
-    console.log("----> ", this.fechaInicio);
-    console.log("----> ", this.fechaInicio["month"]);
-    console.log("----> ", this.fechaFin);
-    console.log("----> ", this.lunes);
-    console.log("----> ", this.martes);
-    console.log("----> ", this.miercoles);
-    console.log("----> ", this.jueves);
-    console.log("----> ", this.viernes);
-    console.log("----> ", this.sabado);
-  */
-console.log(this.usuarioActual);
-console.log(this.usuarioActual.cedula);
+  agregar(lugar: string) {
+    /*
+        console.log("----> ", this.tiempoInicio);
+        console.log("----> ", this.tiempoFin);
+        console.log("----> ", lugar);
+        console.log("----> ", this.fechaInicio);
+        console.log("----> ", this.fechaInicio["month"]);
+        console.log("----> ", this.fechaFin);
+        console.log("----> ", this.lunes);
+        console.log("----> ", this.martes);
+        console.log("----> ", this.miercoles);
+        console.log("----> ", this.jueves);
+        console.log("----> ", this.viernes);
+        console.log("----> ", this.sabado);
+      */
 
-    this.tiempoServIni=this.tiempoInicio.hour+":"+this.tiempoInicio.minute;
-    this.tiempoServFin=this.tiempoInicio.hour+":"+this.tiempoInicio.minute;
-    this.fechaServIni=this.fechaInicio["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
-    this.fechaServFin=this.fechaFin["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
+    //console.log(this.usuarioActual);
+    //console.log(this.usuarioActual.cedula);
+    console.log(this.parseISOString(this.fechaInicio).toISOString());
+    console.log(this.parseISOString(this.fechaFin).toISOString());
+    if (this.tiempoInicio.hour.toString().length==1 && this.tiempoInicio.minute.toString().length==1)
+    {
+      this.tiempoServIni = "0"+this.tiempoInicio.hour + ":" + this.tiempoInicio.minute+"0";
+      //this.tiempoServFin = this.tiempoFin.hour + ":" + this.tiempoFin.minute;
+    }else if(this.tiempoInicio.hour.toString().length==1 && this.tiempoInicio.minute.toString().length>1){
+      this.tiempoServIni = "0"+this.tiempoInicio.hour + ":" + this.tiempoInicio.minute;
+    }else if(this.tiempoInicio.hour.toString().length>1 && this.tiempoInicio.minute.toString().length==1){
+      this.tiempoServIni = this.tiempoInicio.hour + ":" + this.tiempoInicio.minute+"0";
+    }else if(this.tiempoInicio.hour.toString().length>1 && this.tiempoInicio.minute.toString().length>1){
+      this.tiempoServIni = this.tiempoInicio.hour + ":" + this.tiempoInicio.minute;
+    }
 
-/*
+    if (this.tiempoFin.hour.toString().length==1 && this.tiempoFin.minute.toString().length==1)
+    {
+      this.tiempoServFin = "0"+this.tiempoFin.hour + ":" + this.tiempoFin.minute+"0";
+      //this.tiempoServFin = this.tiempoFin.hour + ":" + this.tiempoFin.minute;
+    }else if(this.tiempoFin.hour.toString().length==1 && this.tiempoFin.minute.toString().length>1){
+      this.tiempoServFin = "0"+this.tiempoFin.hour + ":" + this.tiempoFin.minute;
+    }else if(this.tiempoFin.hour.toString().length>1 && this.tiempoFin.minute.toString().length==1){
+      this.tiempoServFin = this.tiempoFin.hour + ":" + this.tiempoFin.minute+"0";
+    }else if(this.tiempoFin.hour.toString().length>1 && this.tiempoFin.minute.toString().length>1){
+      this.tiempoServFin = this.tiempoFin.hour + ":" + this.tiempoFin.minute;
+    }
+  
+    
+
+
+
+    //this.tiempoServIni = this.tiempoInicio.hour + ":" + this.tiempoInicio.minute;
+    //this.tiempoServFin = this.tiempoFin.hour + ":" + this.tiempoFin.minute;
+
+    console.log(this.tiempoServIni);
+    console.log(this.tiempoServFin);
+    // this.fechaServIni=this.fechaInicio["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
+    // this.fechaServFin=this.fechaFin["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
+
+
     this.profesorService.crearRangoDisponibilidadConRepeticion(this.usuarioActual.cedula,
       this.parseISOString(this.fechaInicio).toISOString(),
       this.parseISOString(this.fechaFin).toISOString(),
-      this.tiempoServIni,this.tiempoServFin,lugar,this.lunes,this.martes,this.miercoles,this.jueves,this.viernes,this.sabado).subscribe(data => { });
-  */
-    }
+      this.tiempoServIni, this.tiempoServFin, lugar, this.lunes, this.martes, this.miercoles, this.jueves, this.viernes, this.sabado).subscribe(data => { });
+
+  }
 
   parseISOString(s: any) {
-    
+
     return new Date(Number(s["year"]), Number(s["month"]) - 1, Number(s["day"]));
   }
 
-  hora(st:string){
-    let numero : number;
+  /*
+  parseTimeString(s: any) {
+    
+    return new ();
+  }
+  */
+
+  hora(st: string) {
+    let numero: number;
     //console.log(st);
-    if (st==''){
+    if (st == '') {
       //console.log(st);
       return 0;
-      
 
-    }else {
+
+    } else {
       //console.log(st);
-      numero=+st.substr(0,2);
+      numero = +st.substr(0, 2);
       return numero;
     }
-    
+
   }
 
-  irARango(rang:Rango){
-    this.rangoActual=rang;
+  irARango(rang: Rango) {
+    this.rangoActual = rang;
     localStorage.setItem('rangoActual', JSON.stringify(this.rangoActual));
   }
 
-  minuto(st:string){
+  minuto(st: string) {
 
-    let numero : number;
+    let numero: number;
     //console.log(st);
-    if (st==''){
+    if (st == '') {
       //console.log(st);
       return 0;
-      
-    }else {
+
+    } else {
       //console.log(st);
-      numero=+st.substr(4,6);
+      numero = +st.substr(4, 6);
       return numero;
     }
-    
+
   }
 
-  dia(st:string){
+  dia(st: string) {
 
-    let numero : number;
+    let numero: number;
     //console.log(st);
-    if (st==''){
+    if (st == '') {
       //console.log(st);
       return 0;
-      
-    }else {
+
+    } else {
       //console.log(st);
-      numero=+st.substr(0,2);
+      numero = +st.substr(0, 2);
       return numero;
     }
-    
+
   }
 
-  mes(st:string){
+  mes(st: string) {
 
-    let numero : number;
+    let numero: number;
     //console.log(st);
-    if (st==''){
+    if (st == '') {
       //console.log(st);
       return 0;
-      
-    }else {
-      //console.log(st);
-      numero=+(st.charAt(3)+st.charAt(4));
-            return numero;
-    }
-    
-  }
 
-  anio(st:string){
-
-    let numero : number;
-    //console.log(st);
-    if (st==''){
+    } else {
       //console.log(st);
-      return 0;
-      
-    }else {
-      //console.log(st);
-      numero=+st.substr(6,10);
+      numero = +(st.charAt(3) + st.charAt(4));
       return numero;
     }
-    
+
+  }
+
+  anio(st: string) {
+
+    let numero: number;
+    //console.log(st);
+    if (st == '') {
+      //console.log(st);
+      return 0;
+
+    } else {
+      //console.log(st);
+      numero = +st.substr(6, 10);
+      return numero;
+    }
+
   }
 
   open(content) {
@@ -209,10 +245,10 @@ console.log(this.usuarioActual.cedula);
     //this.fechaFin.day = this.dia(this.rangoActual.fechaFinal);
     //this.fechaFin.month = this.mes(this.rangoActual.fechaFinal);
     //this.fechaFin.year = this.anio(this.rangoActual.fechaFinal);
-    
+
 
     //this.rangoActual.
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -225,11 +261,11 @@ console.log(this.usuarioActual.cedula);
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
-  
+
 
 }
 

@@ -72,8 +72,8 @@ export class CitaComponent implements OnInit {
   ngOnDestroy() {
     try {
       //this.aceptarCitaSubs.unsubscribe();
-      this.cancelarCitaSubs.unsubscribe();
-      this.getCitaCompletaSubs.unsubscribe();
+      //this.cancelarCitaSubs.unsubscribe();
+      //this.getCitaCompletaSubs.unsubscribe();
     } catch (Exception) { }
 
   }

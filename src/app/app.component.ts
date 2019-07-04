@@ -34,10 +34,10 @@ export class AppComponent {
   estaLogueado: boolean;
 
   constructor(private studentService: EstudianteService, private profesorService: ProfesorService, private router: Router) {
-      this.estaLogueado = true;
-      this.usuarioActual
-      //this.beforeUnloadHander(event);
-      //this.unloadHandler(event);
+    this.estaLogueado = true;
+    this.usuarioActual;
+    //this.beforeUnloadHander(event);
+    //this.unloadHandler(event);
 
   }
   /*
@@ -136,21 +136,25 @@ export class AppComponent {
   logout() {
 
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-      if (parsed) {
-        this.usuarioActualProf = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido']
-        }
-        this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
-        //this.estaLogueado = false;
-        localStorage.removeItem('usuarioActual');
-        this.router.navigate(['login']);
-        
+    if (parsed) {
+      this.usuarioActualProf = {
+        cedula: parsed['cedula'],
+        email: parsed['email'],
+        nombre: parsed['nombre'],
+        primerApellido: parsed['primerApellido'],
+        segundoApellido: parsed['segundoApellido']
       }
-      
+      this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+      //this.estaLogueado = false;
+      this.usuarioActual.nombre = '';
+      this.usuarioActual.primerApellido = '';
+      this.usuarioActual.segundoApellido = '';
+      localStorage.setItem('usuarioActual', JSON.stringify(this.usuarioActual));
+      localStorage.removeItem('usuarioActual');
+      this.router.navigate(['login']);
+
+    }
+
   }
 
 
