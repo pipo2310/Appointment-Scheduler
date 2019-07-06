@@ -8,6 +8,7 @@ import { Usuario } from '../modelo/usuario';
 import { element } from '@angular/core/src/render3';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-cita',
@@ -28,10 +29,11 @@ export class CitaComponent implements OnInit {
   aceptarCitaSubs: Subscription;
   cancelarCitaSubs: Subscription;
   getCitaCompletaSubs: Subscription;
+  confirmacion:boolean;
 
   listProf: ListaProfesorComponent;
 
-  constructor(private profesorService: ProfesorService,private router:Router) {
+  constructor(private profesorService: ProfesorService,private router:Router,private confirmationDialogService: ConfirmationDialogService) {
     let parsed2 = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -55,6 +57,7 @@ export class CitaComponent implements OnInit {
     } else {
       this.esconderDatosCedula = false;
     }
+    this.confirmacion=false;
 
     this.objetoCita = new ObjetoCita;
     this.getCitaCompleta();
@@ -87,8 +90,20 @@ export class CitaComponent implements OnInit {
   }
   //Se cancela la cita detallada
   cancelarCita() {
-    this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
-    this.router.navigate(['vistaLista']);
+    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres rechazar la peticion?')
+    .then((confirmed) => this.cancelarConf(confirmed))
+    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+    //console.log(this.confirmacion);
+    
+    
+  }
+  cancelarConf(conf:boolean){
+    console.log(conf);
+    if (conf==true){
+      this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+      this.router.navigate(['vistaLista']);
+    }
+
   }
 
   getCitaCompleta() {

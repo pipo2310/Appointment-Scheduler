@@ -30,6 +30,8 @@ import {CitaComponent} from '../app/cita/cita.component'
 import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
 import {CalendarComponent} from './profesor/calendar/calendar.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {CalendarComponent} from './profesor/calendar/calendar.component';
     CitaComponent,
     CalendarioEstudianteComponent,
     CalendarComponent,
-    AgregarRangoComponent
+    AgregarRangoComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +61,8 @@ import {CalendarComponent} from './profesor/calendar/calendar.component';
     NgbModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ConfirmationDialogService],
+  entryComponents:[ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
