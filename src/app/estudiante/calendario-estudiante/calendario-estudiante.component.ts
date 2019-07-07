@@ -323,7 +323,6 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   cancelarCitaPrivada(slot: CitaPrivadaVistaEst) {
     if(confirm("¿Está seguro que desea cancelar su cita?")) { 
       this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-      //window.alert("cancelada");
       this.modalService.dismissAll()
       this.llenarEvents()
     } 
