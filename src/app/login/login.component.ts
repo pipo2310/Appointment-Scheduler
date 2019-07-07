@@ -32,7 +32,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(){
-      this.conmutarLogSub.unsubscribe();
+      try{
+        this.conmutarLogSub.unsubscribe();
+      } catch(Excepetion ){}
+      
     }
    
   
@@ -55,7 +58,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       promesa.then(res => {
           // Obtiene el status de login que aparece en la respuesta
           let logueado = res['logueado'];
-          if (logueado == 0) { // Se puede continuar con el login
+          if(logueado == null){
+            elem2.setAttribute("style", "color:#A20412");
+            elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
+            elem.textContent=""; 
+          }
+          else {
+            if (logueado == 0) { // Se puede continuar con el login
             // Obtiene el rol que aparece en la respuesta
             this.conmutarLogSub = this.loginService.conmutarLogueado(res['cedula']).subscribe();
             let rol = res['rol'];
@@ -71,23 +80,20 @@ export class LoginComponent implements OnInit, OnDestroy {
             elem.textContent="Ya hay una sesión iniciada. Por favor, cierre la sesión e inténtelo otra vez."; 
           
           }
-        },
-        error => {
-          elem2.setAttribute("style", "color:#A20412");
-          elem2.textContent="! Datos erróneos. Por favor, inténtelo otra vez."; 
-          elem.textContent=""; 
-
         }
-      );
+      });
       }
     }
   }
 
-  /**
+    /**
    * redirige a la pantalla para profesor.
    */
   navegarAProfesor() {
-    this.router.navigate(['homeProfesor']);
+    this.router.navigate(['homeProfesor']).then(()=>{
+
+      location.reload();
+    });
   
   }
 
@@ -95,6 +101,10 @@ export class LoginComponent implements OnInit, OnDestroy {
    * redirige a la pantalla para estudiante.
    */
   navegarAEstudiante() {
-    this.router.navigate(['homeEstudiante']);
+    this.router.navigate(['homeEstudiante']).then(()=>{
+
+      location.reload();
+    });
   }
+  
 }

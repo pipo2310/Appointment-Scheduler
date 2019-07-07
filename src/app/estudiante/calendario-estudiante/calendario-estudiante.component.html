@@ -7,11 +7,11 @@
   <div class="col-md-4">
     <div class="btn-group">
         
-      <div class="btn btn-primary" id="buttonPre" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+      <div class="btn btn-primary" id="buttonPre" (click)="lastMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()">
         Previous
       </div>
-      <div class="btn btn-primary" id="buttonNext" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+      <div class="btn btn-primary" id="buttonNext" (click)="nextMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
         (viewDateChange)="closeOpenMonthViewDay()">
         Next
       </div>

@@ -77,8 +77,10 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   cancelarCitaPrivadaSubs: Subscription;
   cancelarCitaPublicaSubs: Subscription;
   slotActual: DispProfeVistaEst
+  monthMove:number
 
   constructor(private calendarService: CalendarService, private modalService: NgbModal) {
+    this.monthMove = 0
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
@@ -243,7 +245,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.events$ = forkJoin(arrayDiasCita, arrayDiasDisp).pipe(
       map(
         arrays => {
-          console.log(arrays);
+          //console.log(arrays);
           let arrayTemp: CalendarEvent[] = [];
           arrays.forEach(arr => {
             arr.forEach(elem => {
@@ -267,7 +269,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
     if (this.conjuntoDias.has(date.getTime())) {
-      console.log(date);
+      //console.log(date);
       this.diasDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe();
       this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -412,4 +414,26 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     let b = s.split(/\D+/);
     return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
+
+  lastMonth() {
+    this.monthMove += -1;
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove, 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth(), 0);
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    this.llenarEvents()
+
+  }
+
+  nextMonth() {
+    this.monthMove++
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove, 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove+1, 0);
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    this.llenarEvents()
+  }
+
 }
