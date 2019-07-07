@@ -309,17 +309,24 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
 
   asistirACitaPublica(slot: DispCitaPublicaVistaEst) {
     this.asistirACitaPublicaSubs = this.calendarService.asistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("hecho");
+    window.alert("Usted está en la lista para asistir a esta cita");
   }
 
   noAsistirACitaPublica(slot: DispCitaPublicaVistaEst) {
-    this.noAsistirACitaPublicaSubs = this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("hecho no asiste");
+    if(confirm("¿Está seguro que desea no asistir a esta cita?")) { 
+      this.noAsistirACitaPublicaSubs = this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+      this.modalService.dismissAll()
+      this.llenarEvents()
+    }
   }
 
   cancelarCitaPrivada(slot: CitaPrivadaVistaEst) {
-    this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("cancelada");
+    if(confirm("¿Está seguro que desea cancelar su cita?")) { 
+      this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+      //window.alert("cancelada");
+      this.modalService.dismissAll()
+      this.llenarEvents()
+    } 
   }
 
   solicitarCitaEnSlotDisponible(descripcion: string, publica: boolean) {
@@ -330,12 +337,17 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       n = 0;
     }
     this.insertCitaSubs = this.calendarService.insertarCita(this.estudianteCita.cedula, this.profeCita.cedula, localStorage.getItem('sigla'), this.slotActual.fecha.toISOString(), this.slotActual.horaIni, descripcion, n).subscribe();
-    window.alert("insertado");
+    this.modalService.dismissAll()
+    window.alert("Su cita ha sido agregada");
+    this.llenarEvents()
   }
 
   cancelarCitaPublica(slot: CitaPublicaPropiaEstVistaEst) {
+    if(confirm("¿Está seguro que desea cancelar su cita?")) { 
     this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("cancelada");
+    this.modalService.dismissAll()
+    this.llenarEvents()
+  }
   }
 
   getEventosUnDiaEst(fecha: string): Observable<any> {

@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     constructor(private loginService: LoginService, private apiService: ApiService, private router: Router) { }
   
     ngOnInit() {
+      localStorage.clear()
     }
 
     ngOnDestroy(){
