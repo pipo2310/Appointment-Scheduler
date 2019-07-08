@@ -48,7 +48,6 @@ export class CalendarioProfesorService {
       cedula: cedProf
     }).pipe(tap(res => {
       diasConCita = res;
-      console.log(diasConCita);
     }));
   }
 

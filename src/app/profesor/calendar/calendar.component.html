@@ -1,54 +1,51 @@
-<br />
-<br />
+<link href="https://unpkg.com/bootstrap-css-only@4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/font-awesome@4.7.0/css/font-awesome.css" rel="stylesheet">
+<link href="https://unpkg.com/angular-calendar@0.27.8/css/angular-calendar.css" rel="stylesheet">
+<link href="https://unpkg.com/flatpickr@4.5.7/dist/flatpickr.css" rel="stylesheet">
 
-<div class="row text-center" id="monthBottoms">
-
-    <!--Son los tres botones que cambian entre el mes siguinete, el actual y al anterior.-->
-    <div class="col-md-4">
-        <!--Esto representa la disposición de los botónes, van a ser 3 y del mismo tamaño-->
-        <div class="btn-group">
-
-            <!--El btn-primary es la propiedad que hace que el botón se vea azul; por otro lado btn-outline-secondary es la propiedad
-          que hace que el botón se vea gris claro-->
-
-            <!--mwlCalendarPreviousView   es una función que representa el mes anterior al que se está actualmente-->
-            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Mes Previo
-            </div>
-
-            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-                Mes Actual
-            </div>
-
-            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Mes siguiente
-            </div>
-
-        </div>
+<div class="row text-center" >
+  <div class="col-md-4">
+    <div class="btn-group">
+        
+      <div class="btn btn-primary" id="buttonPre" (click)="lastMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        Previous
+      </div>
+      <div class="btn btn-primary" id="buttonNext" (click)="nextMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        Next
+      </div>
     </div>
-
-
-    <!--Es el mes que se muestra, con el año, se recupera dla librería calendarío.-->
-    <div class="col-md-4">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
     </div>
-
+  </div>
 </div>
-<!--Aquí se termina la parte de las tres opciones de: adelantar o atrasar meses, mostar el mes y visualizar las citas por día, mes o semana-->
-
-
 <br />
 
-<!--Caso si la vista del calendario se va hacer por MES-->
+<ng-template #loading>
+  <div class="text-center">
+    <i class="fa fa-spin fa-spinner fa-5x"></i> <br />
+    Cargando...
+  </div>
+</ng-template>
 
-<mwl-calendar-month-view (beforeViewRender)="beforeMonthViewRender($event)" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)">
-</mwl-calendar-month-view>
+<div *ngIf="events$ | async; else loading; let events">
+  <div [ngSwitch]="view" class=tamCalendario>
+    <mwl-calendar-month-view
+      (dayClicked)="dayClicked($event.day, content)"
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate" [events]="events"
+      [refresh]="refresh"
+    >
 
-
-<!-- Abajo está el modal, que se va a tratar como otro componente, por lo que se va a tener que pasar.-->
-
-<br /><br /><br />
+    </mwl-calendar-month-view>
+  </div>
+</div>
 
 <ng-template #modalContent let-close="close">
     <div class="modal-header">
@@ -76,11 +73,11 @@
                 </span>
             </button>
             <!--El close() es un método propio del modal que lo cierra-->
-            <button *ngIf="mostraOpcion()" type="button" class="btn btn-success " id="btnActions" (click)="close()"> 
+            <button *ngIf="mostraOpcion(item)" type="button" class="btn btn-success " id="btnActions" (click)="aceptarCita(item)"> 
               <span class="glyphicon glyphicon-plus">Aceptar</span>
             </button>
 
-            <button type="button" class="btn btn-warning" id="btnActions" (click)="close()"> 
+            <button type="button" class="btn btn-warning" id="btnActions" (click)="cancelarCita(item)"> 
               <span aria-hidden="true">Rechazar</span>
             </button>
             <!--
