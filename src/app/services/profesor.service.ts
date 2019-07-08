@@ -96,6 +96,7 @@ export class ProfesorService {
 
   public crearDisponibilidadUnica(cedulaProf: string, fechaDisp: string,
     horaIniDisp: string, horaFinDisp: string, lugarDisp: string) {
+      //console.log("Casi segunda etapa");
     return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispUnDia`, {
       cedProf: cedulaProf,
       dia: fechaDisp,
@@ -103,6 +104,7 @@ export class ProfesorService {
       horaFin: horaFinDisp,
       lugar: lugarDisp,
     }).pipe(tap(res => {
+      //console.log("Segunda etapa");
 
       console.log(res);
 
@@ -111,20 +113,22 @@ export class ProfesorService {
 
   public crearRangoDisponibilidadConRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
     horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes:boolean,martes:boolean,miercoles:boolean,jueves:boolean,viernes:boolean,sabado:boolean) {
-    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
+
+      return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
       cedula: cedulaProf,
       diaIni: fechaIniRangoDisp,
       diaFin: fechaFinRangoDisp,
       horaIni: horaIniDisp,
       horaFin: horaFinDisp,
       lugar: lugarDisp,
-      lun:lunes,
+      lun: lunes,
       mar: martes,
       mie: miercoles,
       jue: jueves,
       vie: viernes,
       sab: sabado
     }).pipe(tap(res => {
+      //console.log("ENTRE A SEGUNDA FASE");
 
       console.log(res);
 

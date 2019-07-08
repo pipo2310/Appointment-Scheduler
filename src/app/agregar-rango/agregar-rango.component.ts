@@ -8,8 +8,11 @@ import { RANGOS } from '../modelo/rangoDatos';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { convertActionBinding } from '@angular/compiler/src/compiler_util/expression_converter';
 import { Time } from '@angular/common';
-import { Rango } from '../modelo/rango';
+import { RangoRepeticion } from '../modelo/rangoRepeticion';
+import { RangoUnico } from '../modelo/rangoUnico';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { RANGOSUNICOS } from '../modelo/rangoUniqueDatos';
+//import { Rango } from '../modelo/rangoSuper';
 
 @Component({
   selector: 'app-agregar-rango',
@@ -17,8 +20,11 @@ import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-d
   styleUrls: ['./agregar-rango.component.css']
 })
 export class AgregarRangoComponent implements OnInit {
-  rangos = RANGOS;
-  rangoActual: Rango;
+  rangosRep = RANGOS;
+  rangosUnic = RANGOSUNICOS;
+  
+  rangoActualRep:RangoRepeticion;
+  rangoActualUnic: RangoUnico;
   fechaInicio = { year: 2019, month: 1, day: 1 };
   fechaFin = { year: 2019, month: 1, day: 1 };
   fechaServIni: string;
@@ -32,8 +38,8 @@ export class AgregarRangoComponent implements OnInit {
   //tiempoFin;
   tiempoFinInterno = { hour: 0, minute: 0 };
   tiempoInicioInterno = { hour: 0, minute: 0 };
-  tiempoInicio = { hour: 0, minute: 0 };
-  tiempoFin = { hour: 0, minute: 0 };
+  tiempoInicio = { hour: 7, minute: 0 };
+  tiempoFin = { hour: 7, minute: 15 };
   lunes: boolean;
   martes: boolean;
   miercoles: boolean;
@@ -124,10 +130,11 @@ export class AgregarRangoComponent implements OnInit {
     // this.fechaServFin=this.fechaFin["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
     //Falta establecer la condicion de repeticion con los dias 
     if (this.lunes == false && this.martes == false && this.miercoles == false && this.jueves == false && this.viernes == false && this.sabado == false) {
-      this.repeticion == false;
-    } else { this.repeticion == true; }
-    
+      this.repeticion =false;
+    } else { this.repeticion = true; }
+    //console.log(this.repeticion);
     if (this.repeticion == true) {
+      //console.log("ENTRE A PRIMERA FASE");
       this.profesorService.crearRangoDisponibilidadConRepeticion(this.usuarioActual.cedula,
         this.parseISOString(this.fechaInicio).toISOString(),
         this.parseISOString(this.fechaFin).toISOString(),
@@ -169,9 +176,14 @@ export class AgregarRangoComponent implements OnInit {
 
   }
 
-  irARango(rang: Rango) {
-    this.rangoActual = rang;
-    localStorage.setItem('rangoActual', JSON.stringify(this.rangoActual));
+  irARangoRep(rang: RangoRepeticion) {
+    this.rangoActualRep = rang;
+    localStorage.setItem('rangoActualRep', JSON.stringify(this.rangoActualRep));
+  }
+
+  irARangoUnic(rang: RangoUnico) {
+    this.rangoActualUnic = rang;
+    localStorage.setItem('rangoActualUnic', JSON.stringify(this.rangoActualUnic));
   }
 
   minuto(st: string) {
@@ -238,24 +250,27 @@ export class AgregarRangoComponent implements OnInit {
 
   }
 
-  open(content) {
-    let parsed = JSON.parse(localStorage.getItem('rangoActual'));
-    this.rangoActual = parsed;
+  openRep(content) {
+    let parsed = JSON.parse(localStorage.getItem('rangoActualRep'));
+    this.rangoActualRep = parsed;
     //console.log(this.rangoActual.fechaFinal);
-    this.tiempoFinInterno.hour = this.hora(this.rangoActual.horaFin);
-    this.tiempoInicioInterno.hour = this.hora(this.rangoActual.horaIni);
-    this.tiempoFinInterno.minute = this.minuto(this.rangoActual.horaFin);
-    this.tiempoInicioInterno.minute = this.minuto(this.rangoActual.horaIni);
+    this.tiempoFinInterno.hour = this.hora(this.rangoActualRep.horaFin);
+    this.tiempoInicioInterno.hour = this.hora(this.rangoActualRep.horaIni);
+    this.tiempoFinInterno.minute = this.minuto(this.rangoActualRep.horaFin);
+    this.tiempoInicioInterno.minute = this.minuto(this.rangoActualRep.horaIni);
     //console.log(this.dia(this.rangoActual.fechaInicio));
     //console.log(this.mes(this.rangoActual.fechaInicio));
     //console.log(this.anio(this.rangoActual.fechaInicio));
+   
+
+    /*
     this.fechaInicio2.day = this.dia(this.rangoActual.fechaInicio);
     this.fechaInicio2.month = this.mes(this.rangoActual.fechaInicio);
     this.fechaInicio2.year = this.anio(this.rangoActual.fechaInicio);
     //this.fechaFin.day = this.dia(this.rangoActual.fechaFinal);
     //this.fechaFin.month = this.mes(this.rangoActual.fechaFinal);
     //this.fechaFin.year = this.anio(this.rangoActual.fechaFinal);
-
+   */
 
     //this.rangoActual.
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -264,6 +279,37 @@ export class AgregarRangoComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+
+  openUnic(content2) {
+    let parsed = JSON.parse(localStorage.getItem('rangoActualUnic'));
+    this.rangoActualUnic = parsed;
+    //console.log(this.rangoActual.fechaFinal);
+    this.tiempoFinInterno.hour = this.hora(this.rangoActualUnic.horaFin);
+    this.tiempoInicioInterno.hour = this.hora(this.rangoActualUnic.horaIni);
+    this.tiempoFinInterno.minute = this.minuto(this.rangoActualUnic.horaFin);
+    this.tiempoInicioInterno.minute = this.minuto(this.rangoActualUnic.horaIni);
+    //console.log(this.dia(this.rangoActual.fechaInicio));
+    //console.log(this.mes(this.rangoActual.fechaInicio));
+    //console.log(this.anio(this.rangoActual.fechaInicio));
+   
+
+    /*
+    this.fechaInicio2.day = this.dia(this.rangoActual.fechaInicio);
+    this.fechaInicio2.month = this.mes(this.rangoActual.fechaInicio);
+    this.fechaInicio2.year = this.anio(this.rangoActual.fechaInicio);
+    //this.fechaFin.day = this.dia(this.rangoActual.fechaFinal);
+    //this.fechaFin.month = this.mes(this.rangoActual.fechaFinal);
+    //this.fechaFin.year = this.anio(this.rangoActual.fechaFinal);
+   */
+
+    //this.rangoActual.
+    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title2' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -275,31 +321,65 @@ export class AgregarRangoComponent implements OnInit {
     }
   }
 
-  modificarRango() {
+  modificarRangoRep() {
     this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres modificar este rango?')
-      .then((confirmed) => this.modificarConf(confirmed))
+      .then((confirmed) => this.modificarConfRep(confirmed))
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
 
   }
-  eliminarRango() {
+  eliminarRangoRep() {
     this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres eliminar este rango?')
-      .then((confirmed) => this.eliminarConf(confirmed))
+      .then((confirmed) => this.eliminarConfRep(confirmed))
       .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
 
   }
 
-  modificarConf(conf: boolean) {
+  
+  modificarRangoUnic() {
+    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres modificar este rango?')
+      .then((confirmed) => this.modificarConfUnic(confirmed))
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+
+  }
+
+  eliminarRangoUnic() {
+    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres eliminar este rango?')
+      .then((confirmed) => this.eliminarConfUnic(confirmed))
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+
+  }
+
+  modificarConfRep(conf: boolean) {
     if (conf == true) {
-      let parsed = JSON.parse(localStorage.getItem('rangoActual'));
-      this.rangoActual = parsed;
+      let parsed = JSON.parse(localStorage.getItem('rangoActualRep'));
+      this.rangoActualRep = parsed;
+      //llamada a base
     }
 
   }
 
-  eliminarConf(conf: boolean) {
+  eliminarConfRep(conf: boolean) {
     if (conf == true) {
-      let parsed = JSON.parse(localStorage.getItem('rangoActual'));
-      this.rangoActual = parsed;
+      let parsed = JSON.parse(localStorage.getItem('rangoActualRep'));
+      this.rangoActualRep = parsed;
+      //llamada a base
+    }
+  }
+
+  modificarConfUnic(conf: boolean) {
+    if (conf == true) {
+      let parsed = JSON.parse(localStorage.getItem('rangoActualUnic'));
+      this.rangoActualUnic = parsed;
+      //llamada a base
+    }
+
+  }
+
+  eliminarConfUnic(conf: boolean) {
+    if (conf == true) {
+      let parsed = JSON.parse(localStorage.getItem('rangoActualUnic'));
+      this.rangoActualUnic = parsed;
+      //llamada a base
     }
   }
 

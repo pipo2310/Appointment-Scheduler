@@ -30,9 +30,6 @@ ul.cursos * {
     
 }
 
-.buton:hover {
-    display: block;
-}
 
 div .buton li {
     position: left;
@@ -103,6 +100,21 @@ h2 {
     margin-inline-start: 20px;
     color: rgba(9, 115, 187, .95);
 }
+
+.citas .col-sm-1{
+    display: block;
+    padding: 10px 10px 10px 20px;
+    background: rgb(207, 200, 200);
+    margin-right: 0px;
+    color: rgba(0, 0, 0, 0.95);
+    border-bottom: 0px solid #000;
+    border-top: 1px solid #666;
+    text-decoration: none;
+    box-sizing: content-box;
+    box-sizing: inherit;
+}
+
+
 
 ul.cursos {
     margin: 10px auto;

@@ -58,18 +58,32 @@
                             {{semana.diaInicio}} - {{semana.diaFinal}}</a>
                         <ul class="citas">
                             <li *ngFor="let cita of citasSemana" id=cita.nombre (click)="irADetalles(cita)">
+                                <div class="row">
+                                    <div class="col-sm-11">
+                                        <a href="detalleCita">
+                                            <span class="badge">
+                                                <label>
+                                                    <input type="checkbox">
+                                                </label>
+                                            </span>
+                                            {{cita.nombre}}
+                                            <p>{{cita.dia}} {{cita.horaInicio}} - {{cita.horaFinal}},
+                                                Estado de la cita: {{cita.estado}}, Curso: {{cita.siglaCurso}},
+                                                Grupo: {{cita.numGrupo}}</p>
 
-                                <a href="detalleCita">
-                                    <span class="badge">
-                                        <label>
-                                            <input type="checkbox">
-                                        </label>
-                                    </span>
-                                    {{cita.nombre}}
-                                    <p>{{cita.dia}} {{cita.horaInicio}} - {{cita.horaFinal}},
-                                    Estado de la cita: {{cita.estado}}, Curso: {{cita.siglaCurso}},
-                                    Grupo: {{cita.numGrupo}}</p>
-                                </a>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <ul class="aRech">
+                                            <button class="btn btn-outline-primary mr-2 " (click)="aceptar(cita)"
+                                                id="btn1">Aceptar</button><br>
+                                            <button class="btn btn-outline-primary" (click)="cancelar(cita)"
+                                                id="btn2">Rechazar</button>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
                             </li>
                         </ul>
                     </li>
@@ -90,11 +104,10 @@
                                 <li *ngFor="let cita of citasSemana">
                                     <a href="detalleCita">
 
-                                        <span
-                                            class="badge"></span>Dia de la cita: {{cita.dia}} Hora inicial:
-                                            {{cita.horaInicio}} Hora final:
-                                            {{cita.horaFinal}}, Estado de la cita: 
-                                            {{cita.estado}}
+                                        <span class="badge"></span>Dia de la cita: {{cita.dia}} Hora inicial:
+                                        {{cita.horaInicio}} Hora final:
+                                        {{cita.horaFinal}}, Estado de la cita:
+                                        {{cita.estado}}
 
                                     </a>
                                 </li>

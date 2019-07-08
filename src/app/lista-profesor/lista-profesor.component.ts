@@ -7,7 +7,8 @@ import { Subscription } from 'rxjs';
 import { SemanaProf } from '../modelo/semanaProf';
 import { CitaVistaProf } from '../modelo/citaVistaProf';
 import { element } from '@angular/core/src/render3';
-
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+//import{SendEmailService} from '../services/send-email.service'
 
 
 
@@ -26,13 +27,15 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   getCitasSubs: Subscription;
   logoutSubs:Subscription;
   getSemanasSemestreSubs:Subscription;
+  aceptarCitaSubs: Subscription;
+  cancelarCitaSubs: Subscription;
 
   message: string;
 
   usuarioActual: Profesor;
   
 
-  constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router) {
+  constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router,private confirmationDialogService: ConfirmationDialogService,/*private envEmail: SendEmailService*/) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -140,12 +143,38 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   }
 
   //Se aceptan las citas con el checkbox marcado
-  cancelarBloque() {
+  cancelar(cita: CitaVistaProf) {
+    this.citaActual = cita;
+    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres rechazar la peticion?')
+    .then((confirmed) => this.cancelarConf(confirmed))
+    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+    //console.log(cita.horaFinal);
+
+
+  }
+
+  cancelarConf(conf:boolean){
+    console.log(conf);
+    if (conf==true){
+      this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+      window.alert("cita cancelada");
+      this.onSelect(this.selectedSemana);
+      //this.envEmail.enviarEmail().subscribe();
+      //EMAIL ESTUDIANTE
+      //EMAIL PROFESOR
+      //
+      //this.getCitas(this.selectedSemana)
+      //this.router.navigate(['vistaLista']);
+    }
 
   }
 
   //Se cancelan las citas con el checkbox marcado
-  aceptarBloque() {
+  aceptar(cita: CitaVistaProf) {
+    this.citaActual = cita;
+    this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+    window.alert("cita aceptada");
+    //console.log(cita.horaFinal);
 
   }
 
@@ -175,6 +204,7 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
         })
     });
   }
+  
   parseISOString(s: string) {
     let b = s.split(/\D+/);
     return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));

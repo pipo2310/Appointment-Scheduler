@@ -86,6 +86,7 @@ export class CitaComponent implements OnInit {
     //console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHS");
     this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
     //console.log("");
+    window.alert("cita aceptada");
     this.router.navigate(['vistaLista']);
   }
   //Se cancela la cita detallada
@@ -101,6 +102,7 @@ export class CitaComponent implements OnInit {
     console.log(conf);
     if (conf==true){
       this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+      window.alert("cita cancelada");
       this.router.navigate(['vistaLista']);
     }
 
@@ -110,6 +112,7 @@ export class CitaComponent implements OnInit {
     this.getCitaCompletaSubs = this.profesorService.getCitaCompleta(this.citaActual.cedulaEst, this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio)
       .subscribe(data => {
         this.objCitasString = data.result;
+        console.log(data.result);
         this.objetoCita.carne = ((this.objCitasString[0])["carne"]);
         this.objetoCita.descripcion = ((this.objCitasString[0])["descr"]);
         this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);
