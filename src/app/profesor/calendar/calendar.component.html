@@ -3,48 +3,40 @@
 <link href="https://unpkg.com/angular-calendar@0.27.8/css/angular-calendar.css" rel="stylesheet">
 <link href="https://unpkg.com/flatpickr@4.5.7/dist/flatpickr.css" rel="stylesheet">
 
-<div class="row text-center" >
-  <div class="col-md-4">
-    <div class="btn-group">
-        
-      <div class="btn btn-primary" id="buttonPre" (click)="lastMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()">
-        Previous
-      </div>
-      <div class="btn btn-primary" id="buttonNext" (click)="nextMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()">
-        Next
-      </div>
+<div class="row text-center">
+    <div class="col-md-4">
+        <div class="btn-group">
+
+            <div class="btn btn-primary" id="buttonPre" (click)="lastMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                Previous
+            </div>
+            <div class="btn btn-primary" id="buttonNext" (click)="nextMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                Next
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-  </div>
-  <div class="col-md-4">
-    <div class="btn-group">
+    <div class="col-md-4">
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
     </div>
-  </div>
+    <div class="col-md-4">
+        <div class="btn-group">
+        </div>
+    </div>
 </div>
 <br />
 
 <ng-template #loading>
-  <div class="text-center">
-    <i class="fa fa-spin fa-spinner fa-5x"></i> <br />
-    Cargando...
-  </div>
+    <div class="text-center">
+        <i class="fa fa-spin fa-spinner fa-5x"></i> <br /> Cargando...
+    </div>
 </ng-template>
 
 <div *ngIf="events$ | async; else loading; let events">
-  <div [ngSwitch]="view" class=tamCalendario>
-    <mwl-calendar-month-view
-      (dayClicked)="dayClicked($event.day, content)"
-      *ngSwitchCase="CalendarView.Month"
-      [viewDate]="viewDate" [events]="events"
-      [refresh]="refresh"
-    >
+    <div [ngSwitch]="view" class=tamCalendario>
+        <mwl-calendar-month-view (dayClicked)="dayClicked($event.day, content)" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [refresh]="refresh">
 
-    </mwl-calendar-month-view>
-  </div>
+        </mwl-calendar-month-view>
+    </div>
 </div>
 
 <ng-template #modalContent let-close="close">
@@ -57,23 +49,23 @@
 
     <div class="modal-body">
         <div *ngFor="let item of citasDia" class="slotsContainer">
-            <button type="button" class="btn btn-info" id="btnCita" (click)="close()"> 
+            <button type="button" class="btn btn-info" id="btnCita" (click)="irADetalles(item)"> 
               <span aria-hidden="true">
                 <ul>
                     <li>
-                        {{item.nombre}}
+                        Estdiante: {{item.nombre}}.
                     </li>
                     <li>
-                        {{item.horaInicio}} - {{item.horaFinal}} 
+                        Horario: {{item.horaInicio}} - {{item.horaFinal}}. 
                     </li>
                     <li>
-                        Curso: {{item.siglaCurso}}, grupo: {{item.numGrupo}}
+                        Curso: {{item.siglaCurso}}, grupo: {{item.numGrupo}}.
                     </li>
                 </ul>
                 </span>
             </button>
             <!--El close() es un método propio del modal que lo cierra-->
-            <button *ngIf="mostraOpcion(item)" type="button" class="btn btn-success " id="btnActions" (click)="aceptarCita(item)"> 
+            <button *ngIf="true" type="button" class="btn btn-success" id="btnActions" (click)="aceptarCita(item)"> 
               <span class="glyphicon glyphicon-plus">Aceptar</span>
             </button>
 
@@ -84,20 +76,16 @@
             <button type="button" class="btn btn-danger" id="btnActions" (click)="close()"> 
               <span class="glyphicon glyphicon glyphicon-trash">Cancelar</span>
             </button>
+-->
+        </div>
 
--->
-        </div>
-        <!--
-        <div>
-            Action:
-            <pre>{{ modalData?.action }}</pre>
-        </div>
--->
     </div>
+
     <br>
-    <button type="button" class="btn btn-outline-secondary" id="btnOK" (click)="close()">Aceptar</button>
-    <br>
+    <button type="button" class="btn btn-danger" id="btnOK" (click)="close()">Cancelar día</button>
+
     <div class="modal-footer">
-        <h5 class="footer-msj"> Fecha: {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h5>
+        <h5 class="footer-msj"> Fecha: {{modalDay}} / {{modalMonth}} / {{modalYear}}</h5>
     </div>
+
 </ng-template>

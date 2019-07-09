@@ -18,6 +18,7 @@ import { ProfesorService } from '../../services/profesor.service';
 import { CitaVistaProf } from 'src/app/modelo/citaVistaProf';
 import { Profesor } from 'src/app/modelo/profesor';
 import { tap, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: {
@@ -61,12 +62,16 @@ export class CalendarComponent implements OnInit {
     action: string,
     event: CalendarEvent,
   };
+  modalDay:string;
+  modalMonth:string;
+  modalYear:string;
+  citaActual: CitaVistaProf;
 
 
 
   // ***************************************************************************************************/
 
-  constructor(private modal: NgbModal, private profesorService: ProfesorService, private calendarioService: CalendarioProfesorService) {
+  constructor(private modal: NgbModal, private profesorService: ProfesorService, private calendarioService: CalendarioProfesorService, private router: Router) {
 
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
 
@@ -84,6 +89,9 @@ export class CalendarComponent implements OnInit {
     };
     this.citasDia = new Array<CitaVistaProf>();
     this.conjuntoDias = new Set<number>();
+    this.modalDay = "oli";
+    this.modalMonth = "oli2";
+    this.modalYear = "oli3";
   }
 
   // ************************************************************************************************** */
@@ -149,7 +157,9 @@ export class CalendarComponent implements OnInit {
   // Este método va relacionado a cuando se hace click en un día y se sepliega hacia abajo la lista de eventos
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     this.citasDia = [];
-
+    this.modalYear = date.getFullYear().toString();
+    this.modalMonth = date.getMonth().toString();
+    this.modalDay = date.getDate().toString();
     if (this.conjuntoDias.has(date.getTime())) {
       this.getCitasDia(date).subscribe();
       this.modal.open(this.modalContent, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -213,6 +223,16 @@ export class CalendarComponent implements OnInit {
 
   //     }));
   // }
+
+  irADetalles(cita: CitaVistaProf) {
+    
+    //Parametro o cita se requiere pasar para ver detalles en siguiente pantalla
+    this.citaActual = cita;
+
+    localStorage.setItem('citaActual', JSON.stringify(this.citaActual));
+    this.router.navigate(['detalleCita']);
+    this.modal.dismissAll();
+  }
 
 
   /***************************************************************************************************/
@@ -383,5 +403,4 @@ export class CalendarComponent implements OnInit {
       this.llenarEvents();
     }
   }
-
 }
