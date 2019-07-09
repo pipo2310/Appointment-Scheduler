@@ -24,7 +24,7 @@ class InsertDispDiasSemanaRangoController {
         let sql = "call insertDispDiasSemanaRangoFechas('" + cedula + "', '" + diaIni + "', '" + diaFin + "', '" + horaIni + "', '" + horaFin + "', '" + lugar + "', '" + lun + "', '" + mar + "', '" + mie + "', '" + jue + "', '" + vie + "', '" + sab + "')";
         database_1.default.query(sql, (err, result) => {
             if (result) {
-                //res.send(result)
+                res.send(result);
             }
             else {
                 res.send({

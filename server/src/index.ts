@@ -2,6 +2,8 @@ import express, {Application} from 'express';
 import morgan from 'morgan';
 import cors from 'cors'
 
+
+import enviarEmailRoutes from  './routes/enviarEmailRoutes'
 import indexRoutes from './routes/indexRoutes';
 import loginRoutes from './routes/loginRoutes';
 import logeadoRoutes from './routes/logeadoRoutes';
@@ -66,6 +68,7 @@ class Server {
         this.app.use('/cursosEst', cursosEstRoutes); //se usa
         this.app.use('/profCurso', profCursoRoutes); //se usa
         this.app.use('/dispHoraProf', dispHoraProfRoutes); //se usa
+        this.app.use('/enviarEmail',enviarEmailRoutes) //se usa
         this.app.use('/diasConCitaEst', diasConCitasEstRouter); //
         this.app.use('/citasCompletasProf', citaCompletaProfRoutes);
         this.app.use('/citasUnDiaEst', citasUnDiaEst);

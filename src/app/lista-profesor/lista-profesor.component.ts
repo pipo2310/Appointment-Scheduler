@@ -8,6 +8,7 @@ import { SemanaProf } from '../modelo/semanaProf';
 import { CitaVistaProf } from '../modelo/citaVistaProf';
 import { element } from '@angular/core/src/render3';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { SendEmailService } from '../services/send-email.service';
 //import{SendEmailService} from '../services/send-email.service'
 
 
@@ -35,7 +36,7 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   usuarioActual: Profesor;
   
 
-  constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router,private confirmationDialogService: ConfirmationDialogService,/*private envEmail: SendEmailService*/) {
+  constructor(private profesorService: ProfesorService, private apiService: ApiService, private router: Router,private confirmationDialogService: ConfirmationDialogService,private envEmail: SendEmailService) {
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -154,12 +155,15 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
   }
 
   cancelarConf(conf:boolean){
+    let options = { weekday: 'long', month: 'long', day: 'numeric' };
     console.log(conf);
     if (conf==true){
       this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
       window.alert("cita cancelada");
       this.onSelect(this.selectedSemana);
-      //this.envEmail.enviarEmail().subscribe();
+      let nom:string;
+      nom='Estimado '+this.citaActual.nombre+' su cita ha sido rechazada ';
+      this.envEmail.enviarEmail(nom,"dilianbadillamora1995@gmail.com",(new Date(this.citaActual.diaSinParsear)).toLocaleDateString("es-ES", options),this.usuarioActual.nombre,this.citaActual.horaInicio).subscribe();
       //EMAIL ESTUDIANTE
       //EMAIL PROFESOR
       //
