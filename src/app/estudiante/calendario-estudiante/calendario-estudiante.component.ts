@@ -40,6 +40,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { Router } from '@angular/router';
 import { renderComponent } from '@angular/core/src/render3';
+import { CargaArchivoServiceService } from 'src/app/services/carga-archivo-service.service';
 
 const colors: any = {
   red: {
@@ -86,8 +87,9 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   cancelarCitaPublicaSubs: Subscription;
   loaded: Promise<boolean>;
   slotActual: DispProfeVistaEst
-
-  constructor(private calendarService: CalendarService, private modalService: NgbModal) {
+  public respuestaArchivoEnviado;
+  public resultadoCarga;
+  constructor(private calendarService: CalendarService, private modalService: NgbModal,private enviandoArchivo: CargaArchivoServiceService) {
     this.loaded = Promise.resolve(true);
     //this.fechas = new Date[0]();
     // Extrae la información del profe guardada en el almacenamiento local por el student service
@@ -471,4 +473,32 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+
+  public cargandoArchivo(files: FileList){
+
+		this.enviandoArchivo.postFileArchivo(files[0]).subscribe(
+
+			response => {
+				this.respuestaArchivoEnviado = response; 
+				if(this.respuestaArchivoEnviado <= 1){
+					console.log("Error en el servidor"); 
+				}else{
+
+					if(this.respuestaArchivoEnviado.code == 200 && this.respuestaArchivoEnviado.status == "success"){
+
+						this.resultadoCarga = 1;
+
+					}else{
+						this.resultadoCarga = 2;
+					}
+
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+
+		);//FIN DE METODO SUBSCRIBE
+
+	}
 }
