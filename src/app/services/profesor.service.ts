@@ -14,6 +14,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Profesor } from '../modelo/profesor';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import * as aws from 'aws-sdk'
+import * as S3 from 'aws-sdk/clients/s3'
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'homeProfesor' })
@@ -48,6 +50,7 @@ export class ProfesorService {
       }));
   }
 
+
   public getCitasSemana(cedulaProf: string, fechaIni: string, fechaFin: string): Observable<any> {
     let citas: any[];
     return this.httpClient.post(`${this.NODE_API_SERVER}/citasUnaSemProf`, {
@@ -70,7 +73,6 @@ export class ProfesorService {
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
       cita = res;
-
     }));
   }
 
@@ -81,7 +83,7 @@ export class ProfesorService {
       hora: hora,
       cedProf: cedulaProf
     }).pipe(tap(res => {
-      //console.log(res);
+      console.log(res);
     }));
   }
 
@@ -94,93 +96,31 @@ export class ProfesorService {
     }));
   }
 
-  public crearDisponibilidadUnica(cedulaProf: string, fechaDisp: string,
-    horaIniDisp: string, horaFinDisp: string, lugarDisp: string) {
-    //console.log("Casi segunda etapa");
-    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispUnDia`, {
-      cedProf: cedulaProf,
-      dia: fechaDisp,
-      horaIni: horaIniDisp,
-      horaFin: horaFinDisp,
-      lugar: lugarDisp,
-    }).pipe(tap(res => {
-      //console.log("Segunda etapa");
+  public getArchivoAdjunto(newKey:string) { // key en parámetros
+    const key = newKey
+    console.log(key, " in profesor service")
+      const bucket = new S3(
+        {
+          accessKeyId: 'AKIAUCE7JJ35NWW5R3UR',
+          secretAccessKey: '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',
+          region: 'us-east-1'
+        }
+      );
 
-      console.log(res);
+      const params = {
+        Bucket: 'filehost-umeeter',
+        Key: key
+      };
 
-    }));
-  }
-
-  public crearRangoDisponibilidadConRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
-    horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes: boolean, martes: boolean, miercoles: boolean, jueves: boolean, viernes: boolean, sabado: boolean) {
-
-    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
-      cedula: cedulaProf,
-      diaIni: fechaIniRangoDisp,
-      diaFin: fechaFinRangoDisp,
-      horaIni: horaIniDisp,
-      horaFin: horaFinDisp,
-      lugar: lugarDisp,
-      lun: lunes,
-      mar: martes,
-      mie: miercoles,
-      jue: jueves,
-      vie: viernes,
-      sab: sabado
-    }).pipe(tap(res => {
-      //console.log("ENTRE A SEGUNDA FASE");
-
-      console.log(res);
-
-    }));
-  }
-
-  public getRangosconRepeticion(cedulaProf: string): Observable<any> {
-
-    let ranges: any[];
-    console.log(cedulaProf);
-    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosRepeticionProf`, {
-      cedProf: cedulaProf
-    })
-      .pipe(tap(res => {
-        ranges = res;
-        console.log("si entre");
-        console.log(res);
-      }));
-
-  }
-
-  public getRangosUnicos(cedulaProf: string): Observable<any> {
-
-    let ranges: any[];
-    console.log(cedulaProf);
-    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosUnicosProf`, {
-      cedProf: cedulaProf
-    })
-      .pipe(tap(res => {
-        ranges = res;
-        console.log("si entre x2");
-        console.log(res);
-      }));
-
-  }
-
-  public modificarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
-    horaIniDisp: string, horaFinDisp: string) {
-
-  }
-  public eliminarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
-    horaIniDisp: string, horaFinDisp: string) {
-
-  }
-
-  public modificarRangosUnicos(cedulaProf: string, fecha: string,
-    horaIniDisp: string, horaFinDisp: string) {
-
-  }
-  public eliminarRangosUnicos(cedulaProf: string, fecha: string,
-    horaIniDisp: string, horaFinDisp: string) {
-
+      //const fs = require('fs')
+      return bucket.getObject(params, function (err, data) {
+        if (err === null) {
+          //fs.writeFileSync('')
+            console.log(data);
+        } else {
+            console.log(err);
+        }
+    });
   }
 }
 

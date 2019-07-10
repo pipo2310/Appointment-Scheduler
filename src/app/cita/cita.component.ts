@@ -8,8 +8,7 @@ import { Usuario } from '../modelo/usuario';
 import { element } from '@angular/core/src/render3';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { SendEmailService } from '../services/send-email.service';
+import { saveAs } from 'angular-file-saver'
 
 @Component({
   selector: 'app-cita',
@@ -30,11 +29,13 @@ export class CitaComponent implements OnInit {
   aceptarCitaSubs: Subscription;
   cancelarCitaSubs: Subscription;
   getCitaCompletaSubs: Subscription;
-  confirmacion:boolean;
+  nombreArchivo: string = ""
+
+  descargar:string = ""
 
   listProf: ListaProfesorComponent;
 
-  constructor(private profesorService: ProfesorService,private router:Router,private confirmationDialogService: ConfirmationDialogService,private envEmail: SendEmailService) {
+  constructor(private profesorService: ProfesorService, private router: Router) {
     let parsed2 = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -58,7 +59,6 @@ export class CitaComponent implements OnInit {
     } else {
       this.esconderDatosCedula = false;
     }
-    this.confirmacion=false;
 
     this.objetoCita = new ObjetoCita;
     this.getCitaCompleta();
@@ -70,14 +70,15 @@ export class CitaComponent implements OnInit {
 
 
   ngOnInit() {
+    //this.objetoCita.fileUrl = "https://filehost-umeeter.s3.amazonaws.com/1562777178324/script.sql"
 
   }
 
   ngOnDestroy() {
     try {
       //this.aceptarCitaSubs.unsubscribe();
-      //this.cancelarCitaSubs.unsubscribe();
-      //this.getCitaCompletaSubs.unsubscribe();
+      this.cancelarCitaSubs.unsubscribe();
+      this.getCitaCompletaSubs.unsubscribe();
     } catch (Exception) { }
 
   }
@@ -85,60 +86,36 @@ export class CitaComponent implements OnInit {
   //Se acepta la cita detallada
   aceptarCita() {
     //console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHS");
-    let options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
     //console.log("");
-    window.alert("cita aceptada");
     this.router.navigate(['vistaLista']);
-    //this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
-    let nom: string;
-    console.log(this.objetoCita)
-    
-    nom = 'Estimado ' + this.citaActual.nombre + ' su cita ha sido aceptada ';
-    console.log(nom);
-    console.log((new Date(this.citaActual.diaSinParsear)).toLocaleDateString("es-ES", options));
-    console.log(this.usuarioActual.nombre);
-    console.log(this.citaActual.horaInicio);
-    console.log(this.objetoCita.email);
-    this.envEmail.enviarEmail(nom, this.objetoCita.email, (new Date(this.citaActual.diaSinParsear)).toLocaleDateString("es-ES", options), this.usuarioActual.nombre, this.citaActual.horaInicio).subscribe();
-
   }
   //Se cancela la cita detallada
   cancelarCita() {
-    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres rechazar la peticion?')
-    .then((confirmed) => this.cancelarConf(confirmed))
-    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
-    //console.log(this.confirmacion);
-    
-    
-  }
-  cancelarConf(conf:boolean){
-    let options = { weekday: 'long', month: 'long', day: 'numeric' };
-    console.log(conf);
-    if (conf==true){
-      this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
-      window.alert("cita cancelada");
-      this.router.navigate(['vistaLista']);
-      this.aceptarCitaSubs = this.profesorService.aceptarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
-    let nom: string;
-    nom = 'Estimado ' + this.citaActual.nombre + ' su cita ha sido rechazada ';
-    this.envEmail.enviarEmail(nom, this.objetoCita.email, (new Date(this.citaActual.diaSinParsear)).toLocaleDateString("es-ES", options), this.usuarioActual.nombre, this.citaActual.horaInicio).subscribe();
-      
-    }
-
+    this.cancelarCitaSubs = this.profesorService.cancelarCita(this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+    this.router.navigate(['vistaLista']);
   }
 
   getCitaCompleta() {
     this.getCitaCompletaSubs = this.profesorService.getCitaCompleta(this.citaActual.cedulaEst, this.usuarioActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio)
       .subscribe(data => {
         this.objCitasString = data.result;
-        console.log(data.result);
         this.objetoCita.carne = ((this.objCitasString[0])["carne"]);
         this.objetoCita.descripcion = ((this.objCitasString[0])["descr"]);
         this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);
         this.objetoCita.tipo = ((this.objCitasString[0])["pub"]);
         this.objetoCita.contador = ((this.objCitasString[0])["cont"]);
-        this.objetoCita.email = ((this.objCitasString[0])["email"]);
+        this.objetoCita.fileUrl = ((this.objCitasString[0])["fileUrl"]);
+        console.log(this.objetoCita.fileUrl)
+        if (this.objetoCita.fileUrl != null) {
+          this.profesorService.getArchivoAdjunto(this.objetoCita.fileUrl)
+          let splitted = this.objetoCita.fileUrl.split("/")
+          this.nombreArchivo = splitted[1]
+          console.log("nombre archivo: ", this.nombreArchivo)
+        }
+
+        this.descargar = "https://filehost-umeeter.s3.amazonaws.com/" + this.objetoCita.fileUrl
+
         if (this.objetoCita.tipo == "1") {
           this.objetoCita.tipo = "Publica";
           this.esconderContador = false;
@@ -156,15 +133,13 @@ export class CitaComponent implements OnInit {
            this.objetoCita.contador = this.objCitasString[0][4];//cont
           */
       });
-
-
-
-
-
-
   }
 
-
-  // 
+  getArchivoAdjunto() {
+    //return this.profesorService.getArchivoAdjunto(this.citaActual.fileUrl)
+    //this.citaActual.fileUrl = "https://calibre-ebook.com/downloads/demos/demo.docx"
+    //console.log(this.citaActual.fileUrl)
+    //http://www.africau.edu/images/default/sample.pdf
+  }
 }
 
