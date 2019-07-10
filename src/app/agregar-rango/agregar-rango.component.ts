@@ -12,6 +12,8 @@ import { RangoRepeticion } from '../modelo/rangoRepeticion';
 import { RangoUnico } from '../modelo/rangoUnico';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { RANGOSUNICOS } from '../modelo/rangoUniqueDatos';
+import { Subscription } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 //import { Rango } from '../modelo/rangoSuper';
 
 @Component({
@@ -22,13 +24,22 @@ import { RANGOSUNICOS } from '../modelo/rangoUniqueDatos';
 export class AgregarRangoComponent implements OnInit {
   rangosRep = RANGOS;
   rangosUnic = RANGOSUNICOS;
-  
-  rangoActualRep:RangoRepeticion;
+  getRangosUnicSubs: Subscription;
+  getRangosRepSubs: Subscription;
+  rangoActualRep: RangoRepeticion;
   rangoActualUnic: RangoUnico;
+  rangosUnicosString: Object[];
+  rangosRepString: Object[];
+  rangosUnicos: Array<RangoUnico>;
+  rangosRepeticion: Array<RangoRepeticion>;
+  esconderFecha: boolean;
   fechaInicio = { year: 2019, month: 1, day: 1 };
   fechaFin = { year: 2019, month: 1, day: 1 };
   fechaServIni: string;
   fechaServFin: string;
+  fechaInicioF = { year: 2019, month: 1, day: 1 };
+  fechaFinF = { year: 2019, month: 1, day: 1 };
+  fechaF = { year: 2019, month: 1, day: 1 };
   fechaInicio2 = { year: 2019, month: 1, day: 1 };
   //fechaFin2 = { year: 2019, month: 1, day: 1 };
   tiempoServIni: string;
@@ -66,11 +77,21 @@ export class AgregarRangoComponent implements OnInit {
     this.jueves = false;
     this.viernes = false;
     this.sabado = false;
-
+    this.esconderFecha = true;
+    //this.getRangosConRepeticion();
+    //this.getRangosUnicos();
 
   }
 
   ngOnInit() {
+    this.getRangosConRepeticion();
+    this.getRangosUnicos();
+  }
+  ngOnDestroy() {
+    try {
+      this.getRangosUnicSubs.unsubscribe();
+      this.getRangosRepSubs.unsubscribe();
+    } catch (Exception) { }
   }
 
 
@@ -130,7 +151,7 @@ export class AgregarRangoComponent implements OnInit {
     // this.fechaServFin=this.fechaFin["year"]+"-"+this.fechaInicio["month"]+"-"+this.fechaInicio["day"];
     //Falta establecer la condicion de repeticion con los dias 
     if (this.lunes == false && this.martes == false && this.miercoles == false && this.jueves == false && this.viernes == false && this.sabado == false) {
-      this.repeticion =false;
+      this.repeticion = false;
     } else { this.repeticion = true; }
     //console.log(this.repeticion);
     if (this.repeticion == true) {
@@ -195,8 +216,12 @@ export class AgregarRangoComponent implements OnInit {
       return 0;
 
     } else {
+      //console.log(st.charAt(3));
+      //console.log(st.charAt(4));
+      //console.log(st.charAt(5));
       //console.log(st);
-      numero = +st.substr(4, 6);
+      numero = +(st.charAt(3) + st.charAt(4));
+      //console.log(numero);
       return numero;
     }
 
@@ -250,18 +275,36 @@ export class AgregarRangoComponent implements OnInit {
 
   }
 
-  openRep(content) {
+  openRep(rang: RangoRepeticion, content) {
     let parsed = JSON.parse(localStorage.getItem('rangoActualRep'));
     this.rangoActualRep = parsed;
+
+    this.tiempoInicioInterno.hour = this.hora(rang.horaIni);
+    this.tiempoInicioInterno.minute = this.minuto(rang.horaIni);
+    console.log(this.tiempoFinInterno.hour = this.hora(rang.horaFin));
+    console.log(this.tiempoFinInterno.minute = this.minuto(rang.horaFin));
+    this.tiempoFinInterno.hour = this.hora(rang.horaFin);
+    this.tiempoFinInterno.minute = this.minuto(rang.horaFin);
+    this.fechaInicioF.month = this.mes(rang.fechaInicio);
+    this.fechaInicioF.day = this.dia(rang.fechaInicio);
+    this.fechaInicioF.year = this.anio(rang.fechaInicio);
+    this.fechaFinF.day = this.dia(rang.fechaFinal);
+    this.fechaFinF.month = this.mes(rang.fechaFinal);
+    this.fechaFinF.year = this.anio(rang.fechaFinal);
+
     //console.log(this.rangoActual.fechaFinal);
+
+    /*
     this.tiempoFinInterno.hour = this.hora(this.rangoActualRep.horaFin);
     this.tiempoInicioInterno.hour = this.hora(this.rangoActualRep.horaIni);
     this.tiempoFinInterno.minute = this.minuto(this.rangoActualRep.horaFin);
+     
     this.tiempoInicioInterno.minute = this.minuto(this.rangoActualRep.horaIni);
+    */
     //console.log(this.dia(this.rangoActual.fechaInicio));
     //console.log(this.mes(this.rangoActual.fechaInicio));
     //console.log(this.anio(this.rangoActual.fechaInicio));
-   
+
 
     /*
     this.fechaInicio2.day = this.dia(this.rangoActual.fechaInicio);
@@ -280,18 +323,21 @@ export class AgregarRangoComponent implements OnInit {
     });
   }
 
-  openUnic(content2) {
+  openUnic(rang: RangoUnico, content2) {
     let parsed = JSON.parse(localStorage.getItem('rangoActualUnic'));
     this.rangoActualUnic = parsed;
     //console.log(this.rangoActual.fechaFinal);
-    this.tiempoFinInterno.hour = this.hora(this.rangoActualUnic.horaFin);
-    this.tiempoInicioInterno.hour = this.hora(this.rangoActualUnic.horaIni);
-    this.tiempoFinInterno.minute = this.minuto(this.rangoActualUnic.horaFin);
-    this.tiempoInicioInterno.minute = this.minuto(this.rangoActualUnic.horaIni);
+    this.tiempoFinInterno.hour = this.hora(rang.horaFin);
+    this.tiempoInicioInterno.hour = this.hora(rang.horaIni);
+    this.tiempoFinInterno.minute = this.minuto(rang.horaFin);
+    this.tiempoInicioInterno.minute = this.minuto(rang.horaIni);
+    this.fechaF.day = this.dia(rang.fecha);
+    this.fechaF.month = this.mes(rang.fecha);
+    this.fechaF.year = this.anio(rang.fecha);
     //console.log(this.dia(this.rangoActual.fechaInicio));
     //console.log(this.mes(this.rangoActual.fechaInicio));
     //console.log(this.anio(this.rangoActual.fechaInicio));
-   
+
 
     /*
     this.fechaInicio2.day = this.dia(this.rangoActual.fechaInicio);
@@ -309,7 +355,7 @@ export class AgregarRangoComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  
+
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -334,7 +380,7 @@ export class AgregarRangoComponent implements OnInit {
 
   }
 
-  
+
   modificarRangoUnic() {
     this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres modificar este rango?')
       .then((confirmed) => this.modificarConfUnic(confirmed))
@@ -382,11 +428,93 @@ export class AgregarRangoComponent implements OnInit {
       //llamada a base
     }
   }
+/*
+  getRangosUnicos() {
+    let tiempoIni:string;
+    let tiempoFin:string;
+    this.getRangosUnicSubs = this.profesorService.getRangosUnicos(this.usuarioActual.cedula).subscribe(data => {
+      this.rangosUnicosString = data,
+        this.rangosUnicosString.forEach(element => {
+          tiempoIni = element["horaIni"];//Cambiar el element dependiendo de como salga en result
+          tiempoFin = element["horaFin"];//Cambiar el element dependiendo de como salga en result
+          //console.log(tiempoIni);
+          tiempoIni = tiempoIni.substring(0, tiempoIni.length - 3);
+          //console.log(tiempoIni);
+          tiempoFin = tiempoFin.substring(0, tiempoFin.length - 3);
+          diaIni = (new Date(element["fecha"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
+          diaIni = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          this.rangosUnicos.push(
+            {
+              //Cambiar los element dependiendo de como salgan en result
+              cedulaProf: element["cedula"],
+              horaIni: tiempoIni,
+              horaFin: tiempoFin,
+              fecha: diaIni,
+              lugar:element["lug"]
+            }
+          )
+        })
+    })
+  }
+*/
+  getRangosUnicos() {
+
+    this.getRangosUnicSubs = this.profesorService.getRangosUnicos(this.usuarioActual.cedula).subscribe(data => {
+     
+    })
+  }
+  getRangosConRepeticion(){
+
+    this.getRangosRepSubs = this.profesorService.getRangosconRepeticion(this.usuarioActual.cedula).subscribe(data => {
+     
+    })
+  }
+  
+/*
+  getRangosConRepeticion() { 
+    let tiempoIni:string;
+    let tiempoFin:string;
+    let diaIni:string;
+    let diaFin:string;
+    this.getRangosRepSubs = this.profesorService.getRangosconRepeticion(this.usuarioActual.cedula).subscribe(data => {
+      this.rangosRepString = data,
+        this.rangosRepString.forEach(element => {
+          tiempoIni = element["horaIni"];
+          tiempoFin = element["horaFin"];
+          //console.log(tiempoIni);
+          tiempoIni = tiempoIni.substring(0, tiempoIni.length - 3);
+          //console.log(tiempoIni);
+          tiempoFin = tiempoFin.substring(0, tiempoFin.length - 3);
+          diaIni = (new Date(element["fechaInicio"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
+          diaIni = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          diaFin = (new Date(element["fechaFin"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
+          diaFin = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          this.rangosRepeticion.push(
+            {
+              //Cambiar los element dependiendo de como salgan en result
+              cedulaProf: element["cedula"],
+              horaIni: tiempoIni,
+              horaFin: tiempoFin,
+              fechaInicio: diaIni,
+              fechaFinal: diaFin,
+              lugar:element["lug"],
+              lun:element["lun"],
+              mar:element["mar"],
+              mier:element["mier"],
+              juev:element["juev"],
+              vier:element["vier"],
+              sab:element["juev"],
+             
+            }
+          )
+        })
+    })
+  }
 
 
 
 
-
+*/
 }
 
 

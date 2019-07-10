@@ -19,6 +19,7 @@ export class SendEmailService {
   
     return this.httpClient.post(`${this.NODE_API_SERVER}/enviarEmail`,{nombre:nombre,correo:correo,fecha:fecha,nombreProfesor:nombreProfesor,hora:hora}
     ).pipe(tap(res => {
+      console.log("PENE");
    }));
 
   }

@@ -167,7 +167,7 @@ ul.cursos li li:last-child a {
 }
 
 ul.cursos li:target ul {
-    max-height: 1000px;
+    max-height: 30000px;
     transition: .3s all ease-in;
 }
 

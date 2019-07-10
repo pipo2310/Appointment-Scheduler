@@ -4,4 +4,5 @@ export class ObjetoCita  {
     descripcion:string;
     tipo:string;
     carne:string;
+    email:string;
 }

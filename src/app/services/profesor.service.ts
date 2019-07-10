@@ -81,7 +81,7 @@ export class ProfesorService {
       hora: hora,
       cedProf: cedulaProf
     }).pipe(tap(res => {
-      console.log(res);
+      //console.log(res);
     }));
   }
 
@@ -96,7 +96,7 @@ export class ProfesorService {
 
   public crearDisponibilidadUnica(cedulaProf: string, fechaDisp: string,
     horaIniDisp: string, horaFinDisp: string, lugarDisp: string) {
-      //console.log("Casi segunda etapa");
+    //console.log("Casi segunda etapa");
     return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispUnDia`, {
       cedProf: cedulaProf,
       dia: fechaDisp,
@@ -112,9 +112,9 @@ export class ProfesorService {
   }
 
   public crearRangoDisponibilidadConRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
-    horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes:boolean,martes:boolean,miercoles:boolean,jueves:boolean,viernes:boolean,sabado:boolean) {
+    horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes: boolean, martes: boolean, miercoles: boolean, jueves: boolean, viernes: boolean, sabado: boolean) {
 
-      return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
+    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
       cedula: cedulaProf,
       diaIni: fechaIniRangoDisp,
       diaFin: fechaFinRangoDisp,
@@ -133,6 +133,50 @@ export class ProfesorService {
       console.log(res);
 
     }));
+  }
+
+  public getRangosconRepeticion(cedulaProf: string): Observable<any> {
+
+    let ranges: any[];
+    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosRepeticionProf`, {
+      cedula: cedulaProf
+    })
+      .pipe(tap(res => {
+        ranges = res;
+        console.log(res);
+      }));
+
+  }
+
+  public getRangosUnicos(cedulaProf: string): Observable<any> {
+
+    let ranges: any[];
+    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosUnicosProf`, {
+      cedula: cedulaProf
+    })
+      .pipe(tap(res => {
+        ranges = res;
+        console.log(res);
+      }));
+
+  }
+
+  public modificarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+  public eliminarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+
+  public modificarRangosUnicos(cedulaProf: string, fecha: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+  public eliminarRangosUnicos(cedulaProf: string, fecha: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
   }
 }
 

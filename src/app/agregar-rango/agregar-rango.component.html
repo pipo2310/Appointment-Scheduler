@@ -101,11 +101,13 @@
           <div class="col align-self-center">
 
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Horarios de consulta</button>
+              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Horarios con
+                repeticion</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 
                 <li *ngFor="let rango of rangosRep; let i = index" (click)="irARangoRep(rango)">
-                  <button ngbDropdownItem (click)="openRep(content)">Fecha inicio: {{rango.fechaInicio}} Fecha final: {{rango.fechaFinal}}
+                  <button ngbDropdownItem (click)="openRep(rango,content)">Fecha inicio: {{rango.fechaInicio}} Fecha
+                    final: {{rango.fechaFinal}}
                     Hora Inicial: {{rango.horaIni}} Hora Final: {{rango.horaFin}} Lugar: {{rango.lugar}} </button>
                 </li>
               </div>
@@ -114,27 +116,29 @@
 
           <div class="col align-self-center">
 
-              <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>Horarios de consulta</button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-  
-                  <li *ngFor="let rango of rangosUnic; let i = index" (click)="irARangoUnic(rango)">
-                    <button ngbDropdownItem (click)="openUnic(content2)">Fecha: {{rango.fecha}} Hora Inicial: {{rango.horaIni}}
-                      Hora Final: {{rango.horaFin}} Lugar: {{rango.lugar}}</button>
-                  </li>
-                </div>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>Horarios unicos de
+                consulta</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+
+                <li *ngFor="let rango of rangosUnic; let i = index" (click)="irARangoUnic(rango)">
+                  <button ngbDropdownItem (click)="openUnic(rango,content2)">Fecha: {{rango.fecha}} Hora Inicial:
+                    {{rango.horaIni}}
+                    Hora Final: {{rango.horaFin}} Lugar: {{rango.lugar}}</button>
+                </li>
               </div>
             </div>
-          
+          </div>
+
 
         </div>
 
       </div>
       <div class="w-100 p-2 d-flex justify-content-center">
 
-  
-        </div>
-        
+
+      </div>
+
     </div>
   </div>
   <ng-template #content let-modal>
@@ -144,80 +148,110 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+
     <div class="modal-body">
-        <div class="row">
-            <div class="col-sm-4 text-center">
-                <label><b>Nueva hora inicial</b></label>
-                <ngb-timepicker [(ngModel)]="tiempoInicioInterno" [seconds]="false" [minuteStep]=15 id="piker1"></ngb-timepicker>
-    
-              </div>
-              <div class="col-sm-4">
-    
-              </div>
-              <div class="col-sm-4 text-center">
-                <label><b>Nueva hora final</b></label>
-                <ngb-timepicker [(ngModel)]="tiempoFinInterno" [seconds]="false" [minuteStep]=15 id="piker2"></ngb-timepicker>
-    
-              </div>
-        </div>
-      
       <div class="row align-self-center">
-        
         <div class="col align-self-center">
-            <label><b>Lugar</b></label>
-            <input type="text" #lugar name="lugar" placeholder="Ingrese el lugar nuevo" required id="lbl">
+          <div *ngIf="!esconderFecha">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fechaInicioF" ngbDatepicker
+              #d="ngbDatepicker">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fechaFinF" ngbDatepicker
+              #d="ngbDatepicker">
+          </div>
+          <label><b>De: {{fechaInicioF.day}}/{{fechaInicioF.month}}/{{fechaInicioF.year}} A:
+              {{fechaFinF.day}}/{{fechaFinF.month}}/{{fechaFinF.year}} </b></label>
+
         </div>
       </div>
-      
-      
+      <div class="row">
+        <div class="col-sm-4 text-center">
+          <label><b>Nueva hora inicial</b></label>
+          <ngb-timepicker [(ngModel)]="tiempoInicioInterno" [seconds]="false" [minuteStep]=15 id="piker1">
+          </ngb-timepicker>
+
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4 text-center">
+          <label><b>Nueva hora final</b></label>
+          <ngb-timepicker [(ngModel)]="tiempoFinInterno" [seconds]="false" [minuteStep]=15 id="piker2"></ngb-timepicker>
+
+        </div>
+      </div>
+
+      <div class="row align-self-center">
+
+        <div class="col align-self-center">
+          <label><b>Lugar</b></label>
+          <input type="text" #lugar name="lugar" placeholder="Ingrese el lugar nuevo" required id="lbl">
+        </div>
+      </div>
+
+
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click') "(click)="modificarRango()">Modificar</button>
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')"(click)="eliminarRango()">Eliminar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click') "
+        (click)="modificarRango()">Modificar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')"
+        (click)="eliminarRango()">Eliminar</button>
     </div>
   </ng-template>
   <pre></pre>
 
 
   <ng-template #content2 let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title2">Rango Unico</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div class="row">
-              <div class="col-sm-4 text-center">
-                  <label><b>Nueva hora inicial</b></label>
-                  <ngb-timepicker [(ngModel)]="tiempoInicioInterno" [seconds]="false" [minuteStep]=15 id="piker1"></ngb-timepicker>
-      
-                </div>
-                <div class="col-sm-4">
-      
-                </div>
-                <div class="col-sm-4 text-center">
-                  <label><b>Nueva hora final</b></label>
-                  <ngb-timepicker [(ngModel)]="tiempoFinInterno" [seconds]="false" [minuteStep]=15 id="piker2"></ngb-timepicker>
-      
-                </div>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title2">Rango Unico</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row align-items-center">
+        <div class="col-sm-4 align-items-center">
+          <div *ngIf="!esconderFecha">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fechaF" ngbDatepicker
+              #d="ngbDatepicker">
           </div>
-        
-        <div class="row align-self-center">
-          
-          <div class="col align-self-center">
-              <label><b>Lugar</b></label>
-              <input type="text" #lugar name="lugar" placeholder="Ingrese el lugar nuevo" required id="lbl">
-          </div>
+          <label><b>En: {{fechaF.day}}/{{fechaF.month}}/{{fechaF.year}}</b></label>
+
         </div>
-        
-        
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click') "(click)="modificarRango()">Modificar</button>
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')"(click)="eliminarRango()">Eliminar</button>
+      <div class="row">
+        <div class="col-sm-4 text-center">
+          <label><b>Nueva hora inicial</b></label>
+          <ngb-timepicker [(ngModel)]="tiempoInicioInterno" [seconds]="false" [minuteStep]=15 id="piker1">
+          </ngb-timepicker>
+
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4 text-center">
+          <label><b>Nueva hora final</b></label>
+          <ngb-timepicker [(ngModel)]="tiempoFinInterno" [seconds]="false" [minuteStep]=15 id="piker2"></ngb-timepicker>
+
+        </div>
       </div>
-    </ng-template>
+
+      <div class="row align-self-center">
+
+        <div class="col align-self-center">
+          <label><b>Lugar</b></label>
+          <input type="text" #lugar name="lugar" placeholder="Ingrese el lugar nuevo" required id="lbl">
+        </div>
+      </div>
+
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click') "
+        (click)="modificarRango()">Modificar</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')"
+        (click)="eliminarRango()">Eliminar</button>
+    </div>
+  </ng-template>
 
 
 </body>
