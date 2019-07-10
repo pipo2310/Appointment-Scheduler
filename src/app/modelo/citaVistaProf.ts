@@ -9,7 +9,5 @@ export class CitaVistaProf  {
     estado: string;
     siglaCurso:string;
     numGrupo:number;
-    fileName: string;
-    fileUrl: string
 }
 

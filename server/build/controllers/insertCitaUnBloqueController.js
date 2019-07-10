@@ -16,12 +16,22 @@ class InsertCitaUnBloque {
         const hora = req.body.hora;
         const descrip = req.body.descrip;
         const pub = req.body.pub;
-        let sql = "select insertCitaUnBloque('" + cedulaEst + "','" + cedulaProf + "','" + curso + "','" + fecha + "','" + hora + "', '" + descrip + "', " + pub + ") AS resultado;";
+        const key = req.body.key;
+        console.log(key, " en servidor");
+        let sql = "";
+        if (key != null) {
+            sql = "select insertCitaUnBloque('" + cedulaEst + "','" + cedulaProf + "','" + curso + "','" + fecha + "','" + hora + "', '" + descrip + "', " + pub + ", '" + key + "') AS resultado;";
+        }
+        else {
+            sql = "select insertCitaUnBloque('" + cedulaEst + "','" + cedulaProf + "','" + curso + "','" + fecha + "','" + hora + "', '" + descrip + "', " + pub + ", null) AS resultado;";
+        }
         database_1.default.query(sql, (err, result) => {
             if (result) {
+                console.log(result);
                 res.send(result[0]);
             }
             else {
+                console.log(err);
                 res.send({
                     "Error: ": err
                 });

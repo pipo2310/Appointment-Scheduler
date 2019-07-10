@@ -339,7 +339,9 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     } else {
       n = 0;
     }
-    this.insertCitaSubs = this.calendarService.insertarCita(this.estudianteCita.cedula, this.profeCita.cedula, localStorage.getItem('sigla'), this.slotActual.fecha.toISOString(), this.slotActual.horaIni, descripcion, n).subscribe();
+    this.insertCitaSubs = this.calendarService.insertarCita(this.estudianteCita.cedula, 
+      this.profeCita.cedula, localStorage.getItem('sigla'), this.slotActual.fecha.toISOString(), 
+      this.slotActual.horaIni, descripcion, n, this.fileToUpload).subscribe();
     this.modalService.dismissAll()
     window.alert("Su cita ha sido agregada");
     this.llenarEvents()

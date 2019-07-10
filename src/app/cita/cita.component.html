@@ -11,8 +11,9 @@
                     <span class="texto">Tipo de cita: {{this.objetoCita.tipo}}</span><br><br>
                     <span class="texto"> Cantidad de asistentes: {{this.objetoCita.contador}}</span><br><br>
                     <span class="texto">Estado: {{this.citaActual.estado}}</span><br><br>
-                    <span class="texto">Archivo adjunto: <a class="enlace" href={{this.citaActual.fileUrl}}>{{this.citaActual.fileName}} </a> </span><br><br>
-                    
+                    <span class="texto">Archivo adjunto: <a class="enlace" href={{this.descargar}}> {{this.nombreArchivo}} </a> </span><br><br>
+
+
                 </div>
                 <div *ngIf="esconderContador">
                     <h3 class="text-center"> Información de cita <br></h3>
@@ -22,7 +23,7 @@
                     <span class="texto">Lugar: {{this.objetoCita.lugar}}</span><br><br>
                     <span class="texto">Tipo de cita: {{this.objetoCita.tipo}}</span><br><br>
                     <span class="texto">Estado: {{this.citaActual.estado}}</span><br><br>
-                    <span class="texto">Archivo adjunto: <a class="enlace" href={{this.citaActual.fileUrl}}>{{this.citaActual.fileName}} </a>  </span><br><br>
+                    <span class="texto">Archivo adjunto: <a class="enlace" href={{this.descargar}}> {{this.nombreArchivo}} </a>  </span><br><br>
 
 
                 </div>
@@ -39,7 +40,6 @@
                 <div *ngIf="esconderDatosCedula">
                     <h3 class="text-center"> Información del estudiante <br></h3><br>
                     <span class="texto"> Curso: {{this.citaActual.siglaCurso}}</span><br><br>
-
                 </div>
 
             </div>

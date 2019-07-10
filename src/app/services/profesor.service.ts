@@ -14,6 +14,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Profesor } from '../modelo/profesor';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import * as aws from 'aws-sdk'
+import * as S3 from 'aws-sdk/clients/s3'
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'homeProfesor' })
@@ -48,6 +50,7 @@ export class ProfesorService {
       }));
   }
 
+
   public getCitasSemana(cedulaProf: string, fechaIni: string, fechaFin: string): Observable<any> {
     let citas: any[];
     return this.httpClient.post(`${this.NODE_API_SERVER}/citasUnaSemProf`, {
@@ -70,7 +73,6 @@ export class ProfesorService {
       cedulaProf: cedulaProf
     }).pipe(tap(res => {
       cita = res;
-
     }));
   }
 
@@ -92,6 +94,33 @@ export class ProfesorService {
       cedProf: cedulaProf
     }).pipe(tap(res => {
     }));
+  }
+
+  public getArchivoAdjunto(newKey:string) { // key en parámetros
+    const key = newKey
+    console.log(key, " in profesor service")
+      const bucket = new S3(
+        {
+          accessKeyId: 'AKIAUCE7JJ35NWW5R3UR',
+          secretAccessKey: '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',
+          region: 'us-east-1'
+        }
+      );
+
+      const params = {
+        Bucket: 'filehost-umeeter',
+        Key: key
+      };
+
+      //const fs = require('fs')
+      return bucket.getObject(params, function (err, data) {
+        if (err === null) {
+          //fs.writeFileSync('')
+            console.log(data);
+        } else {
+            console.log(err);
+        }
+    });
   }
 }
 

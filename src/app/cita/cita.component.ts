@@ -8,6 +8,7 @@ import { Usuario } from '../modelo/usuario';
 import { element } from '@angular/core/src/render3';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { saveAs } from 'angular-file-saver'
 
 @Component({
   selector: 'app-cita',
@@ -28,10 +29,13 @@ export class CitaComponent implements OnInit {
   aceptarCitaSubs: Subscription;
   cancelarCitaSubs: Subscription;
   getCitaCompletaSubs: Subscription;
+  nombreArchivo: string = ""
+
+  descargar:string = ""
 
   listProf: ListaProfesorComponent;
 
-  constructor(private profesorService: ProfesorService,private router:Router) {
+  constructor(private profesorService: ProfesorService, private router: Router) {
     let parsed2 = JSON.parse(localStorage.getItem('usuarioActual'));
     // Interpreta al usuario como un profesor
     this.usuarioActual = {
@@ -66,7 +70,8 @@ export class CitaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.citaActual.fileUrl = "https://calibre-ebook.com/downloads/demos/demo.docx"
+    //this.objetoCita.fileUrl = "https://filehost-umeeter.s3.amazonaws.com/1562777178324/script.sql"
+
   }
 
   ngOnDestroy() {
@@ -100,6 +105,17 @@ export class CitaComponent implements OnInit {
         this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);
         this.objetoCita.tipo = ((this.objCitasString[0])["pub"]);
         this.objetoCita.contador = ((this.objCitasString[0])["cont"]);
+        this.objetoCita.fileUrl = ((this.objCitasString[0])["fileUrl"]);
+        console.log(this.objetoCita.fileUrl)
+        if (this.objetoCita.fileUrl != null) {
+          this.profesorService.getArchivoAdjunto(this.objetoCita.fileUrl)
+          let splitted = this.objetoCita.fileUrl.split("/")
+          this.nombreArchivo = splitted[1]
+          console.log("nombre archivo: ", this.nombreArchivo)
+        }
+
+        this.descargar = "https://filehost-umeeter.s3.amazonaws.com/" + this.objetoCita.fileUrl
+
         if (this.objetoCita.tipo == "1") {
           this.objetoCita.tipo = "Publica";
           this.esconderContador = false;
@@ -119,7 +135,8 @@ export class CitaComponent implements OnInit {
       });
   }
 
-  getArchivoAdjunto(){
+  getArchivoAdjunto() {
+    //return this.profesorService.getArchivoAdjunto(this.citaActual.fileUrl)
     //this.citaActual.fileUrl = "https://calibre-ebook.com/downloads/demos/demo.docx"
     //console.log(this.citaActual.fileUrl)
     //http://www.africau.edu/images/default/sample.pdf

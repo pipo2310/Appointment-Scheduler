@@ -18,6 +18,8 @@ import { tap } from 'rxjs/operators';
 import { Profesor } from '../modelo/profesor';
 import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
 import { Slot } from '../modelo/slot';
+import * as aws from 'aws-sdk'
+import * as S3 from 'aws-sdk/clients/s3'
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'homeStudent' })
@@ -74,15 +76,53 @@ export class CalendarService {
     }));
   }
 
-  insertarCita(cedEst: string, cedProf: string, sigla: string, fecha: string, hora: string, descripcion: string, publica: number) {
-    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/insertCitaBloque`, {
+  insertarCita(cedEst: string, cedProf: string, sigla: string, fecha: string, hora: string, descripcion: string, publica: number, file: File) {
+    var filename;
+    var key;
+
+    if (file != null) {
+      // console.log("Archivo en inserCita de service: " + file.name);
+      const date = new Date();
+      const timestamp = date.getTime();
+      filename = file.name
+      key = timestamp + '/' + filename
+      const bucket = new S3(
+        {
+          accessKeyId: 'AKIAUCE7JJ35NWW5R3UR',
+          secretAccessKey: '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',
+          region: 'us-east-1'
+        }
+      );
+
+      const params = {
+        Bucket: 'filehost-umeeter',
+        Key: key,
+        Body: file,
+        Type: file.type
+      };
+
+      bucket.upload(params, function (err, data) {
+        if (err) {
+          // console.log('error in callback');
+          console.log(err);
+        } else {
+          // console.log('success');
+          console.log(data);
+        }
+      }).promise().then(res =>{
+        console.log(res, " en calendario-service")
+      });
+    }
+
+    return this.httpClient.post<any>(`http://localhost:3000/insertCitaBloque`, {
       cedulaEst: cedEst,
       cedulaProf: cedProf,
       curso: sigla,
       fecha: fecha,
       hora: hora,
       descrip: descripcion,
-      pub: publica
+      pub: publica,
+      key: key
     }).pipe(tap(res => {
     }));
 
