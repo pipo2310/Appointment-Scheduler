@@ -9,8 +9,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
   CalendarMonthViewBeforeRenderEvent,
-  CalendarWeekViewBeforeRenderEvent,
-  CalendarDayViewBeforeRenderEvent
+  CalendarMonthViewDay
 } from 'angular-calendar';
 import { startTimeRange } from '@angular/core/src/profile/wtf_impl';
 import { CalendarioProfesorService } from '../../services/calendario-profesor.service';
@@ -98,11 +97,17 @@ export class CalendarComponent implements OnInit {
 
   beforeMonthViewRender(renderEvent: CalendarMonthViewBeforeRenderEvent): void {
     renderEvent.body.forEach(day => {
-      //const dayOfMonth = day.date.getDate();
       const dayOfMonth = 1;
       if (day.day.valueOf() === dayOfMonth && day.inMonth) {
+        console.log("Se está metiendo");
         day.cssClass = 'bn-pink';
       }
+    });
+  }
+
+  beforeMonthViewRender2({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(day => {
+      day.badgeTotal = 0;
     });
   }
 
@@ -292,6 +297,7 @@ export class CalendarComponent implements OnInit {
 
   /***************************************************************************************************/
 
+  
 
   /***************************************************************************************************/
 
