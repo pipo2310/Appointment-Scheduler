@@ -18,6 +18,9 @@ import { CitaVistaProf } from 'src/app/modelo/citaVistaProf';
 import { Profesor } from 'src/app/modelo/profesor';
 import { tap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ObjetoCita } from 'src/app/modelo/objetoCita';
+import { SendEmailService } from 'src/app/services/send-email.service';
+import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmation-dialog.service';
 
 const colors: any = {
   red: {
@@ -34,6 +37,10 @@ const colors: any = {
   }
 };
 
+function delay(ms:number) {
+  return new Promise (resolve=>setTimeout(resolve,ms));
+  
+}
 @Component({
   selector: 'app-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,11 +58,21 @@ export class CalendarComponent implements OnInit {
   citasProfSubs: Subscription;
   aceptarCitaSubs: Subscription;
   cancelarCitaSubs: Subscription;
+  objCitasString: Object[] = [];
+  getCitaCompletaSubs: Subscription;
   citasDia: Array<CitaVistaProf>;
   citasDiaObject: Object[];
   profesorActual: Profesor;
   primerDia: Date;
   ultimoDia: Date;
+  objetoCita: ObjetoCita = {
+    lugar: "", contador: 0,
+    descripcion: "",
+    tipo: "",
+    carne: "",
+    email: "",
+    fileUrl: "",
+  };
   // Esto es lo que se va a ingresar el el modal
   modalData: {
     action: string,
@@ -70,7 +87,7 @@ export class CalendarComponent implements OnInit {
 
   // ***************************************************************************************************/
 
-  constructor(private modal: NgbModal, private profesorService: ProfesorService, private calendarioService: CalendarioProfesorService, private router: Router) {
+  constructor(private modal: NgbModal, private confirmationDialogService: ConfirmationDialogService, private envEmail: SendEmailService,private profesorService: ProfesorService, private calendarioService: CalendarioProfesorService, private router: Router) {
 
     // Extrae la información del usuario guardada en el almacenamiento local por el login service
 
@@ -397,15 +414,61 @@ export class CalendarComponent implements OnInit {
     return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
 
-  aceptarCita(cita: CitaVistaProf) {
+  async aceptarCita(cita: CitaVistaProf) {
+    this.citaActual = cita;
+    this.getCitaCompleta();
+    let options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.aceptarCitaSubs = this.profesorService.aceptarCita(this.profesorActual.cedula, cita.diaSinParsear, cita.horaInicio).subscribe(data => { });
+    await delay(3000);
+    let nom: string;
+    nom = 'Estimado ' + this.citaActual.nombre + ' su cita ha sido aceptada ';
+    console.log(this.objetoCita.email);
+    this.envEmail.enviarEmail(nom, this.objetoCita.email, (new Date(cita.diaSinParsear)).toLocaleDateString("es-ES", options), this.profesorActual.nombre, cita.horaInicio).subscribe();
+
   }
 
   cancelarCita(cita: CitaVistaProf) {
+    this.citaActual = cita;
+    this.getCitaCompleta();
+    //console.log(this.objetoCita);
+    this.confirmationDialogService.confirm('Favor confirmar', 'Realmente quieres rechazar la peticion?')
+      .then((confirmed) => this.cancelarConf(confirmed))
+      .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+    /*
     if(confirm("¿Está seguro que desea rechazar esta cita?")) {
       this.cancelarCitaSubs = this.profesorService.cancelarCita(this.profesorActual.cedula, cita.diaSinParsear, cita.horaInicio).subscribe(data => { });
       this.modal.dismissAll();
       this.llenarEvents();
     }
+    */
+  }
+
+  cancelarConf(conf: boolean) {
+    let options = { weekday: 'long', month: 'long', day: 'numeric' };
+    console.log(conf);
+    if (conf == true) {
+
+      this.cancelarCitaSubs = this.profesorService.cancelarCita(this.profesorActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio).subscribe(data => { });
+      //this.onSelect(this.selectedSemana);
+      let nom: string;
+      nom = 'Estimado ' + this.citaActual.nombre + ' su cita ha sido rechazada ';
+      this.envEmail.enviarEmail(nom, this.objetoCita.email, (new Date(this.citaActual.diaSinParsear)).toLocaleDateString("es-ES", options), this.profesorActual.nombre, this.citaActual.horaInicio).subscribe();
+
+    }
+  }
+
+  getCitaCompleta() {
+    this.getCitaCompletaSubs = this.profesorService.getCitaCompleta(this.citaActual.cedulaEst, this.profesorActual.cedula, this.citaActual.diaSinParsear, this.citaActual.horaInicio)
+      .subscribe(data => {
+        this.objCitasString = data.result;
+        //console.log(data.result);
+        this.objetoCita.carne = ((this.objCitasString[0])["carne"]);
+        this.objetoCita.descripcion = ((this.objCitasString[0])["descr"]);
+        this.objetoCita.lugar = ((this.objCitasString[0])["lug"]);
+        this.objetoCita.tipo = ((this.objCitasString[0])["pub"]);
+        this.objetoCita.contador = ((this.objCitasString[0])["cont"]);
+        this.objetoCita.email = ((this.objCitasString[0])["email"]);
+
+      });
   }
 }

@@ -10,8 +10,8 @@ import { tap } from 'rxjs/internal/operators/tap';
 export class SendEmailService {
   composeOptions: email.ComposeOptions;
 
-
-  NODE_API_SERVER = "http://localhost:3000";
+  NODE_API_SERVER = "http://ec2-34-239-46-160.compute-1.amazonaws.com:3000";
+  //NODE_API_SERVER = "http://localhost:3000";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class SendEmailService {
   
     return this.httpClient.post(`${this.NODE_API_SERVER}/enviarEmail`,{nombre:nombre,correo:correo,fecha:fecha,nombreProfesor:nombreProfesor,hora:hora}
     ).pipe(tap(res => {
-      console.log("PENE");
+      
    }));
 
   }

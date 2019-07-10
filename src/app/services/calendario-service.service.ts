@@ -114,7 +114,7 @@ export class CalendarService {
       });
     }
 
-    return this.httpClient.post<any>(`http://localhost:3000/insertCitaBloque`, {
+    return this.httpClient.post<any>(`${this.NODE_API_SERVER}/insertCitaBloque`, {
       cedulaEst: cedEst,
       cedulaProf: cedProf,
       curso: sigla,
