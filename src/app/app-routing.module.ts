@@ -19,7 +19,7 @@ import { EstudianteComponent } from './estudiante/estudiante.component';
 import{ProfesorComponent} from './profesor/profesor/profesor.component';
 import {ListaProfesorComponent} from './lista-profesor/lista-profesor.component';
 import { CitaComponent } from './cita/cita.component';
-import{AgregarRangoComponent} from  './agregar-rango/agregar-rango.component'
+import{AgregarRangoComponent} from  '../app/agregar-rango/agregar-rango.component'
 
 import { from } from 'rxjs';
 

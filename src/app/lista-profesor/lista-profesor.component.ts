@@ -32,7 +32,8 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     descripcion: "",
     tipo: "",
     carne: "",
-    email: ""
+    email: "",
+    fileUrl: ""
   };
   objCitasString: Object[] = [];
   citasSemana: Array<CitaVistaProf>;

@@ -277,6 +277,7 @@ export class AgregarRangoComponent implements OnInit {
     }
 
   }
+  
 
   openRep(rang: RangoRepeticion, content) {
     let parsed = JSON.parse(localStorage.getItem('rangoActualRep'));
@@ -524,12 +525,4 @@ export class AgregarRangoComponent implements OnInit {
         })
     })
   }
-
-
-
-
-
 }
-
-
-
