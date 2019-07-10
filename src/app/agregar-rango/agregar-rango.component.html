@@ -105,7 +105,7 @@
                 repeticion</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 
-                <li *ngFor="let rango of rangosRep; let i = index" (click)="irARangoRep(rango)">
+                <li *ngFor="let rango of rangosRepeticion; let i = index" (click)="irARangoRep(rango)">
                   <button ngbDropdownItem (click)="openRep(rango,content)">Fecha inicio: {{rango.fechaInicio}} Fecha
                     final: {{rango.fechaFinal}}
                     Hora Inicial: {{rango.horaIni}} Hora Final: {{rango.horaFin}} Lugar: {{rango.lugar}} </button>
@@ -121,7 +121,7 @@
                 consulta</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
 
-                <li *ngFor="let rango of rangosUnic; let i = index" (click)="irARangoUnic(rango)">
+                <li *ngFor="let rango of rangosUnicos; let i = index" (click)="irARangoUnic(rango)">
                   <button ngbDropdownItem (click)="openUnic(rango,content2)">Fecha: {{rango.fecha}} Hora Inicial:
                     {{rango.horaIni}}
                     Hora Final: {{rango.horaFin}} Lugar: {{rango.lugar}}</button>
@@ -158,8 +158,8 @@
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fechaFinF" ngbDatepicker
               #d="ngbDatepicker">
           </div>
-          <label><b>De: {{fechaInicioF.day}}/{{fechaInicioF.month}}/{{fechaInicioF.year}} A:
-              {{fechaFinF.day}}/{{fechaFinF.month}}/{{fechaFinF.year}} </b></label>
+          <label><b>De: {{fechaInicioFInt}} A:
+             {{fechaFinFInt}}</b></label>
 
         </div>
       </div>
@@ -214,7 +214,7 @@
             <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="fechaF" ngbDatepicker
               #d="ngbDatepicker">
           </div>
-          <label><b>En: {{fechaF.day}}/{{fechaF.month}}/{{fechaF.year}}</b></label>
+          <label><b>En: {{fechaFInt}}</b></label>
 
         </div>
       </div>

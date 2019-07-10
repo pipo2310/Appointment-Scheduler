@@ -40,6 +40,9 @@ export class AgregarRangoComponent implements OnInit {
   fechaInicioF = { year: 2019, month: 1, day: 1 };
   fechaFinF = { year: 2019, month: 1, day: 1 };
   fechaF = { year: 2019, month: 1, day: 1 };
+  fechaInicioFInt : string;
+  fechaFinFInt : string;
+  fechaFInt  : string;
   fechaInicio2 = { year: 2019, month: 1, day: 1 };
   //fechaFin2 = { year: 2019, month: 1, day: 1 };
   tiempoServIni: string;
@@ -291,6 +294,8 @@ export class AgregarRangoComponent implements OnInit {
     this.fechaFinF.day = this.dia(rang.fechaFinal);
     this.fechaFinF.month = this.mes(rang.fechaFinal);
     this.fechaFinF.year = this.anio(rang.fechaFinal);
+    this.fechaInicioFInt=rang.fechaInicio;
+    this.fechaFinFInt=rang.fechaFinal
 
     //console.log(this.rangoActual.fechaFinal);
 
@@ -334,6 +339,7 @@ export class AgregarRangoComponent implements OnInit {
     this.fechaF.day = this.dia(rang.fecha);
     this.fechaF.month = this.mes(rang.fecha);
     this.fechaF.year = this.anio(rang.fecha);
+    this.fechaFInt=rang.fecha;
     //console.log(this.dia(this.rangoActual.fechaInicio));
     //console.log(this.mes(this.rangoActual.fechaInicio));
     //console.log(this.anio(this.rangoActual.fechaInicio));
@@ -428,10 +434,13 @@ export class AgregarRangoComponent implements OnInit {
       //llamada a base
     }
   }
-/*
+
   getRangosUnicos() {
+    this.rangosUnicos=[];
+    let options = { weekday: 'long', month: 'long', day: 'numeric' };
     let tiempoIni:string;
     let tiempoFin:string;
+    let diaIni:string;
     this.getRangosUnicSubs = this.profesorService.getRangosUnicos(this.usuarioActual.cedula).subscribe(data => {
       this.rangosUnicosString = data,
         this.rangosUnicosString.forEach(element => {
@@ -442,11 +451,11 @@ export class AgregarRangoComponent implements OnInit {
           //console.log(tiempoIni);
           tiempoFin = tiempoFin.substring(0, tiempoFin.length - 3);
           diaIni = (new Date(element["fecha"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
-          diaIni = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          diaIni = diaIni.charAt(0).toUpperCase() + diaIni.slice(1);
           this.rangosUnicos.push(
             {
               //Cambiar los element dependiendo de como salgan en result
-              cedulaProf: element["cedula"],
+              //cedulaProf: element["cedula"],
               horaIni: tiempoIni,
               horaFin: tiempoFin,
               fecha: diaIni,
@@ -456,26 +465,31 @@ export class AgregarRangoComponent implements OnInit {
         })
     })
   }
-*/
+
+/*
   getRangosUnicos() {
 
     this.getRangosUnicSubs = this.profesorService.getRangosUnicos(this.usuarioActual.cedula).subscribe(data => {
      
-    })
+    });
   }
+  */
+  /*
   getRangosConRepeticion(){
 
     this.getRangosRepSubs = this.profesorService.getRangosconRepeticion(this.usuarioActual.cedula).subscribe(data => {
      
-    })
+    });
   }
-  
-/*
+*/
+
   getRangosConRepeticion() { 
+    this.rangosRepeticion=[];
     let tiempoIni:string;
     let tiempoFin:string;
     let diaIni:string;
     let diaFin:string;
+    let options = { weekday: 'long', month: 'long', day: 'numeric' };
     this.getRangosRepSubs = this.profesorService.getRangosconRepeticion(this.usuarioActual.cedula).subscribe(data => {
       this.rangosRepString = data,
         this.rangosRepString.forEach(element => {
@@ -485,14 +499,14 @@ export class AgregarRangoComponent implements OnInit {
           tiempoIni = tiempoIni.substring(0, tiempoIni.length - 3);
           //console.log(tiempoIni);
           tiempoFin = tiempoFin.substring(0, tiempoFin.length - 3);
-          diaIni = (new Date(element["fechaInicio"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
-          diaIni = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          diaIni = (new Date(element["fechaIni"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
+          diaIni = diaIni.charAt(0).toUpperCase() + diaIni.slice(1);
           diaFin = (new Date(element["fechaFin"]).toLocaleDateString("es-ES", options));//Cambiar el element dependiendo de como salga en result
-          diaFin = diaIng.charAt(0).toUpperCase() + diaIng.slice(1);
+          diaFin = diaFin.charAt(0).toUpperCase() + diaFin.slice(1);
           this.rangosRepeticion.push(
             {
               //Cambiar los element dependiendo de como salgan en result
-              cedulaProf: element["cedula"],
+              //cedulaProf: element["cedula"],
               horaIni: tiempoIni,
               horaFin: tiempoFin,
               fechaInicio: diaIni,
@@ -503,7 +517,7 @@ export class AgregarRangoComponent implements OnInit {
               mier:element["mier"],
               juev:element["juev"],
               vier:element["vier"],
-              sab:element["juev"],
+              sab:element["sab"],
              
             }
           )
@@ -514,7 +528,7 @@ export class AgregarRangoComponent implements OnInit {
 
 
 
-*/
+
 }
 
 

@@ -138,11 +138,13 @@ export class ProfesorService {
   public getRangosconRepeticion(cedulaProf: string): Observable<any> {
 
     let ranges: any[];
+    console.log(cedulaProf);
     return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosRepeticionProf`, {
-      cedula: cedulaProf
+      cedProf: cedulaProf
     })
       .pipe(tap(res => {
         ranges = res;
+        console.log("si entre");
         console.log(res);
       }));
 
@@ -151,11 +153,13 @@ export class ProfesorService {
   public getRangosUnicos(cedulaProf: string): Observable<any> {
 
     let ranges: any[];
+    console.log(cedulaProf);
     return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosUnicosProf`, {
-      cedula: cedulaProf
+      cedProf: cedulaProf
     })
       .pipe(tap(res => {
         ranges = res;
+        console.log("si entre x2");
         console.log(res);
       }));
 
