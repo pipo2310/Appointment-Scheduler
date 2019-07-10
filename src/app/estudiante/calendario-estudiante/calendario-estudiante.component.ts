@@ -79,6 +79,9 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   slotActual: DispProfeVistaEst
   monthMove:number
 
+  fileToUpload: File = null;
+  fileName:string = ""
+
   constructor(private calendarService: CalendarService, private modalService: NgbModal) {
     this.monthMove = 0
     // Extrae la información del profe guardada en el almacenamiento local por el student service
@@ -268,6 +271,7 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
+    this.fileToUpload = null;
     if (this.conjuntoDias.has(date.getTime())) {
       //console.log(date);
       this.diasDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe();
@@ -339,6 +343,14 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll()
     window.alert("Su cita ha sido agregada");
     this.llenarEvents()
+  }
+
+  onFileChanged(event){
+    this.fileToUpload = event.target.files[0]
+    this.fileName = this.fileToUpload.name
+    console.log(this.fileToUpload)
+    console.log(this.fileName)
+
   }
 
   cancelarCitaPublica(slot: CitaPublicaPropiaEstVistaEst) {

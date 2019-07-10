@@ -379,7 +379,9 @@ export class CalendarComponent implements OnInit {
             diaSinParsear: element["fecha"],
             estado: estadoS,
             siglaCurso: element["siglaCurso"],
-            numGrupo: element["numGrupo"]
+            numGrupo: element["numGrupo"],
+            fileName: "nombre de archivo",
+            fileUrl: "ninguno por ahora"
 
           });
       });

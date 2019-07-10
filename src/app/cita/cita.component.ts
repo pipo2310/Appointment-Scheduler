@@ -66,7 +66,7 @@ export class CitaComponent implements OnInit {
 
 
   ngOnInit() {
-
+    this.citaActual.fileUrl = "https://calibre-ebook.com/downloads/demos/demo.docx"
   }
 
   ngOnDestroy() {
@@ -117,15 +117,12 @@ export class CitaComponent implements OnInit {
            this.objetoCita.contador = this.objCitasString[0][4];//cont
           */
       });
-
-
-
-
-
-
   }
 
-
-  // 
+  getArchivoAdjunto(){
+    //this.citaActual.fileUrl = "https://calibre-ebook.com/downloads/demos/demo.docx"
+    //console.log(this.citaActual.fileUrl)
+    //http://www.africau.edu/images/default/sample.pdf
+  }
 }
 
