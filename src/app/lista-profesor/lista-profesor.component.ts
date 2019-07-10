@@ -180,6 +180,11 @@ export class ListaProfesorComponent implements OnInit, OnDestroy {
     return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
 
+  vistaCalend(){
+    this.router.navigate(['homeProfesor']);
+  }
 
-
+  vistaList(){
+    this.router.navigate(['vistaLista']);
+  }
 }

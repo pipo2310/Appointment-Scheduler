@@ -66,6 +66,6 @@ export class ProfesorComponent implements OnInit, OnDestroy {
     }
 
     vistaList(){
-      this.router.navigate(['vistaLista'])
+      this.router.navigate(['vistaLista']);
     }
   }

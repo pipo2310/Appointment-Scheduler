@@ -4,19 +4,25 @@ ul.cursos * {
     padding: 0;
     border: 0;
 }
+
 .example-margin {
     margin: 0 10px;
-  }
+}
 
 .titulo3 {
     font-family: 'Arial';
     font-size: 20px;
     color: rgb(255, 255, 255)
 }
-.texto{
-    color: #fff
+
+.texto {
+    color: #fff margin
 }
 
+.vista {
+    background: #fff;
+    margin-left: 30%;
+}
 
 .titulo2 {
     font-family: 'Arial';
@@ -26,8 +32,6 @@ ul.cursos * {
 
 .container-fluid {
     background-color: #fff;
-    
-    
 }
 
 .buton:hover {
@@ -74,6 +78,8 @@ div .buton li {
     z-index: 90px;
     display: none;
 }
+
+
 /*
 div ..buton {
     background: url("https://img.icons8.com/material-rounded/48/000000/gender-neutral-user.png");
@@ -86,6 +92,7 @@ div ..buton {
     width: 50px;
 }
 */
+
 div h1 {
     margin-inline-start: 15px;
     color: rgba(9, 115, 187, .95);
@@ -99,9 +106,21 @@ div hr {
 
 
 /*ver*/
+
 h2 {
-    margin-inline-start: 20px;
+    margin-inline-start: 0%;
     color: rgba(9, 115, 187, .95);
+}
+
+.vista {
+    position: center;
+    padding-top: 0%;
+    margin-left: 33.5%;
+}
+
+.tam {
+    width: 25%;
+    height: 12%;
 }
 
 ul.cursos {
@@ -163,6 +182,7 @@ ul.cursos li a:hover {
     background: rgb(207, 200, 200);
     color: #fff;
 }
+
 ul.citaEvento li a:hover {
     background: rgba(9, 115, 187, .95);
     color: #fff;
@@ -186,9 +206,10 @@ ul.cursos .citas li a:hover {
     color: #fff;
 }
 
-ul.cursos .citas li a li{
+ul.cursos .citas li a li {
     list-style: none;
 }
+
 ul.cursos .citas li a {
     display: block;
     padding: 10px 10px 10px 20px;
@@ -200,9 +221,10 @@ ul.cursos .citas li a {
     text-decoration: none;
     box-sizing: content-box;
     box-sizing: inherit;
-   
     font-family: Arial;
 }
+
+
 /*
 .container-fluid #btn1{
     float: left;
@@ -213,23 +235,24 @@ ul.cursos .citas li a {
 }
 */
 
-.container-fluid .col-sm-3 #btn1{
+.container-fluid .col-sm-3 #btn1 {
     margin-right: 25px;
     margin-left: 10px;
-    outline-color: rgb(9, 115, 187, .95);;
+    outline-color: rgb(9, 115, 187, .95);
+    ;
     outline-style: auto;
     outline-width: 10px;
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
-   
 }
 
-.container-fluid .col-sm-3 #btn2{
+.container-fluid .col-sm-3 #btn2 {
     margin-right: 15px;
     margin-left: 25px;
-    outline-color: rgb(9, 115, 187, .95);;
+    outline-color: rgb(9, 115, 187, .95);
+    ;
     outline-style: auto;
     outline-width: 10px;
     padding-top: 5px;
@@ -238,7 +261,7 @@ ul.cursos .citas li a {
     padding-bottom: 5px;
 }
 
-.container-fluid .col-sm-3 #btn3{
+.container-fluid .col-sm-3 #btn3 {
     float: left;
     outline-color: rgb(9, 115, 187, .95);
     outline-style: auto;
@@ -248,40 +271,37 @@ ul.cursos .citas li a {
     padding-right: 5px;
     padding-bottom: 5px;
 }
-.container-fluid #btn3{
+
+.container-fluid #btn3 {
     margin-left: 49.5%
-     
-    
 }
-
-
 
 .row {
     background-color: #fff
 }
+
 .col-sm-3 {
-    background-color: transparent ;
-    
+    background-color: transparent;
     background-image: radial-gradient( rgb(9, 115, 187, .95), white)
-    
 }
-.card{
+
+.card {
     display: block;
     margin: auto !important;
     background-color: rgb(255, 255, 255);
-    outline-color:  rgb(9, 115, 187, .95);
+    outline-color: rgb(9, 115, 187, .95);
     outline-style: auto;
-    
-    
-    
 }
-.card-body{
-    background-color:  rgb(9, 115, 187, .95)
+
+.card-body {
+    background-color: rgb(9, 115, 187, .95)
 }
-.botones{
+
+.botones {
     background-color: #fff;
     display: inline
 }
+
 
 /*
 .container-fluid .cursos .acordeon .panel{

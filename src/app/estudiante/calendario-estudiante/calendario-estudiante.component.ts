@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   ViewChild,
@@ -15,31 +15,19 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
-import { Subject, Subscription, Observable } from 'rxjs';
+import { Subject, Subscription, Observable, forkJoin, of } from 'rxjs';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
   CalendarView
 } from 'angular-calendar';
 import { MaxLengthValidator } from '@angular/forms';
 import { Profesor } from '../../modelo/profesor';
 import { Estudiante } from '../../modelo/estudiante';
-//import {MatDialogModule} from '@angular/material/dialog';
 import { CalendarService } from '../../services/calendario-service.service';
 import { viewAttached, element } from '@angular/core/src/render3/instructions';
-import { Slot } from 'src/app/modelo/slot';
-import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
-import { promise } from 'protractor';
-//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { tap, timeout, takeWhile } from 'rxjs/operators';
-import { async } from 'q';
-import { strictEqual } from 'assert';
-import { stringify } from '@angular/compiler/src/util';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
-import { Router } from '@angular/router';
-import { renderComponent } from '@angular/core/src/render3';
+import { EventDiaVistaEst, DispCitaPublicaVistaEst, DispProfeVistaEst, CitaPublicaPropiaEstVistaEst, CitaPublicaAjenaEstVistaEst, CitaPrivadaVistaEst } from 'src/app/modelo/eventdiaVistaEst';
+import { tap, map } from 'rxjs/operators';
 
 const colors: any = {
   red: {
@@ -55,6 +43,7 @@ const colors: any = {
     secondary: '#FDF1BA'
   }
 };
+
 @Component({
   selector: 'app-calendario-estudiante',
   templateUrl: './calendario-estudiante.component.html',
@@ -62,34 +51,36 @@ const colors: any = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-
 export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
-
+  events$: Observable<CalendarEvent[]>;
   profeCita: Profesor;
   estudianteCita: Estudiante;
-  eventos: Array<EventDiaVistaEst> = new Array<EventDiaVistaEst>();
-  listaDispProf: Array<Date> = new Array<Date>();
-  listaEstudiantes: Array<Date> = new Array<Date>();
+  eventos: Array<EventDiaVistaEst>;
+  conjuntoDias: Set<number>;
+
+  // TODO: borrar 
+  // listaDispProf: Array<Date> = new Array<Date>();
+  // listaCitasEst: Array<Date> = new Array<Date>();
+  
   dat: Array<Date> = new Array<Date>();
   da: Date;
   diaInicio: Date;
   diaFin: Date;
   primerDia: Date;
   ultimoDia: Date;
-  fechasString: Object[];
-  eventsObject: Object[];
-  horarioDispProfeSubs: Subscription;
+  eventosObject: Object[];
+  diasDispProfeSubs: Subscription;
+  eventosDiasProfeSubs: Subscription;
   insertCitaSubs: Subscription;
   asistirACitaPublicaSubs: Subscription;
   noAsistirACitaPublicaSubs: Subscription;
   cancelarCitaPrivadaSubs: Subscription;
   cancelarCitaPublicaSubs: Subscription;
-  loaded: Promise<boolean>;
   slotActual: DispProfeVistaEst
+  monthMove:number
 
   constructor(private calendarService: CalendarService, private modalService: NgbModal) {
-    this.loaded = Promise.resolve(true);
-    //this.fechas = new Date[0]();
+    this.monthMove = 0
     // Extrae la información del profe guardada en el almacenamiento local por el student service
     let parsed = JSON.parse(localStorage.getItem('ProfeActualCita'));
     // Interpreta al usuario como un profesor
@@ -111,17 +102,14 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       segundoApellido: parsed['segundoApellido'],
       carne: parsed['carne']
     };
+    this.conjuntoDias = new Set<number>();
+    this.eventos = new Array<EventDiaVistaEst>();
+
+    // TODO: Mejorar
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
     this.dat.push(this.primerDia);
-
-    //Llamar ambos metodos del servicio aqui
-    //this.listaProfes = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
-    //let horario = calendarService.getListaHorarioCitasProf(this.profeCita, "2019-06-01 00:00:00","2019-06-30 00:00:00" );
-    //this.listaEstudiantes = 
-
   }
-
 
   variablr: DispProfeVistaEst;
   variable2: CitaPrivadaVistaEst;
@@ -130,22 +118,21 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
   variable5: DispCitaPublicaVistaEst;
   variable6: CitaPublicaAjenaEstVistaEst;
 
-  async ngOnInit() {
-    this.loaded = Promise.resolve(false);
+  ngOnInit() {
+    // TODO: Mejorar
     var date = new Date();
     this.primerDia = new Date(date.getFullYear(), date.getMonth(), 1);
     this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
     this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
-
-    this.horarioDispProfeSubs = await this.getDiasConCitasEst().subscribe();
-    await this.recorrefechas();
+    
+    this.llenarEvents();
   }
 
   ngOnDestroy() {
     try {
       this.insertCitaSubs.unsubscribe();
-      this.horarioDispProfeSubs.unsubscribe();
+      this.diasDispProfeSubs.unsubscribe();
       this.asistirACitaPublicaSubs.unsubscribe();
       this.noAsistirACitaPublicaSubs.unsubscribe();
       this.cancelarCitaPrivadaSubs.unsubscribe();
@@ -153,13 +140,11 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     } catch (Exception) { }
   }
 
-
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
-
 
   viewDate: Date = new Date();
 
@@ -168,29 +153,27 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        // this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        // this.handleEvent('Deleted', event);
-      }
-    }
-  ];
+  // TODO: borrar
+  // actions: CalendarEventAction[] = [
+  //   {
+  //     label: '<i class="fa fa-fw fa-pencil"></i>',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //     }
+  //   },
+  //   {
+  //     label: '<i class="fa fa-fw fa-times"></i>',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //       this.events$ = this.events$.filter(iEvent => iEvent !== event);
+  //     }
+  //   }
+  // ];
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [];
-
   activeDayIsOpen: boolean = true;
 
-  val: Boolean = false;
+  // TODO: borrar
+  // val: Boolean = false;
 
   closeResult: string;
 
@@ -204,6 +187,77 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     }
   }
 
+  private llenarEvents() {
+    var arrayDiasCita =
+      this.calendarService.getDiasConCitaEst(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profeCita.cedula, this.estudianteCita.cedula, localStorage.getItem('sigla'))
+        .pipe(
+          map(
+            results => {
+              if (results.length > 0) {
+                return results.map(element => {
+                  let fecha = new Date(this.parseISOString(element["fecha"]));
+
+                  // TODO: borrar 
+                  // this.listaCitasEst.push(fecha);
+
+                  this.conjuntoDias.add(fecha.getTime());
+                  return {
+                    title: "Cita con el profesor",
+                    start: fecha,
+                    color: colors.green,
+                    allDay: true
+                  };
+                }
+                );
+              } else {
+                return new Array<CalendarEvent>();
+              }
+            })
+        );
+
+    var arrayDiasDisp =
+      this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
+        .pipe(
+          map(
+            results => {
+              if (results.length > 0) {
+                return results.map(element => {
+                  let fecha = new Date(this.parseISOString(element["fecha"]));
+
+                  // TODO: borrar                    
+                  // this.listaDispProf.push(fecha);
+                  
+                  this.conjuntoDias.add(fecha.getTime());
+                  return {
+                    title: "Disponibilidad del profesor",
+                    start: fecha,
+                    color: colors.yellow,
+                    allDay: true
+                  };
+                }
+                );
+              } else {
+                return new Array<CalendarEvent>();
+              }
+            })
+        );
+
+    this.events$ = forkJoin(arrayDiasCita, arrayDiasDisp).pipe(
+      map(
+        arrays => {
+          //console.log(arrays);
+          let arrayTemp: CalendarEvent[] = [];
+          arrays.forEach(arr => {
+            arr.forEach(elem => {
+              arrayTemp.push(elem);
+            })
+          });
+          return arrayTemp;
+        }
+      )
+    );
+  }
+
   formularioDatosCitas(content, slot: DispProfeVistaEst) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-formEstudiante' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -213,78 +267,65 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
     this.slotActual = slot;
   }
 
-  /*
-  En este metodo toma las listas ya llenas y habre el modal sólo si al recorrer la lista encuentra el día en que se clickeo
-  
-  */
-
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, content) {
-    for (let i = 0; i < this.listaDispProf.length; i++) {
-      if (date.getTime() == this.listaDispProf[i].getTime()) {
-
-        this.horarioDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe(() => {
-        });
-
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-        i = this.listaDispProf.length
-      }
+    if (this.conjuntoDias.has(date.getTime())) {
+      //console.log(date);
+      this.diasDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe();
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
     }
 
-    for (let i = 0; i < this.listaEstudiantes.length; i++) {
-      if (date.getTime() == this.listaEstudiantes[i].getTime()) {
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-          this.closeResult = `Closed with: ${result}`;
-        }, (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        });
-        i = this.listaEstudiantes.length
-      }
-    }
-    return this.val;
+    // TODO: borrar 
+    // for (let i = 0; i < this.listaDispProf.length; i++) {
+    //   if (date.getTime() == this.listaDispProf[i].getTime()) {
+
+    //     this.diasDispProfeSubs = this.getEventosUnDiaEst(date.toISOString()).subscribe(() => {
+    //     });
+
+    //     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    //       this.closeResult = `Closed with: ${result}`;
+    //     }, (reason) => {
+    //       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    //     });
+    //     i = this.listaDispProf.length
+    //   }
+    // }
+
+    // for (let i = 0; i < this.listaCitasEst.length; i++) {
+    //   if (date.getTime() == this.listaCitasEst[i].getTime()) {
+    //     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    //       this.closeResult = `Closed with: ${result}`;
+    //     }, (reason) => {
+    //       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    //     });
+    //     i = this.listaCitasEst.length
+    //   }
+    // }
+    // return this.val;
   }
 
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map(iEvent => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd
-        };
-      }
-      return iEvent;
-    });
-    // this.handleEvent('Dropped or resized', event);
-  }
-
-  /*  handleEvent(action: string, event: CalendarEvent): void {
-      this.modalData = { event, action };
-      this.modal.open(this.modalContent, { size: 'lg' });
-    }*/
   asistirACitaPublica(slot: DispCitaPublicaVistaEst) {
     this.asistirACitaPublicaSubs = this.calendarService.asistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("hecho");
-    //this.recorrefechas();
+    window.alert("Usted está en la lista para asistir a esta cita");
   }
 
   noAsistirACitaPublica(slot: DispCitaPublicaVistaEst) {
-    this.noAsistirACitaPublicaSubs = this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("hecho no asiste");
-    //this.recorrefechas();
+    if(confirm("¿Está seguro que desea no asistir a esta cita?")) { 
+      this.noAsistirACitaPublicaSubs = this.calendarService.noAsistirACitaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+      this.modalService.dismissAll()
+      this.llenarEvents()
+    }
   }
 
   cancelarCitaPrivada(slot: CitaPrivadaVistaEst) {
-    this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("cancelada");
+    if(confirm("¿Está seguro que desea cancelar su cita?")) { 
+      this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPrivada(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
+      this.modalService.dismissAll()
+      this.llenarEvents()
+    } 
   }
 
   solicitarCitaEnSlotDisponible(descripcion: string, publica: boolean) {
@@ -295,49 +336,25 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       n = 0;
     }
     this.insertCitaSubs = this.calendarService.insertarCita(this.estudianteCita.cedula, this.profeCita.cedula, localStorage.getItem('sigla'), this.slotActual.fecha.toISOString(), this.slotActual.horaIni, descripcion, n).subscribe();
-    window.alert("insertado");
+    this.modalService.dismissAll()
+    window.alert("Su cita ha sido agregada");
+    this.llenarEvents()
   }
 
   cancelarCitaPublica(slot: CitaPublicaPropiaEstVistaEst) {
+    if(confirm("¿Está seguro que desea cancelar su cita?")) { 
     this.cancelarCitaPrivadaSubs = this.calendarService.cancelarConsultaPublica(slot, this.profeCita.cedula, this.estudianteCita.cedula).subscribe();
-    window.alert("cancelada");
+    this.modalService.dismissAll()
+    this.llenarEvents()
   }
-
-  /**
-   * En este metodo llena lista que luego se van a usar para desplegar el modal en el daycliked
-   * 
-   */
-  getHorarioDispProfe() {
-    return this.calendarService.getHorarioDispProfe(this.profeCita.cedula, this.primerDia.toISOString(), this.ultimoDia.toISOString())
-      .pipe(tap(data => {
-        this.fechasString = data,
-          this.fechasString.forEach(element => {
-            this.listaDispProf.push(new Date(this.parseISOString(element["fecha"])));
-          })
-      }));
-  }
-  /**
-   * En esta llena otra lista que luego se usa para desplegar en el modal
-   * 
-   */
-
-  getDiasConCitasEst() {
-    let diasCitaObject: Object[];
-    return this.calendarService.getDiasConCitaEst(this.primerDia.toISOString(), this.ultimoDia.toISOString(), this.profeCita.cedula, this.estudianteCita.cedula, localStorage.getItem('sigla'))
-      .pipe(tap(data => {
-        diasCitaObject = data,
-          diasCitaObject['result'].forEach(element => {
-            this.listaEstudiantes.push(new Date(this.parseISOString(element['fecha'])));
-          })
-      }));
   }
 
   getEventosUnDiaEst(fecha: string): Observable<any> {
     this.eventos = [];
     return this.calendarService.getEventosEst(this.estudianteCita.cedula, fecha, this.profeCita.cedula, localStorage.getItem('sigla'))
       .pipe(tap(data => {
-        this.eventsObject = data,
-          this.eventsObject['result'].forEach(element => {
+        this.eventosObject = data,
+          this.eventosObject['result'].forEach(element => {
             switch (element['tipoEvento']) {
               case 0:
                 let dispProfeVistaEst = new DispProfeVistaEst();
@@ -396,79 +413,38 @@ export class CalendarioEstudianteComponent implements OnInit, OnDestroy {
       }));
   }
 
-  /**
-   * Este metodo recorre los elemnetos de las listas que tienen los horarios y los meten en el calendarEvent que es el quien
-   * despliega los eventos en el calendario
-   */
-
-  recorrefechas() {
-    this.horarioDispProfeSubs = this.getHorarioDispProfe()
-      .subscribe(() => {
-        this.listaDispProf.forEach(element => {
-          this.addEvent(element);
-        });
-
-        for (var i = 0; i < this.listaEstudiantes.length; i++) {
-          this.addEventEstudiantes(this.listaEstudiantes[i]);
-        }
-      });
-    this.loaded = Promise.resolve(true);
-  }
-
-  addEvent(fecha: Date): void {
-    this.events = [
-      ...this.events,
-      {
-        // background-color:red,
-        title: 'New event',
-        start: startOfDay(fecha),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      }
-    ];
-  }
-
-  addEventEstudiantes(fecha: Date): void {
-    this.events = [
-      ...this.events,
-      {
-        // background-color:red,
-        title: 'New event',
-        start: startOfDay(fecha),
-        color: colors.green,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        }
-      }
-    ];
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter(event => event !== eventToDelete);
-  }
-
   setView(view: CalendarView) {
     this.view = view;
-
   }
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
   }
 
-
   parseISOString(s: string) {
     let b = s.split(/\D+/);
     return new Date(Number(b[0]), Number(b[1]) - 1, Number(b[2]));
   }
 
-  delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  lastMonth() {
+    this.monthMove += -1;
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove, 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth(), 0);
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    this.llenarEvents()
+
   }
+
+  nextMonth() {
+    this.monthMove++
+    var date = new Date();
+    this.primerDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove, 1);
+    this.ultimoDia = new Date(date.getFullYear(), date.getMonth() + this.monthMove+1, 0);
+    this.diaInicio = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.primerDia.getDate());
+    this.diaFin = new Date(this.primerDia.getFullYear(), +this.primerDia.getMonth(), this.ultimoDia.getDate());
+    this.llenarEvents()
+  }
+
 }

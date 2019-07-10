@@ -59,7 +59,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.logout();
+    //this.logout();
     try {
       this.cursosSub.unsubscribe();
       this.profCursosSub.unsubscribe();
@@ -103,6 +103,7 @@ export class EstudianteComponent implements OnInit, OnDestroy {
    */
   logout() {
     this.conmutarLogSub = this.studentService.conmutarLogueado(this.usuarioActual).subscribe();
+    localStorage.clear();
     this.router.navigate(['login']);
   }
 
