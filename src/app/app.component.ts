@@ -34,9 +34,83 @@ export class AppComponent {
   estaLogueado: boolean;
 
   constructor(private studentService: EstudianteService, private profesorService: ProfesorService, private router: Router) {
-      this.estaLogueado = true;
-      this.usuarioActual
+    this.estaLogueado = true;
+    this.usuarioActual;
+    //this.beforeUnloadHander(event);
+    //this.unloadHandler(event);
+
   }
+  /*
+    @HostListener('window:unload', ['$event'])
+    unloadHandler(event) {
+      let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+      if (localStorage.getItem('usuarioActual').search('carne') > 0) {
+        if (parsed) {
+          this.usuarioActualEst = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido'],
+            carne: parsed['carne']
+          }
+          //console.log(this.usuarioActualEst)
+          this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      } else {
+        if (parsed) {
+          this.usuarioActualProf = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido']
+          }
+          //console.log(this.usuarioActualProf)
+          this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      }
+    }
+  
+    @HostListener('window:beforeunload', ['$event'])
+    beforeUnloadHander(event) {
+      let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
+      if (localStorage.getItem('usuarioActual').search('carne') > 0) {
+        if (parsed) {
+          this.usuarioActualEst = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido'],
+            carne: parsed['carne']
+          }
+          //console.log(this.usuarioActualEst)
+          this.studentService.conmutarLogueado(this.usuarioActualEst).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      } else {
+        if (parsed) {
+          this.usuarioActualProf = {
+            cedula: parsed['cedula'],
+            email: parsed['email'],
+            nombre: parsed['nombre'],
+            primerApellido: parsed['primerApellido'],
+            segundoApellido: parsed['segundoApellido']
+          }
+          //console.log(this.usuarioActualProf)
+          this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+          localStorage.removeItem('usuarioActual');
+          this.router.navigate(['login']);
+        }
+      }
+    }
+    */
   title = 'U-Meeter';
 
 
@@ -62,23 +136,25 @@ export class AppComponent {
   logout() {
 
     let parsed = JSON.parse(localStorage.getItem('usuarioActual'));
-      if (parsed) {
-        this.usuarioActualProf = {
-          cedula: parsed['cedula'],
-          email: parsed['email'],
-          nombre: parsed['nombre'],
-          primerApellido: parsed['primerApellido'],
-          segundoApellido: parsed['segundoApellido']
-        }
-        this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
-        //this.estaLogueado = false;
-        localStorage.removeItem('usuarioActual');
-        localStorage.clear()
-        this.router.navigate(['login']);   
-        localStorage.clear();     
+    if (parsed) {
+      this.usuarioActualProf = {
+        cedula: parsed['cedula'],
+        email: parsed['email'],
+        nombre: parsed['nombre'],
+        primerApellido: parsed['primerApellido'],
+        segundoApellido: parsed['segundoApellido']
       }
-      
-      
+      this.profesorService.conmutarLogueado(this.usuarioActualProf).subscribe();
+      //this.estaLogueado = false;
+      this.usuarioActual.nombre = '';
+      this.usuarioActual.primerApellido = '';
+      this.usuarioActual.segundoApellido = '';
+      localStorage.setItem('usuarioActual', JSON.stringify(this.usuarioActual));
+      localStorage.removeItem('usuarioActual');
+      this.router.navigate(['login']);
+
+    }
+
   }
 
 

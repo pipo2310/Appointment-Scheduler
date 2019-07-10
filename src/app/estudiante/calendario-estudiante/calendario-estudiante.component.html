@@ -136,7 +136,7 @@
 
       <div class="form-group">
         <label for="ejemplo_archivo_1">Adjuntar un archivo</label>
-        <input type="file" id="ejemplo_archivo_1">
+        <input type="file" (change)="cargandoArchivo($event.target.files)" multiple id="ejemplo_archivo_1">
 
       </div>
       <div class="checkbox">

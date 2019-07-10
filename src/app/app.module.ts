@@ -16,8 +16,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import {EstudianteComponent} from './estudiante/estudiante.component'
-import{ProfesorComponent} from './profesor/profesor/profesor.component';
-import{NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ProfesorComponent} from './profesor/profesor/profesor.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ListaProfesorComponent } from './lista-profesor/lista-profesor.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -30,6 +30,8 @@ import {CitaComponent} from '../app/cita/cita.component'
 import { CalendarioEstudianteComponent } from './estudiante/calendario-estudiante/calendario-estudiante.component';
 import { AgregarRangoComponent } from './agregar-rango/agregar-rango.component';
 import {CalendarComponent} from './profesor/calendar/calendar.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {CalendarComponent} from './profesor/calendar/calendar.component';
     CitaComponent,
     CalendarioEstudianteComponent,
     CalendarComponent,
-    AgregarRangoComponent
+    AgregarRangoComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +61,8 @@ import {CalendarComponent} from './profesor/calendar/calendar.component';
     NgbModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ConfirmationDialogService],
+  entryComponents:[ConfirmationDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

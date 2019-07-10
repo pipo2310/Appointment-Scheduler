@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
+const enviarEmailRoutes_1 = __importDefault(require("./routes/enviarEmailRoutes"));
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const loginRoutes_1 = __importDefault(require("./routes/loginRoutes"));
 const logeadoRoutes_1 = __importDefault(require("./routes/logeadoRoutes"));
@@ -61,6 +62,7 @@ class Server {
         this.app.use('/cursosEst', cursosEstRoutes_1.default); //se usa
         this.app.use('/profCurso', profCursoRoutes_1.default); //se usa
         this.app.use('/dispHoraProf', dispHoraProfRoutes_1.default); //se usa
+        this.app.use('/enviarEmail', enviarEmailRoutes_1.default); //se usa
         this.app.use('/diasConCitaEst', DiasConCitasEstRouter_1.default); //
         this.app.use('/citasCompletasProf', citaCompletaProfRoutes_1.default);
         this.app.use('/citasUnDiaEst', citasUnDiaEstRoutes_1.default);

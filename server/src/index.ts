@@ -2,6 +2,8 @@ import express, {Application} from 'express';
 import morgan from 'morgan';
 import cors from 'cors'
 
+
+import enviarEmailRoutes from  './routes/enviarEmailRoutes'
 import indexRoutes from './routes/indexRoutes';
 import loginRoutes from './routes/loginRoutes';
 import logeadoRoutes from './routes/logeadoRoutes';
@@ -28,6 +30,7 @@ import getTodosEventosUnDiaVistaEstRoutes from './routes/getTodosEventosUnDiaVis
 import citasUnaSemProfRoutes from './routes/citasUnaSemProfRoutes';
 import aceptarCitaRoutes from './routes/aceptarCitaRoutes';
 import cancelarCitaRoutes from './routes/cancelarCitaRoutes';
+import saveFil from './routes/SaveFileRoute'
 
 class Server {
 
@@ -61,11 +64,13 @@ class Server {
 
     routes(): void {
         this.app.use('/',indexRoutes) //se usa
+        this.app.use('/saveFile', saveFil) //se usa
         this.app.use('/login',loginRoutes); //se usa
         this.app.use('/logeado', logeadoRoutes); //se usa
         this.app.use('/cursosEst', cursosEstRoutes); //se usa
         this.app.use('/profCurso', profCursoRoutes); //se usa
         this.app.use('/dispHoraProf', dispHoraProfRoutes); //se usa
+        this.app.use('/enviarEmail',enviarEmailRoutes) //se usa
         this.app.use('/diasConCitaEst', diasConCitasEstRouter); //
         this.app.use('/citasCompletasProf', citaCompletaProfRoutes);
         this.app.use('/citasUnDiaEst', citasUnDiaEst);

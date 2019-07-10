@@ -81,7 +81,7 @@ export class ProfesorService {
       hora: hora,
       cedProf: cedulaProf
     }).pipe(tap(res => {
-      console.log(res);
+      //console.log(res);
     }));
   }
 
@@ -92,6 +92,95 @@ export class ProfesorService {
       cedProf: cedulaProf
     }).pipe(tap(res => {
     }));
+  }
+
+  public crearDisponibilidadUnica(cedulaProf: string, fechaDisp: string,
+    horaIniDisp: string, horaFinDisp: string, lugarDisp: string) {
+    //console.log("Casi segunda etapa");
+    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispUnDia`, {
+      cedProf: cedulaProf,
+      dia: fechaDisp,
+      horaIni: horaIniDisp,
+      horaFin: horaFinDisp,
+      lugar: lugarDisp,
+    }).pipe(tap(res => {
+      //console.log("Segunda etapa");
+
+      console.log(res);
+
+    }));
+  }
+
+  public crearRangoDisponibilidadConRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string, lugarDisp: string, lunes: boolean, martes: boolean, miercoles: boolean, jueves: boolean, viernes: boolean, sabado: boolean) {
+
+    return this.httpClient.post(`${this.NODE_API_SERVER}/insertDispDiasRango`, {
+      cedula: cedulaProf,
+      diaIni: fechaIniRangoDisp,
+      diaFin: fechaFinRangoDisp,
+      horaIni: horaIniDisp,
+      horaFin: horaFinDisp,
+      lugar: lugarDisp,
+      lun: lunes,
+      mar: martes,
+      mie: miercoles,
+      jue: jueves,
+      vie: viernes,
+      sab: sabado
+    }).pipe(tap(res => {
+      //console.log("ENTRE A SEGUNDA FASE");
+
+      console.log(res);
+
+    }));
+  }
+
+  public getRangosconRepeticion(cedulaProf: string): Observable<any> {
+
+    let ranges: any[];
+    console.log(cedulaProf);
+    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosRepeticionProf`, {
+      cedProf: cedulaProf
+    })
+      .pipe(tap(res => {
+        ranges = res;
+        console.log("si entre");
+        console.log(res);
+      }));
+
+  }
+
+  public getRangosUnicos(cedulaProf: string): Observable<any> {
+
+    let ranges: any[];
+    console.log(cedulaProf);
+    return this.httpClient.post(`${this.NODE_API_SERVER}/getRangosUnicosProf`, {
+      cedProf: cedulaProf
+    })
+      .pipe(tap(res => {
+        ranges = res;
+        console.log("si entre x2");
+        console.log(res);
+      }));
+
+  }
+
+  public modificarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+  public eliminarRangosconRepeticion(cedulaProf: string, fechaIniRangoDisp: string, fechaFinRangoDisp: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+
+  public modificarRangosUnicos(cedulaProf: string, fecha: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
+  }
+  public eliminarRangosUnicos(cedulaProf: string, fecha: string,
+    horaIniDisp: string, horaFinDisp: string) {
+
   }
 }
 
