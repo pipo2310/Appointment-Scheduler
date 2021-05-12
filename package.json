@@ -34,7 +34,7 @@
     "nativescript-angular": "^8.0.1",
     "nativescript-email": "^1.5.4",
     "ngx-bootstrap": "^4.1.1",
-    "nodemailer": "^6.2.1",
+    "nodemailer": "^6.4.16",
     "popper.js": "^1.15.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
